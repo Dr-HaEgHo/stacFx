@@ -73,6 +73,10 @@ body {
   @apply w-[90%] mx-auto
 }
 
+.l-container {
+  @apply w-[90%] mx-auto max-w-[1200px]
+}
+
 .dash-container {
   @apply w-[94%] mx-auto
 }
@@ -105,8 +109,16 @@ body {
   @apply w-full bg-primary text-white p-[10px] rounded mt-[1rem] disabled:bg-someGray
 }
 
+.buttons-line {
+  @apply bg-none border-primary border text-primary p-[10px] rounded disabled:border-someGray
+}
+
 .buttons-2 {
   @apply bg-primary text-white p-[10px] rounded mt-[0rem] disabled:bg-someGray
+}
+
+.buttons-2-inv {
+  @apply bg-white text-primary2 p-[10px] rounded mt-[0rem] disabled:bg-someGray
 }
 
 .hovers {

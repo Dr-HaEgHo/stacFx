@@ -78,7 +78,7 @@ const Profile = () => {
                           setValue={() => { }}
                       />
                       <InputFade
-                          label='First Name'
+                          label='Phone Number'
                           placeholder="09137278220"
                           type='text'
                           isDisabled={false}
