@@ -1,12 +1,14 @@
 'use client'
 import ImageSlider from '@/components/ImageSlider'
-import Input, { InputFade, PasswordInput, PasswordInputFade } from '@/components/Input'
+import { InputFade, PasswordInputFade } from '@/components/Input'
 import Loader from '@/components/CardLoader'
 // import { authenticateAdminUser } from '@/store/auth/authActions'
 // import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useFormik } from 'formik'
+import { signupSchema } from '@/schemas'
 
 
 export default function Signup() {
@@ -27,30 +29,44 @@ export default function Signup() {
     const isValidEmail = emailRegex.test(email);
 
 
-    const submitHandler = (e: React.FormEvent<HTMLButtonElement>) => {
-        router.push('/dashboard/onboarding')
-        // dispatch(authenticateAdminUser({
-        //     email: email,
-        //     password: password
-        // }))
-        e.preventDefault();
+    const onSubmit = () => {
+        router.push('/verify');
+        // alert('signed')
     }
+    
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    },
+    validationSchema: signupSchema,
+    onSubmit,
+  });
 
-    // EMAIL AND PASSWORD FIELDS VALIDATION
-    useEffect(() => {
-        console.log(isValidEmail, "Email Valid");
 
-        if (
-            email !== "" &&
-            isValidEmail !== false &&
-            password !== ""
-        ) {
-            setFormButtonDisabled(false)
-        } else {
-            setFormButtonDisabled(true)
-        }
-
-    }, [email, isValidEmail, password])
+  useEffect(() => {
+    if (
+      values.firstname !== "" &&
+      values.lastname !== "" &&
+      values.email !== "" &&
+      values.password !== "" &&
+      values.confirmPassword !== "" &&
+      !errors.firstname &&
+      !errors.lastname &&
+      !errors.email &&
+      !errors.password &&
+      !errors.confirmPassword
+    ) {
+      setFormButtonDisabled(true);
+    } else {
+        setFormButtonDisabled(false);
+    }
+    
+  }, [values, errors]);
 
     // useEffect(() => {
     //     if (loginSuccess === true) {
@@ -101,25 +117,81 @@ export default function Signup() {
                 <ImageSlider />
             </div>
             <div className="w-1/2 h-full bg-white scroll">
-                <div className="w-full h-full flex flex-col items-center py-[5rem] justify-center gap-[3rem] ">
+                <div className="w-full h-full flex flex-col items-center py-[5rem] justify-center  ">
 
 
                     {/* FORM */}
                     <div className='w-[70%] 2xl:w-[80%] max-w-[592px] mx-auto p-[40px] 2xl:p-[60px] rounded ' >
 
-                        <h2 className='text-[26px] 2xl:text-[32px] font-bold text-appBlack text-center' >Welcome Back!</h2>
-                        <p className='text-xs 2xl:text-sm mb-[52px] 2xl:mb-[72px] font-normal text-input text-center' >Enter your details to login</p>
-                        <form className='flex flex-col gap-4 2xl:gap-8' >
-                            <InputFade setValue={setEmail} isDisabled={false} label="Email" type='email' placeholder='Please enter your email' />
-                            <div className='mb-[40px]' >
-                                <PasswordInputFade setValue={setPassword} label="Password" placeholder='Please enter your email' />
-                                <p className='text-xs text-right mt-2 2xl:text-sm text-greentxt cursor-pointer hover:underline '>Forgot Password?</p>
+                        <h2 className='text-[26px] 2xl:text-[32px] font-bold text-appBlack text-center' >Let's get started</h2>
+                        <p className='text-xs 2xl:text-sm mb-[52px] 2xl:mb-[72px] font-normal text-input text-center' >Enter your details to create your Stac account</p>
+                        <form onSubmit={handleSubmit} className='flex flex-col gap-4 2xl:gap-8' >
+                            <div className='w-full flex gap-6'>
+                                <InputFade 
+                                    id="firstname"
+                                    value={values.firstname} 
+                                    touched={touched.firstname}
+                                    blur={handleBlur}
+                                    handleChange={handleChange}
+                                    error={errors.firstname}
+                                    isDisabled={false} 
+                                    label="First Name" 
+                                    type='text' 
+                                    placeholder='Enter first name' 
+                                />
+                                <InputFade 
+                                    id="lastname"
+                                    value={values.lastname} 
+                                    touched={touched.lastname}
+                                    blur={handleBlur}
+                                    handleChange={handleChange}
+                                    error={errors.lastname}
+                                    isDisabled={false} 
+                                    label="Last Name" 
+                                    type='text' 
+                                    placeholder='Enter last name' 
+                                />
+                                
                             </div>
-                            <button onClick={submitHandler} type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === true ? <Loader /> : 'Login'}</button>
+                            <InputFade 
+                                id="email"
+                                value={values.email} 
+                                touched={touched.email}
+                                blur={handleBlur}
+                                handleChange={handleChange}
+                                error={errors.email}
+                                isDisabled={false} 
+                                label="Email" 
+                                type='email' 
+                                placeholder='Enter your email' 
+                             />
+                            <PasswordInputFade 
+                                id="password"
+                                value={values.password} 
+                                touched={touched.password}
+                                blur={handleBlur}
+                                handleChange={handleChange}
+                                error={errors.password}
+                                isDisabled={false} 
+                                label="Password" 
+                                placeholder='Password' 
+                             />
+                            <PasswordInputFade 
+                                id="confirmPassword"
+                                value={values.confirmPassword} 
+                                touched={touched.confirmPassword}
+                                blur={handleBlur}
+                                handleChange={handleChange}
+                                error={errors.confirmPassword}
+                                isDisabled={false} 
+                                label="Confirm Password" 
+                                placeholder='Confirm Password' 
+                             />
+                            <button type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === true ? <Loader /> : 'Create Account'}</button>
                         </form>
 
                     </div>
-
+                    <p className='text'>Already have an account? <a href="/login" className='text-primary hover:underline'>Login</a></p>
                 </div>
             </div>
         </main>

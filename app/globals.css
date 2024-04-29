@@ -83,7 +83,7 @@ input:focus{
 }
 
 .inputsfade {
-  @apply text-xs 2xl:text-sm rounded w-full border-[1px] text-appBlack border-inputBorder bg-inputBg p-2 py-[10px] focus:outline-none focus:border-[1px] focus:border-someBorderGray autofill:bg-none
+  @apply text-xs 2xl:text-sm rounded w-full border-[1px] text-appBlack border-inputBorder bg-inputBg p-4 py-[14px] focus:outline-none focus:border-[1px] focus:border-someBorderGray autofill:bg-none
 }
 
 .password-input {
@@ -91,19 +91,19 @@ input:focus{
 }
 
 .buttons {
-  @apply w-full bg-primary text-white p-[10px] rounded mt-[1rem] disabled:bg-someGray
+  @apply w-full bg-primary text-white p-[14px] rounded mt-[1rem] disabled:bg-someGray transition duration-200 hover:-translate-y-[4px] active:-translate-y-[2px]
 }
 
 .buttons-line {
-  @apply bg-none border-primary border text-primary p-[10px] rounded disabled:border-someGray
+  @apply bg-none border-primary border text-primary p-[14px] rounded disabled:border-someGray transition duration-200 hover:-translate-y-[4px] active:-translate-y-[2px]
 }
 
 .buttons-2 {
-  @apply bg-primary text-white p-[10px] rounded mt-[0rem] disabled:bg-someGray
+  @apply bg-primary text-white p-[14px] rounded mt-[0rem] disabled:bg-someGray transition duration-200 hover:-translate-y-[4px] active:-translate-y-[2px]
 }
 
 .buttons-2-inv {
-  @apply bg-white text-primary2 p-[10px] rounded mt-[0rem] disabled:bg-someGray
+  @apply bg-white text-primary2 p-[14px] rounded mt-[0rem] disabled:bg-someGray transition duration-200 hover:-translate-y-[4px] active:-translate-y-[2px]
 }
 
 .hovers {

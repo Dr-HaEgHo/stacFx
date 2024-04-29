@@ -1,9 +1,13 @@
+'use client'
 import OnboardingPanel from '@/components/OnboardingPanel';
 import React from 'react'
-import Video from 'next-video'
-import myVideo from '../../../videos/displayVid.mp4'
 
 const page = () => {
+
+    const ended = () => {
+        alert('ended the video')
+    }
+
     return (
         <div className='w-full h-full bg-white ' >
             <div className='dash-container' >
@@ -23,10 +27,7 @@ const page = () => {
                         </div>
 
                         <div className='flex flex-[2.8] items-center justify-center rounded-2xl overflow-hidden'>
-                            <Video
-                                src={myVideo}
-                                
-                            />
+                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" controls autoPlay onEnded={ended} className='w-full h-full object-cover' />
 
                         </div>
                     </div>

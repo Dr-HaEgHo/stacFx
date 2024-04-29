@@ -1,8 +1,48 @@
-import React from 'react'
-import { InputFade } from '../Input'
+import React, { useEffect, useState } from 'react'
+import { InputFade, PasswordInputFade } from '../Input'
 import Image from 'next/image'
+import { useFormik } from 'formik'
+import { securitySchema } from '@/schemas'
 
 const Security = () => {
+
+
+    const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(true)
+
+    const onSubmit = () => {
+
+    }
+
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        password: "",
+        newPassword: "",
+        confirmPassword: ""
+      },
+      validationSchema: securitySchema,
+      onSubmit,
+    });
+  
+  
+    useEffect(() => {
+      if (
+        values.password !== "" &&
+        values.newPassword !== "" &&
+        values.confirmPassword !== "" &&
+        !errors.password &&
+        !errors.newPassword &&
+        !errors.confirmPassword 
+      ) {
+        setFormButtonDisabled(true);
+      } else {
+          setFormButtonDisabled(false);
+      }
+      
+      
+    }, [values, errors]);
+
+
   return (
       <div className='w-full' >
 
@@ -19,29 +59,41 @@ const Security = () => {
               {/* PROFILE FORM */}
               <div className='w-[360px]'>
                   <form className='w-full flex flex-col gap-4 ' >
-                      <InputFade
-                          label='Existing Password'
-                          placeholder="e.g Khenny"
-                          type='text'
-                          isDisabled={false}
-                          setValue={() => { }}
-                      />
-                      <InputFade
-                          label='New Password'
-                          placeholder="e.g Michael"
-                          type='text'
-                          isDisabled={false}
-                          setValue={() => { }}
-                      />
-                      <InputFade
-                          label='Confirm password'
-                          placeholder="Kendynamite001"
-                          type='text'
-                          isDisabled={false}
-                          setValue={() => { }}
-                      />
+                  <PasswordInputFade 
+                        id="password"
+                        value={values.password} 
+                        touched={touched.password}
+                        blur={handleBlur}
+                        handleChange={handleChange}
+                        error={errors.password}
+                        isDisabled={false} 
+                        label="Existing Password" 
+                        placeholder='Enter password' 
+                    />
+                  <PasswordInputFade 
+                        id="newPassword"
+                        value={values.newPassword} 
+                        touched={touched.newPassword}
+                        blur={handleBlur}
+                        handleChange={handleChange}
+                        error={errors.newPassword}
+                        isDisabled={false} 
+                        label="New Password" 
+                        placeholder='Enter new password' 
+                    />
+                  <PasswordInputFade 
+                        id="confirmPassword"
+                        value={values.confirmPassword} 
+                        touched={touched.confirmPassword}
+                        blur={handleBlur}
+                        handleChange={handleChange}
+                        error={errors.confirmPassword}
+                        isDisabled={false} 
+                        label="Confirm New Password" 
+                        placeholder='Enter password' 
+                    />
                     
-                      <button className='buttons' >
+                      <button className='buttons' disabled={!formButtonDisabled} >
                           <p className='text-[13px] 2xl:text-[15px]'>Update Password</p>
                       </button>
                       <button className='buttons-2 !bg-blueGray' >

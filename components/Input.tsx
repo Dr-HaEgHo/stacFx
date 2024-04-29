@@ -1,59 +1,16 @@
 'use client'
-import { dropDownProps, emailInputProps, emailInputPropsFade, pwInputProps, searchInputProps } from '@/types/types'
+import { dropDownProps, emailInputProps, emailInputPropsFade, pwInputProps, searchInputProps } from '@/types'
 import { ArrowDown2, ArrowUp2, Eye, EyeSlash } from 'iconsax-react';
 import Image from 'next/image';
 import React, { FC, useReducer, useRef, useState } from 'react'
-
-const Input: FC<emailInputProps> = (props) => {
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        props.setValue(e.target.value)
-    }
-
-    return (
-        <div className='input-wrap' >
-            <label className='labels'>{props.label && props.label}</label>
-            <input onChange={handleInputChange} type="email" className='inputs' placeholder={props.placeholder && props.placeholder} />
-        </div>
-    )
-}
-export default Input;
 
 
 export const InputFade: FC<emailInputPropsFade> = (props) => {
     return (
         <div className='input-wrap' >
             <label className='labelsFade'>{props.label && props.label}</label>
-            <input type={props?.type} disabled={props?.isDisabled} className='inputsfade' placeholder={props.placeholder && props.placeholder} />
-        </div>
-    )
-}
-
-
-export const PasswordInput: FC<pwInputProps> = (props) => {
-
-    const [isOpen, setIsOpen] = useState(false)
-
-    const handleClick = () => {
-        setIsOpen(prev => prev = !prev)
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        props.setValue(e.target.value)
-    }
-
-
-    return (
-        <div className='input-wrap' >
-            <label className='labels'>{props.label && props.label}</label>
-            <div className='password-input' >
-                <input className='inputs  ' type={isOpen === true ? "text" : "password"} onChange={handleInputChange} placeholder={props.placeholder && props.placeholder} />
-                <div onClick={handleClick} className='absolute cursor-pointer right-[10px] top-1/2 transform -translate-y-1/2 flex items-center justify-center text-icons'>
-                    {
-                        isOpen === true ? (<EyeSlash variant="Bold" size="20" />) : (<Eye variant="Bold" size="20" />)
-                    }
-                </div>
-            </div>
+            <input id={props.id} value={props.value} type={props?.type} onChange={props.handleChange} onBlur={props.blur} disabled={props?.isDisabled} className='inputsfade' placeholder={props.placeholder && props.placeholder} />
+            { props.error && <p className='text-error text-[10px] italic'>{props.error}</p>}
         </div>
     )
 }
@@ -70,13 +27,14 @@ export const PasswordInputFade: FC<pwInputProps> = (props) => {
         <div className='input-wrap' >
             <label className='labels'>{props.label && props.label}</label>
             <div className='password-input' >
-                <input className='inputsfade  ' type={isOpen === true ? "text" : "password"} placeholder={props.placeholder && props.placeholder} />
+                <input id={props.id} className='inputsfade' value={props.value} type={isOpen === true ? "text" : "password"} onChange={props.handleChange} onBlur={props.blur} disabled={props?.isDisabled} placeholder={props.placeholder && props.placeholder} />
                 <div onClick={handleClick} className='absolute cursor-pointer right-[10px] top-1/2 transform -translate-y-1/2 flex items-center justify-center text-icons'>
                     {
                         isOpen === true ? (<EyeSlash variant="Bold" size="20" />) : (<Eye variant="Bold" size="20" />)
                     }
                 </div>
             </div>
+            { props.error && <p className='text-error text-[10px] italic'>{props.error}</p>}
         </div>
     )
 }

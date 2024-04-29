@@ -32,11 +32,11 @@ const Loading = () => {
     }, [count])
 
 
-    useEffect(() => {
-        setTimeout(() => {
-            router.push('/login')
-        }, 5000)
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         router.push('/login')
+    //     }, 5000)
+    // }, [])
 
   return (
       <main className="w-full h-screen bg-white flex items-center justify-center ">

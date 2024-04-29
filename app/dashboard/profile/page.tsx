@@ -1,15 +1,61 @@
 'use client'
-import Input, { InputFade } from '@/components/Input'
+import { InputFade } from '@/components/Input'
+import { profileSchema } from '@/schemas'
+import { useFormik } from 'formik'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const page = () => {
+
+    const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false);
+
+    const onSubmit =  () => {
+
+    }
+
+
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  useFormik({
+    initialValues: {
+      firstname: "Timothy",
+      lastname: "Awogbuyi",
+      username: "TeemTraderv1",
+      phoneNumber: '08139347195',
+      email: "Awogbuyitimothy@gmail.com",
+    },
+    validationSchema: profileSchema,
+    onSubmit,
+  });
+
+  useEffect(() => {
+    if (
+      values.firstname !== "" &&
+      values.lastname !== "" &&
+      values.email !== "" &&
+      values.username !== "" &&
+      values.phoneNumber !== "" &&
+      !errors.firstname &&
+      !errors.lastname &&
+      !errors.username &&
+      !errors.phoneNumber &&
+      !errors.email
+    ) {
+      setFormButtonDisabled(true);
+    } else {
+        setFormButtonDisabled(false);
+    }
+    
+    console.log(values)
+    
+  }, [values, errors]);
+
+
     return (
         <div className='w-full h-full bg-white ' >
             <div className='dash-container' >
                 <div className="w-full pt-[26px] 2xl:pt-[34px] ">
 
-                    {/* TOP WITH HEADER DESCRIPTIONS */}
+                {/* TOP WITH HEADER DESCRIPTIONS */}
                     <div className='flex flex-col items-start gap-[8px] 2xl:gap-3 pb-[26px] 2xl:pb-[34px]' >
                         <h3 className='text-lg 2xl:text-xl text-headDesc ' >Profile</h3>
                     </div>
@@ -56,41 +102,66 @@ const page = () => {
                         <div className='w-[360px]'>
                             <form className='w-full flex flex-col gap-4 ' >
                                 <InputFade
-                                    label='First Name'
-                                    placeholder="e.g Khenny"
-                                    type='text'
-                                    isDisabled={false}
-                                    setValue={() => { }}
+                                    id="firstname"
+                                    value={values.firstname} 
+                                    touched={touched.firstname}
+                                    blur={handleBlur}
+                                    handleChange={handleChange}
+                                    error={errors.firstname}
+                                    isDisabled={false} 
+                                    label="First Name" 
+                                    type='text' 
+                                    placeholder={values.firstname} 
                                 />
                                 <InputFade
-                                    label='Last Name'
-                                    placeholder="e.g Michael"
-                                    type='text'
-                                    isDisabled={false}
-                                    setValue={() => { }}
+                                    id="lastname"
+                                    value={values.lastname} 
+                                    touched={touched.lastname}
+                                    blur={handleBlur}
+                                    handleChange={handleChange}
+                                    error={errors.lastname}
+                                    isDisabled={false} 
+                                    label="Last Name" 
+                                    type='text' 
+                                    placeholder='' 
                                 />
                                 <InputFade
-                                    label='Username'
-                                    placeholder="KenDynamite001"
-                                    type='text'
-                                    isDisabled={false}
-                                    setValue={() => { }}
+                                    id="username"
+                                    value={values.username} 
+                                    touched={touched.username}
+                                    blur={handleBlur}
+                                    handleChange={handleChange}
+                                    error={errors.username}
+                                    isDisabled={false} 
+                                    label="Username" 
+                                    type='text' 
+                                    placeholder='' 
                                 />
                                 <InputFade
-                                    label='Email'
-                                    placeholder="KKmichaellll@gmail.com"
-                                    type='email'
-                                    isDisabled={true}
-                                    setValue={() => { }}
+                                    id="email"
+                                    value={values.email} 
+                                    touched={touched.email}
+                                    blur={handleBlur}
+                                    handleChange={handleChange}
+                                    error={errors.email}
+                                    isDisabled={true} 
+                                    label="Email" 
+                                    type='email' 
+                                    placeholder='' 
                                 />
                                 <InputFade
-                                    label='Phone Number'
-                                    placeholder="09137278220"
-                                    type='text'
-                                    isDisabled={false}
-                                    setValue={() => { }}
+                                    id="phoneNumber"
+                                    value={values.phoneNumber} 
+                                    touched={touched.phoneNumber}
+                                    blur={handleBlur}
+                                    handleChange={handleChange}
+                                    error={errors.phoneNumber}
+                                    isDisabled={false} 
+                                    label="Phone Number" 
+                                    type='number' 
+                                    placeholder='' 
                                 />
-                                <button className='buttons' >
+                                <button disabled={!formButtonDisabled} className='buttons' >
                                     <p className='text-[13px] 2xl:text-[15px]'>Update Profile</p>
                                 </button>
                             </form>
