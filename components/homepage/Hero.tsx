@@ -6,7 +6,7 @@ const Hero = () => {
       <div className='w-full h-[90vh] max-h-[720px] flex items-center justify-between bg-primry' >
           
           {/* CONTENT */}
-          <div className='w-1/2'>
+          <div className='w-full lg:w-1/2'>
               <p className='text-xs lg:text-sm text-smallHeadTxtGray tracking-[4px] font-[300]' >StacFx Academy</p>
               <h1 className='text-[60px] font-[600] mb-4 leading-[1.1] bg-gradient-to-r from-primary2 to-appOrange w-fit bg-clip-text text-transparent'>Learn to Trade <br /> Like A Pro</h1>
               <p className='greytxt text-sm text-greytxt mb-4 font-[300]' >We help intermediates, beginners and experienced traders learn how to attain their money goals over the long run in the markets.</p>
@@ -71,7 +71,7 @@ const Hero = () => {
 
 
           {/* IMAGE AND FLOATING COMPONENTS */}
-          <div className='w-1/2 relative' >
+          <div className='w-1/2 relative hidden lg:block' >
               <div className='absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-1 bg-primaryLight py-3 px-[18px] rounded-lg min-w-[270px]'>
                   <div className='bg-primary w-5 h-5 rounded-full' />
                   <p className='text-xs text-headDesc' >First hand knowledge</p>

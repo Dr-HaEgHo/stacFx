@@ -44,8 +44,6 @@ const Profile = () => {
           setFormButtonDisabled(false);
       }
       
-      console.log(values)
-      
     }, [values, errors]);
 
   return (

@@ -4,25 +4,25 @@ const NewsLetter = () => {
   return (
     <div className="w-full bg-primary2 py-[3rem] relative z-0 overflow-hidden">
         <div className="absolute h-[140%] z-10 top-1/2 transform -translate-y-1/2 -right-[200px]">
-            <Image
+            {/* <Image
                 src={require('../../assets/images/logomark.png')}
                 alt='stacfx.com'
                 className='h-full w-auto' 
                 loading='lazy'
-            />
+            /> */}
         </div>
       <div className="w-full py-20">
 
         {/* TITLE SECTION */}
         <div className="w-full text-center">
-          <h3 className="text-[32px] xl:text-[40px] text-white mb-2 font-[700]">
+          <h3 className="text-xl lg:text-[32px] xl:text-[40px] text-white mb-2 font-[700]">
             Join Our Newsletter
           </h3>
         </div>
 
         {/*  */}
         <div className="w-[30%] max-w-[520px] m-auto text-center">
-            <p className="text-white font-light text-[15px]">Sign up to receive our newsletter and stay up-to-date with the latest forex trading insights, tips, and exclusive offers.</p>
+            <p className="text-white font-light text-[12px] lg:text-[15px]">Sign up to receive our newsletter and stay up-to-date with the latest forex trading insights, tips, and exclusive offers.</p>
         </div>
 
         {/* THE INPUT FIELD AREA */}

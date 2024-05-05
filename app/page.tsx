@@ -52,7 +52,7 @@ export default function Home() {
 
 
       {/*WHAT PEOPLE THINK */}
-      <div className="">
+      <div className="lg:pl-[3rem]">
         <Testimonials />
       </div>
 

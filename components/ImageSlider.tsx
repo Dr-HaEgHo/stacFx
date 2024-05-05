@@ -19,8 +19,8 @@ const ImageSlider = () => {
           <Swiper
               spaceBetween={0}
               slidesPerView={1}
-              onSlideChange={() => console.log('slide change')}
-              onSwiper={(swiper) => console.log(swiper)}
+              onSlideChange={() => {}}
+              onSwiper={(swiper) => {}}
               effect='fade'
           >
               {
@@ -29,7 +29,7 @@ const ImageSlider = () => {
                           <Image
                               src={item.img}
                               alt='stacfx.com'
-                              className='w-full'
+                              className='w-full h-full object-cover'
                           />
 
                       </div>

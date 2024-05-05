@@ -1,7 +1,6 @@
 'use client'
 import ImageSlider from '@/components/ImageSlider'
 import { InputFade, PasswordInputFade } from '@/components/Input'
-import Loader from '@/components/CardLoader'
 // import { authenticateAdminUser } from '@/store/auth/authActions'
 // import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import Image from 'next/image'
@@ -9,20 +8,25 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { signupSchema } from '@/schemas'
-
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { signup } from '@/store/auth/authActions'
+import { LoadButton } from '@/components/Load'
+import Link from 'next/link'
+import { clearSignupSuccess } from '@/store/auth/authSlice'
 
 export default function Signup() {
 
     const router = useRouter()
-    // const dispatch = useAppDispatch()
-    // const isLoading = useAppSelector(state => state.auth.loading)
-    // const loginSuccess = useAppSelector(state => state.auth.loginSuccess)
+    const dispatch = useAppDispatch()
+    const isLoading = useAppSelector((state) => state.auth.loading);
+    const signupSuccess = useAppSelector(state => state.auth.signupSuccess)
 
 
     const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(true)
     const [email, setEmail]= useState<string>("");
-    const [loading, setLoading]= useState<boolean>(false)
+    const [loading, setLoading]= useState<boolean>(true)
     const [password, setPassword]= useState<string>("");
+
 
 
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -30,8 +34,8 @@ export default function Signup() {
 
 
     const onSubmit = () => {
-        router.push('/verify');
-        // alert('signed')
+        // router.push('/verify');
+        dispatch(signup(values));
     }
     
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -47,6 +51,23 @@ export default function Signup() {
     onSubmit,
   });
 
+  useEffect(() => {
+    if (isLoading){
+        setLoading(true)
+    }else (
+        setLoading(false)
+    )
+  }, [isLoading]) 
+
+  useEffect(() => {
+    if (signupSuccess === true) {
+      router.push(`/`);
+      setTimeout(() => {
+        dispatch(clearSignupSuccess());
+      }, 800);
+    }
+  }, [signupSuccess]);
+
 
   useEffect(() => {
     if (
@@ -59,14 +80,17 @@ export default function Signup() {
       !errors.lastname &&
       !errors.email &&
       !errors.password &&
-      !errors.confirmPassword
+      !errors.confirmPassword &&
+      loading === false
     ) {
       setFormButtonDisabled(true);
-    } else {
+    } else if(loading === true) {
         setFormButtonDisabled(false);
+    }else {
+        setFormButtonDisabled(false)
     }
     
-  }, [values, errors]);
+  }, [values, errors, loading]);
 
     // useEffect(() => {
     //     if (loginSuccess === true) {
@@ -84,10 +108,10 @@ export default function Signup() {
     // }, [isLoading])
 
     return (
-        <main className="w-full h-screen bg-primary flex items-center ">
+        <main className="w-full h-fit lg:h-screen flex items-center ">
 
 
-            <div className="w-1/2 h-full bg-primary1 overflow-hidden relative ">
+            <div className="w-1/2 h-full hidden lg:block overflow-hidden relative ">
 
                 <div className=' z-10 pointer-events-none absolute w-full h-full bg-gradient-to-t from-primary2 to-transparent top-0 right-0 p-8 flex flex-col justify-between' >
                     {/* LOGO */}
@@ -116,17 +140,26 @@ export default function Signup() {
                 </div>
                 <ImageSlider />
             </div>
-            <div className="w-1/2 h-full bg-white scroll">
-                <div className="w-full h-full flex flex-col items-center py-[5rem] justify-center  ">
 
+            <div className="w-full lg:w-1/2 h-full mx-auto bg-white max-lg:scroll max-lg:mb-20">
+                <div className="w-full h-full flex flex-col items-center py-4 lg:py-[5rem] justify-center  ">
 
+ 
                     {/* FORM */}
-                    <div className='w-[70%] 2xl:w-[80%] max-w-[592px] mx-auto p-[40px] 2xl:p-[60px] rounded ' >
-
+                    <div className='w-[90%] 2xl:w-[80%] max-w-[592px] mx-auto p-0 lg:p-[40px] 2xl:p-[60px] rounded ' >
+                        <div className='w-full flex lg:hidden items-center justify-center mb-4'>
+                            <Link href="/">
+                                <Image
+                                    src={require('../../assets/images/logo.png')}
+                                    alt='logo'
+                                    className='w-12'
+                                />
+                            </Link>
+                        </div>
                         <h2 className='text-[26px] 2xl:text-[32px] font-bold text-appBlack text-center' >Let's get started</h2>
                         <p className='text-xs 2xl:text-sm mb-[52px] 2xl:mb-[72px] font-normal text-input text-center' >Enter your details to create your Stac account</p>
-                        <form onSubmit={handleSubmit} className='flex flex-col gap-4 2xl:gap-8' >
-                            <div className='w-full flex gap-6'>
+                        <form onSubmit={handleSubmit} className='flex flex-col gap-4 2xl:gap-4' >
+                            <div className='w-full flex max-lg:flex-col gap-6'>
                                 <InputFade 
                                     id="firstname"
                                     value={values.firstname} 
@@ -187,11 +220,11 @@ export default function Signup() {
                                 label="Confirm Password" 
                                 placeholder='Confirm Password' 
                              />
-                            <button type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === true ? <Loader /> : 'Create Account'}</button>
+                            <button type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === true ? <LoadButton /> : 'Create Account'}</button>
                         </form>
 
                     </div>
-                    <p className='text'>Already have an account? <a href="/login" className='text-primary hover:underline'>Login</a></p>
+                    <p className='text mt-2'>Already have an account? <a href="/login" className='text-primary hover:underline'>Login</a></p>
                 </div>
             </div>
         </main>

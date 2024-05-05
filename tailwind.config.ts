@@ -87,8 +87,11 @@ const config: Config = {
         
         // ACTIVE STYLES
         whiteActive:"rgb(255, 255, 255, 0.15)",
-
-
+        whiteLoading: "rgb(255, 255, 255, 0.4)",
+        
+        blackHover: "rgb(0, 0, 0, 0.1)",
+        blackActive: "rgb(0, 0, 0, 0.15)",
+        blackLoading: "rgb(0, 0, 0, 0.4)",
 
         filterGray: "#787676",
         labelGrey: "#787878",

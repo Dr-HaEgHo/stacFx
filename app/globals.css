@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,6 +33,10 @@ body {
   background: url(../assets/images//login.png);
   background-size: cover;
 } */
+
+body{
+  font-family: Rubik;
+}
 
 .inputs:-webkit-autofill,
 .inputs:-webkit-autofill:hover,
@@ -108,6 +114,10 @@ input:focus{
 
 .hovers {
   @apply hover:bg-sidebarTxtHover active:bg-sidebarTxtActive transition duration-200 cursor-pointer
+}
+
+.hoverActive{
+  @apply transition duration-200 hover:-translate-y-[4px] active:-translate-y-[2px]
 }
 
 .hovers-text {
@@ -205,11 +215,9 @@ input:focus{
 
 @media(max-width: 1500px) {
   .sidebar-bg {
-    background: url(../assets/images/sidebarsm.png);
-    /* background: yellow; */
+    background-image: url(../assets/images/sidebarsm.png);
     background-size: cover;
     background-repeat: no-repeat;
-
   }
 }
 

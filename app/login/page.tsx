@@ -9,14 +9,17 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { loginSchema } from '@/schemas'
+import Link from 'next/link'
+import { LoadButton } from '@/components/Load'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
 
 export default function Home() {
 
     const router = useRouter()
-    // const dispatch = useAppDispatch()
-    // const isLoading = useAppSelector(state => state.auth.loading)
-    // const loginSuccess = useAppSelector(state => state.auth.loginSuccess)
+
+    const dispatch = useAppDispatch()
+    const isLoading = useAppSelector(state => state.auth.loading)
 
 
     const [formButtonDisabled, setFormButtonDisabled]: [formButtonDisabled: boolean, setFormButtonDisabled: Function] = useState(true)
@@ -49,20 +52,30 @@ export default function Home() {
       onSubmit,
     });
   
+    useEffect(() => {
+        if (isLoading){
+            setLoading(true)
+        }else (
+            setLoading(false)
+        )
+    }, [isLoading]) 
   
     useEffect(() => {
       if (
         values.email !== "" &&
         values.password !== "" &&
         !errors.email &&
-        !errors.password 
+        !errors.password &&
+        loading === false
       ) {
         setFormButtonDisabled(true);
-      } else {
+      }else if(loading === true) {
+        setFormButtonDisabled(false);
+    } else {
           setFormButtonDisabled(false);
       }
       
-    }, [values, errors]);
+    }, [values, errors, loading]);
 
     // useEffect(() => {
     //     if (loginSuccess === true) {
@@ -80,10 +93,10 @@ export default function Home() {
     // }, [isLoading])
 
     return (
-        <main className="w-full h-screen bg-primary flex items-center ">
+        <main className="w-full h-fit lg:h-screen flex items-center ">
 
 
-            <div className="w-1/2 h-full bg-primary1 overflow-hidden relative ">
+            <div className="w-1/2 h-full hidden lg:block overflow-hidden relative">
 
                 <div className=' z-10 pointer-events-none absolute w-full h-full bg-gradient-to-t from-primary2 to-transparent top-0 right-0 p-8 flex flex-col justify-between' >
                     {/* LOGO */}
@@ -112,12 +125,22 @@ export default function Home() {
                 </div>
                 <ImageSlider />
             </div>
-            <div className="w-1/2 h-full bg-white scroll">
-                <div className="w-full h-full flex flex-col items-center py-[5rem] justify-center ">
+            <div className="w-full lg:w-1/2 h-full mx-auto bg-white max-lg:scroll max-lg:mb-20">
+                <div className="w-full h-full flex flex-col items-center py-4 lg:py-[5rem] justify-center">
 
 
                     {/* FORM */}
-                    <div className='w-[70%] 2xl:w-[80%] max-w-[592px] mx-auto p-[40px] 2xl:p-[60px] rounded' >
+                    <div className='w-[90%] 2xl:w-[80%] max-w-[592px] mx-auto p-0 lg:p-[40px] 2xl:p-[60px] rounded max-lg:mt-20 mb-2' >
+
+                        <div className='w-full flex lg:hidden items-center justify-center mb-4'>
+                            <Link href="/">
+                                <Image
+                                    src={require('../../assets/images/logo.png')}
+                                    alt='logo'
+                                    className='w-12'
+                                />
+                            </Link>
+                        </div>
 
                         <h2 className='text-[26px] 2xl:text-[32px] font-bold text-appBlack text-center' >Welcome Back!</h2>
                         <p className='text-xs 2xl:text-sm mb-[52px] 2xl:mb-[72px] font-normal text-input text-center' >Enter your details to login</p>
@@ -146,12 +169,12 @@ export default function Home() {
                             placeholder='Enter password' 
                         />
                         <p className='text-xs text-right mt-2 2xl:text-sm text-greentxt cursor-pointer hover:underline '>Forgot Password?</p>
-                        <button onClick={submitHandler} type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === true ? <Loader /> : 'Login'}</button>
+                        <button type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === false ? <LoadButton /> : 'Login'}</button>
                         </form>
 
                         
                     </div>
-                    <p>Don't have an account? <a href="/signup" className='text-primary hover:underline' >Sign Up</a></p>
+                    <p>Don't have an account? <a href="/signup" className='text-primary hover:underline ' >Sign Up</a></p>
 
                 </div>
             </div>

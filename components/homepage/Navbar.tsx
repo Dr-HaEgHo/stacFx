@@ -1,7 +1,11 @@
+import { GlobalContext } from '@/context/context';
+import { Menu } from 'iconsax-react';
 import Image from 'next/image';
-import React from 'react'
+import Link from 'next/link';
+import React, { useContext } from 'react'
+import { SidebarMobile } from '../Sidebar';
 
-const links = [
+export const links = [
     { id: 1, title: "About", route: "#about", },
     { id: 2, title: "Coaching", route: "#coaching", },
     { id: 3, title: "Courses", route: "#courses", },
@@ -11,13 +15,25 @@ const links = [
 
 const Navbar = () => {
 
+    const { isSidebarOpen, setIsSidebarOpen } = useContext(GlobalContext)
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen)
+    }
 
     return (
-        <div className='w-full bg-white flex items-center justify-between py-4 z-50' >
-
-            {/* LOGO */}
-            <a href='/' className='w-[123px]' >
+        <div className='w-full bg-white flex items-center justify-between py-4 z-50'>
+            <SidebarMobile />
+            {/* LOGO FOMR MOBILE*/}
+            <a href='/' className='w-[90px] block lg:hidden'>
+                <Image
+                    src={require('../../assets/images/logoblack.png')}
+                    alt='stacfx.com'
+                    className='w-full'
+                />
+            </a>  
+              {/* LOGO FOR DESKTOP AND TAB */}
+            <a href='/' className='w-[123px] hidden lg:block'>
                 <Image
                     src={require('../../assets/images/logoblack.png')}
                     alt='stacfx.com'
@@ -27,7 +43,7 @@ const Navbar = () => {
 
 
             {/* NAV */}
-            <div className='flex' >
+            <div className='hidden lg:flex' >
                 <ul className='flex items-center gap-[64px]' >
                     {
                         links && links.map(link => (
@@ -36,15 +52,19 @@ const Navbar = () => {
                     }
                 </ul>
             </div>
-            <button className='buttons-2 flex items-center gap-1' >
-                <p className='text-xs 2xl:text-sm text-white' >Get Started</p>
-                <Image
-                    src={require('../../assets/icons/circleArrow.png')}
-                    alt='stacfx.com'
-                    className='w-[18px]'
-                />
-            </button>
-
+            <Link href="/signup" className='hidden lg:block'>
+                <button className='buttons-2 flex items-center gap-1' >
+                    <p className='text-xs 2xl:text-sm text-white' >Get Started</p>
+                    <Image
+                        src={require('../../assets/icons/circleArrow.png')}
+                        alt='stacfx.com'
+                        className='w-[18px]'
+                    />
+                </button>
+            </Link>
+            <div onClick={toggleSidebar} className='block lg:hidden cursor-pointer p-1 transition duration-200 active:bg-blackHover rounded hoverActive'>
+                <Menu color="#2A66AE" variant='Bold' />
+            </div>
         </div>
     )
 }

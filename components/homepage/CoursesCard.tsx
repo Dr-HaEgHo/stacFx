@@ -8,8 +8,6 @@ export type DataProps = {
 
 const CoursesCard: FC<DataProps> = ({ data }) => {
 
-    console.log('data', data)
-
     return (
         <div className='w-full h-full rounded-xl relative flex flex-col justify-between overflow-hidden shadow' >
 

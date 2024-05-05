@@ -1,10 +1,13 @@
 'use client'
 
-import { Logout, MenuBoard, People, Profile } from 'iconsax-react'
+import { CloseSquare, Logout, MenuBoard, People, Profile } from 'iconsax-react'
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { GlobalContext } from '@/context/context';
+import { links } from './homepage/Navbar';
+import Link from 'next/link';
 // import Prompt from './Prompt';/
 // import { useAppDispatch } from '@/store/hooks';
 // import { logout } from '@/store/auth/authSlice';
@@ -40,9 +43,11 @@ const Sidebar = () => {
         setLogoutOpen((prev: boolean) => prev = !prev)
     }
 
-
     return (
-        <div className='w-full h-full sidebar-bg border-sidebarDiv border-r-[0.2px] bg-white ' >
+        <div className='w-full h-full sidebar-bg border-sidebarDiv border-r-[0.2px]' 
+        style={{
+            
+        }} >
             <div className="h-full w-full relative slim-scroll flex flex-col">
 
                 {/* <Prompt
@@ -149,6 +154,60 @@ const Sidebar = () => {
 
 
             </div>
+        </div>
+    )
+}
+
+export const SidebarMobile =() => {
+
+    const { isSidebarOpen, setIsSidebarOpen} = useContext(GlobalContext)
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen)
+    }
+
+    return (
+        <div className={`transition duration-500 w-full fixed right-0 bg-white z-10 p-4 border-b border-primary`} 
+        style={{
+            top: isSidebarOpen ? '0%' : '-100%',
+            height: '90vh'
+        }}>
+            <div className='w-full flex items-center justify-between'>
+                {/* LOGO FOMR MOBILE*/}
+            <a href='/' className='w-[90px] block lg:hidden'>
+                <Image
+                    src={require('../assets/images/logoblack.png')}
+                    alt='stacfx.com'
+                    className='w-full'
+                />
+            </a>
+                <CloseSquare onClick={toggleSidebar} className='text-primary transition duration-200 w-10 h-10 cursor-pointer hoverActive' variant="Bold" />
+            </div>
+
+
+             {/* NAV */}
+             <div className='flex h-full flex-col gap-[40px] w-full items-center justify-center' >
+                <ul className='flex w-[70%] max-w-[400px] flex-col items-center gap-[40px]' >
+                    {
+                        links && links.map(link => (
+                            <a key={link?.id} href={link?.route} className='w-full flex items-center py-2 rounded transition duration hover:bg-blackHover active:bg-blackActive'><li className='text-sm 2xl:text-base text-center text-headDesc w-full'>{link?.title}</li></a>
+                        ))
+                    }
+                </ul>
+            
+                <Link href="/signup" className=''>
+                    <button className='buttons-2 flex items-center gap-1' >
+                        <p className='text-xs 2xl:text-sm text-white' >Get Started</p>
+                        <Image
+                            src={require('../assets/icons/circleArrow.png')}
+                            alt='stacfx.com'
+                            className='w-[18px]'
+                        />
+                    </button>
+                </Link>
+            </div>
+
+
         </div>
     )
 }

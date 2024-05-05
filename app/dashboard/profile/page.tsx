@@ -45,8 +45,6 @@ const page = () => {
         setFormButtonDisabled(false);
     }
     
-    console.log(values)
-    
   }, [values, errors]);
 
 

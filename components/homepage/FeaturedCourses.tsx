@@ -19,8 +19,8 @@ const courses = [
 
 const FeaturedCourses = () => {
     return (
-        <div className='w-full py-16 flex items-center gap-6' >
-            <div className='w-[40%]' >
+        <div className='w-full py-16 flex max-lg:flex-col-reverse items-center gap-6' >
+            <div className='w-full lg:w-[40%]' >
                 <span className='text-[10px] xl:text-xs leading-[12px] xl:leading-[14px] tracking-[15px] text-labelGrey'>LEARN WITH STACFX</span>
                 <h3 className='text-[32px] xl:text-[40px] text-primary2 mb-2 font-[700]'>Featured Courses</h3>
                 <p className='text-xs xl:text-sm font-400 leading-[20px] xl:leading-[25px] text-labelGrey mb-6'> Discover the power of forex trading with StacFX Academy.
@@ -40,10 +40,10 @@ const FeaturedCourses = () => {
                     </button>
                 </div>
             </div>
-            <div className='w-[60%] aspect-[1.25] grid grid-cols-2 grid-rows-2 gap-4 ' >
+            <div className='w-full lg:w-[60%] aspect-[1.25] lg:grid grid-cols-2 grid-rows-2 gap-4 ' >
                 {
-                    courses && courses.map((item) => (
-                        <div className='w-full h-full rounded-2xl overflow-hidden shadow-lg' >
+                    courses && courses.map((item, i) => (
+                        <div className={`w-full h-full rounded-2xl overflow-hidden shadow-lg ${i !== 0 ? 'max-lg:hidden' : 'block'}`}>
                             <CoursesCard data={item} />
                         </div>
                     ))

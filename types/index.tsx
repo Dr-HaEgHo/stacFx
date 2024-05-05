@@ -92,3 +92,11 @@ export interface fetchType {
     url: string,
     // headers?: {}
 }
+
+export interface signUpType{
+    firstname: string;
+    lastname: string
+    email: string;
+    password: string;
+    confirmPassword: string;
+}

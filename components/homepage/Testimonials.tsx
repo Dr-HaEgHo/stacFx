@@ -15,7 +15,7 @@ const pics = [
 const ReviewCard = () => {
 
     return (
-        <div className={`w-[520px] aspect-[1.5] bg-primary2 rounded-3xl p-10 flex flex-col justify-between items-center`}>
+        <div className={`w-full lg:w-[520px] lg:aspect-[1.5] bg-primary2 rounded-3xl p-10 flex flex-col justify-between items-center`}>
             <Image 
                 src={require('../../assets/icons/quote.png')}
                 alt="quote"
@@ -38,6 +38,7 @@ const ReviewCard = () => {
 }
 
 const Testimonials = () => {
+
   return (
     <div>
       <div className="w-full py-20">
@@ -59,13 +60,13 @@ const Testimonials = () => {
           <Swiper
               spaceBetween={0}
               slidesPerView={3}
-              onSlideChange={() => console.log('slide change')}
-              onSwiper={(swiper) => console.log(swiper)}
+              onSlideChange={() => {}}
+              onSwiper={(swiper) => {}}
               effect='fade'
               loop={true}
               shortSwipes
               style={{
-                width:"fit-content",
+                width:"",
                 margin: 'auto',
                 display : "flex",
                 justifyContent:"center",
