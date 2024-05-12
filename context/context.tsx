@@ -1,6 +1,7 @@
 "use client"
 
-import React, { createContext, useContext, SetStateAction, Dispatch, useState, useReducer } from "react";
+import { useAppSelector } from "@/store/hooks";
+import React, { createContext, useContext, SetStateAction, Dispatch, useState, useReducer, useEffect } from "react";
 
 // type DataType = {
 //     isActive: boolean
@@ -25,10 +26,12 @@ export const GlobalContext = createContext<ContextProps>({
 })
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
-    
+
 
     const [isActive, setIsActive] = useState<number>(0)
-    const [ isSidebarOpen, setIsSidebarOpen ] = useState(false)
+    const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
+
+
     
     return (
         <GlobalContext.Provider value={{ 

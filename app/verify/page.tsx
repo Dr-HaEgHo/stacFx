@@ -21,22 +21,13 @@ const Verify = () => {
 
     // let ele = useRef()
     let pinInputRef: PinInput | null
-    const search = useSearchParams()
-
+    
     const handleSubmit = () => {
         pinInputRef?.clear(),
-        router.push(``)
+        router.push(`/dashboard/onboarding`)
     }
-
-    // const getToken =() =>{
-    //     let token =  new URLSearchParams(search).get("token")
-
-    //     alert(token)
-    // }
-
-    // useEffect(() => {
-    //     getToken()
-    // }, [])
+    
+    
 
     useEffect(() => {
         if(values.length < 6 || loading){

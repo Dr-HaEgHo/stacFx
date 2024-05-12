@@ -44,10 +44,14 @@ const Sidebar = () => {
     }
 
     return (
-        <div className='w-full h-full sidebar-bg border-sidebarDiv border-r-[0.2px]' 
-        style={{
-            
-        }} >
+        <div className='w-full h-full sidebar-bg border-sidebarDiv border-r-[0.2px] relative' >
+            <div className='w-full h-full absolute top-0 left-0'>
+                <Image
+                    src={require('../assets/images/sidebar.png')}
+                    alt='sidebar'
+                    className='w-full h-full object-cover'
+                />
+            </div>
             <div className="h-full w-full relative slim-scroll flex flex-col">
 
                 {/* <Prompt

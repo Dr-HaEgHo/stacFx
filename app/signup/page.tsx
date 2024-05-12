@@ -20,6 +20,7 @@ export default function Signup() {
     const dispatch = useAppDispatch()
     const isLoading = useAppSelector((state) => state.auth.loading);
     const signupSuccess = useAppSelector(state => state.auth.signupSuccess)
+    const token = useAppSelector(state => state.auth.userToken)
 
 
     const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(true)
@@ -61,7 +62,7 @@ export default function Signup() {
 
   useEffect(() => {
     if (signupSuccess === true) {
-      router.push(`/`);
+      router.push(`/verify?token=${token}`);
       setTimeout(() => {
         dispatch(clearSignupSuccess());
       }, 800);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+ import React, { useState } from 'react'
 import EmptyCourse from '../Empty'
 import ProgressCard from './ProgressCard'
 import Loader from '../CardLoader'
@@ -16,9 +16,9 @@ const AllCourses = ({data}:{data:any}) => {
 
                         {
                             // loading === true ? (<Loader/>) :
-                            data && data.length ? data.map((item: {}) => (
+                            data && data.length ? data.map((item: {}, index: number) => (
 
-                                <div className='slide-up'>
+                                <div key={index} className='slide-up'>
                                     <ProgressCard data={item} />
                                 </div>
 

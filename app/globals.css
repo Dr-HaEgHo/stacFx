@@ -69,7 +69,7 @@ input:focus{
 }
 
 .dash-container {
-  @apply w-[94%] mx-auto
+  @apply w-[94%] max-lg:mx-auto max-w-[1400px] 2xl:ml-20
 }
 
 .input-wrap {
@@ -216,6 +216,7 @@ input:focus{
 @media(max-width: 1500px) {
   .sidebar-bg {
     background-image: url(../assets/images/sidebarsm.png);
+    /* background: orange; */
     background-size: cover;
     background-repeat: no-repeat;
   }
@@ -280,7 +281,7 @@ input:focus{
 
   .gridd {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 

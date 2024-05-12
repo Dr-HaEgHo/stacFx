@@ -29,14 +29,13 @@ const OngoingCard = ({ data }: { data: any }) => {
             </div>
 
             {/* WHITE AREA WITH CONTENT */}
-            <div className='w-full h-[50%] bg-white z-10 pt-[8px] px-[16px] 2xl:py-[20px] flex flex-col gap-3' >
+            <div className='w-full h-[50%] bg-white z-10 pt-[8px] px-[16px] 2xl:py-[20px] flex flex-col xl:justify-between gap-3' >
 
                 {/* TITLE AND NAME OF INSTRUCTOR */}
                 <div className='' >
-                    <h3 className='text-[14px] 2xl:text-[16px] text-black' >{data?.title}</h3>
-                    <p className='text-greytxt text-[10px] 2xl:text-xs font-[100]' >{data?.instructor}</p>
+                    <h3 className='text-[14px] 2xl:text-[20px] text-black' >{data?.title}</h3>
+                    <p className='text-greytxt text-[10px] 2xl:text-sm font-[100]' >{data?.instructor}</p>
                 </div>
-
 
                 {/* ONBOARDING PROGRESS */}
                 <div className='w-full ' >
@@ -45,7 +44,6 @@ const OngoingCard = ({ data }: { data: any }) => {
                     <div className='w-full h-[8px] bg-progressTrack2 rounded-full mb-2' >
                         <div className={`w-[${Math.floor(data?.completed / data?.total * 100)}%] bg-progress2 h-full rounded-full`} />
                     </div>
-
 
                     <p className='text-black text-xs font-normal' >{Math.floor(data?.completed / data?.total * 100 )}% Complete <span className='text-greytxt text-xs font-normal' >( { data?.completed } of { data?.total } complete  )</span></p>
                 </div>

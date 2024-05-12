@@ -8,11 +8,22 @@ import PricingSection from "@/components/homepage/PricingSection";
 import Stats from "@/components/homepage/Stats";
 import Testimonials from "@/components/homepage/Testimonials";
 import WhoWeAre from "@/components/homepage/WhoWeAre";
+import { useAppSelector } from "@/store/hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+
+  const router = useRouter()
+  const logged = useAppSelector((state) => state.auth.isLoggedIn)
+
+  useEffect(() => {
+      if(logged){
+         router.push('/dashboard/onboarding') 
+      }
+  }, [])
+
   return (
     <main className="w-full ">
       <div className="l-container">

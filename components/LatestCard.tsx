@@ -29,11 +29,11 @@ const LatestCard = ({ data }: {data:any}) => {
           </div>
 
           {/* WHITE AREA WITH CONTENT */}
-          <div className='w-full h-[50%] 2xl:h-[50%] bg-white z-10 pt-[8px] px-[16px] 2xl:py-[20px] flex flex-col gap-2' >
+          <div className='w-full h-[50%] 2xl:h-[50%] bg-white z-10 pt-[8px] px-[16px] 2xl:py-[20px] flex flex-col 2xl:justify-between gap-2 2xl:gap-4' >
               
               {/* TITLE AND NAME OF INSTRUCTOR */}
               <div className='' >
-                  <h3 className='text-[14px] 2xl:text-[15px] text-black' >{data?.title}</h3>
+                  <h3 className='text-[14px] 2xl:text-base text-black' >{data?.title}</h3>
                   <p className='text-greytxt text-[10px] 2xl:text-xs font-[100]' >{ data?.instructor }</p>
               </div>
 
@@ -46,10 +46,10 @@ const LatestCard = ({ data }: {data:any}) => {
                           alt='stacfx.com'
                           className='w-[14px]'
                       />
-                      <p className='text-[10px] 2xl:text-[12px] text-greytxt font-[100]'>12 Lessons</p>
+                      <p className='text-[10px] 2xl:text-xs text-greytxt font-[100]'>12 Lessons</p>
                   </div>
 
-                  <button className='flex items-center gap-2 text-greytxt bg-primary p-[6px] rounded'>
+                  <button className='hoverActive flex items-center gap-2 text-greytxt bg-primary p-[6px] rounded'>
                       <p className='text-[11px] 2xl:text-[13px] text-white' >Start Now</p>
                       <Image
                           src={require('../assets/icons/circleArrow.png')}

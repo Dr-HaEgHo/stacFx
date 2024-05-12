@@ -61,6 +61,8 @@ const config: Config = {
         blueGray: "#C8E1FF",
         dividerGray: "#F1F1F1",
         profileDividerGray: "#E4E4E4",
+        brownGray: "#F3F3F3",
+        brownerGray: "#DCDCDC",
 
         // INPUTS
         inputBg: "#F6F6F6",

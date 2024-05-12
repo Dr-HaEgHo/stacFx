@@ -12,14 +12,18 @@ import { loginSchema } from '@/schemas'
 import Link from 'next/link'
 import { LoadButton } from '@/components/Load'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { login } from '@/store/auth/authActions'
+import { clearloginSuccess } from '@/store/auth/authSlice'
 
 
 export default function Home() {
 
     const router = useRouter()
+    const auth = useAppSelector(state => state.auth)
 
     const dispatch = useAppDispatch()
-    const isLoading = useAppSelector(state => state.auth.loading)
+    const isLoading = auth.loading;
+    const loginSuccess = useAppSelector(state => state.auth.loginSuccess)
 
 
     const [formButtonDisabled, setFormButtonDisabled]: [formButtonDisabled: boolean, setFormButtonDisabled: Function] = useState(true)
@@ -38,7 +42,7 @@ export default function Home() {
     }
 
     const onSubmit = () => {
-
+        dispatch(login(values))
     }
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -76,6 +80,16 @@ export default function Home() {
       }
       
     }, [values, errors, loading]);
+
+    useEffect(() => {
+        if (loginSuccess === true) {
+          router.push(`/dashboard/onboarding`);
+          setTimeout(() => {
+            dispatch(clearloginSuccess());
+          }, 800);
+        }
+    }, [loginSuccess]);
+
 
     // useEffect(() => {
     //     if (loginSuccess === true) {
@@ -144,7 +158,7 @@ export default function Home() {
 
                         <h2 className='text-[26px] 2xl:text-[32px] font-bold text-appBlack text-center' >Welcome Back!</h2>
                         <p className='text-xs 2xl:text-sm mb-[52px] 2xl:mb-[72px] font-normal text-input text-center' >Enter your details to login</p>
-                        <form className='flex flex-col gap-4 2xl:gap-8' >
+                        <form onSubmit={handleSubmit} className='flex flex-col gap-4 2xl:gap-4' >
                         <InputFade 
                             id="email"
                             value={values.email} 
@@ -169,7 +183,7 @@ export default function Home() {
                             placeholder='Enter password' 
                         />
                         <p className='text-xs text-right mt-2 2xl:text-sm text-greentxt cursor-pointer hover:underline '>Forgot Password?</p>
-                        <button type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === false ? <LoadButton /> : 'Login'}</button>
+                        <button type='submit' disabled={!formButtonDisabled} className="buttons font-[100] text-sm 2xl:text:base">{loading === true ? <LoadButton /> : 'Login'}</button>
                         </form>
 
                         

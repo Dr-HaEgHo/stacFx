@@ -12,7 +12,7 @@ const Load = () => {
 
   
   return (
-    <main className="fixed fade z-40 top-0 right-left w-full h-screen bg-blackLoading flex items-center justify-center ">
+    <main className="fixed fade z-40 top-0 left-0 w-full h-screen bg-blackLoading flex items-center justify-center ">
       <div className="flex flex-col gap-4 items-center justify-center z-50">
         <div className="flex items-center flex-col gap-1">
         <div className="spinning-logo rounded-full flex items-center justify-center text-white font-bold">

@@ -11,7 +11,7 @@ const page = () => {
     return (
         <div className='w-full h-full bg-white ' >
             <div className='dash-container' >
-                <div className="w-full pt-[26px] 2xl:pt-[34px] ">
+                <div className="w-full pt-[26px] 2xl:pt-[34px] xl:max-w-[1200px] ">
                     
                     {/* TOP WITH HEADER DESCRIPTIONS */}
                     <div className='flex flex-col items-start gap-[8px] 2xl:gap-3' >
