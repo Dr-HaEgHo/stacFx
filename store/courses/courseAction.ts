@@ -7,32 +7,18 @@ import cogoToast from "cogo-toast";
 
 // const baseUrl = process.env.BASE_URL
 
-// ================================================================= SIGN UP
-export const signup = createAsyncThunk(
-  "signup",
-  async ( values: signUpType, { rejectWithValue, getState, dispatch }
+// ================================================================= SUGN UP
+export const getAllCourses = createAsyncThunk(
+  "getAllCourses",
+  async ( arg, { rejectWithValue, getState, dispatch }
   ) => {
     try {
-      const res = await axios.post(
-        `${baseUrl}/register/`,
-        {
-          first_name: values.firstname,
-          last_name:values.lastname,
-          email: values.email,
-          password: values.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await fetch('../../assets/data/videos.json');
       if (res.status === 200 || res.status === 201) {
         cogoToast.success('Sign up successful')
         return res;
       }
     } catch (err: any) {
-      
       if (err.response.status === 400) {
         cogoToast.success('Something went Wrong')
         return rejectWithValue(err.response);

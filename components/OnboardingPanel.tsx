@@ -1,15 +1,11 @@
+import { useAppSelector } from '@/store/hooks'
 import Image from 'next/image'
 import React from 'react'
 
-const stages = [
-  {id:1, title:"Introduction", isCompleted: true},
-  {id:2, title:"Phase 1", isCompleted: true},
-  {id:3, title:"Phase 2", isCompleted: false},
-  {id:4, title:"Phase 3", isCompleted: false},
-  {id:5, title:"Phase 4", isCompleted: false}
-]
-
 const OnboardingPanel = () => {
+
+  const courses = useAppSelector((state) => state.courses.courses)
+
   return (
     <div className='w-full p-[13px] 2xl:p-[17px] bg-onPanelGray rounded-2xl flex flex-col '  >
       
@@ -42,13 +38,13 @@ const OnboardingPanel = () => {
 
 
       {/* ONBOARDING STAGES */}
-      <div className='w-full flex flex-col gap-[18px] ' >
+      <div className='w-full flex flex-col ' >
 
 
         {/* MAPPED STAGES */}
         {
-          stages && stages.map((item) => (
-            <div key={item.id} className='w-full flex items-center justify-between' >
+          courses && courses.map((item) => (
+            <div key={item.id} className='transition duration-200 w-full flex items-center justify-between py-[9px] cursor-pointer px-1 rounded hover:bg-blackHover' >
               <p className='text-headDesc text-[13px] font-normal' >{item.title}</p>
 
               {item.isCompleted === true ? (<Image

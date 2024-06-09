@@ -31,6 +31,8 @@ const config: Config = {
 
         appBlack:"#212121",
 
+        pending: "#FFA500",
+
         chartBlue: "#596AFF",
         chartGreen: "#36BB2A",
 

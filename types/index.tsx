@@ -107,3 +107,17 @@ export interface loginType{
     confirmPassword: string;
 }
 
+export type statusType = 'pending' | 'done' | 'failed'
+
+
+export interface IndicatorProps {
+    text: string;
+    status: statusType;
+}
+
+export interface courseData {
+    id: string;
+    videos: string[];
+    title: string;
+    isCompleted: boolean;
+}

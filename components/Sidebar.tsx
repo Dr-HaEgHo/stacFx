@@ -44,7 +44,7 @@ const Sidebar = () => {
     }
 
     return (
-        <div className='w-full h-full sidebar-bg border-sidebarDiv border-r-[0.2px] relative' >
+        <div className='w-full h-screen sidebar-bg border-sidebarDiv border-r-[0.2px] relative' >
             <div className='w-full h-full absolute top-0 left-0'>
                 <Image
                     src={require('../assets/images/sidebar.png')}

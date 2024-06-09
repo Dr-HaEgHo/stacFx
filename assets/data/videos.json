@@ -1,0 +1,32 @@
+ [
+    {
+        "id":1,
+        "videos":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", 
+        "title":"Introduction", 
+        "isCompleted": false
+    },
+    {
+        "id":2,
+        "videos":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", 
+        "title":"Phase 1", 
+        "isCompleted": false
+    },
+    {
+        "id":3,
+        "videos":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", 
+        "title":"Phase 2", 
+        "isCompleted": false
+    },
+    {
+        "id":4,
+        "videos":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", 
+        "title":"Phase 3", 
+        "isCompleted": false
+    },
+    {
+        "id":5,
+        "videos":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4", 
+        "title":"Phase 4",
+        "isCompleted": false
+    }
+ ]

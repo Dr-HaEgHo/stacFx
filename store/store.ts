@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import authReducer from './auth/authSlice';
+import courseReducer from './courses/courseSlice';
 // import dashReducer from './dashboard/dashSlice';
 // import incuReducer  from './incubatees/incuSlice';
 // import userReducer from './users/userSlice';
@@ -15,6 +16,7 @@ const persistConfig = {
 
 const appReducer = combineReducers({
     auth: authReducer,
+    courses: courseReducer,
     // dash: dashReducer,
     // incubatees: incuReducer,
     // user: userReducer

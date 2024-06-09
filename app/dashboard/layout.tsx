@@ -5,9 +5,9 @@ import React from 'react'
 const layout = ({ children }: { children: React.ReactNode }) => {
 
     return (
-        <div className='w-full h-screen flex items-start bg-dashboardBg ' >
+        <div className='w-full flex items-start bg-dashboardBg ' >
 
-            <div className="flex flex-1 h-full max-w-[260px]">
+            <div className="sticky top-0 flex flex-1 h-full max-w-[260px]">
                 <Sidebar />
             </div>
             <div className="flex flex-[4.5] h-full flex-col">
