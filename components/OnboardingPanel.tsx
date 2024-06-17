@@ -1,71 +1,150 @@
-import { useAppSelector } from '@/store/hooks'
-import Image from 'next/image'
-import React from 'react'
+"use client";
+import { useAppSelector } from "@/store/hooks";
+import { onboardingPanelProps } from "@/types";
+import Image from "next/image";
+import React, { FC, useEffect, useState } from "react";
+import { LoadButton } from "./Load";
+import useProgress from "@/hooks/useProgress";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const OnboardingPanel = () => {
+const OnboardingPanel: FC<onboardingPanelProps> = ({
+  data,
+  action,
+  loading,
+  setIsPlaying,
+  setCurrentId
+}) => {
 
-  const courses = useAppSelector((state) => state.courses.courses)
+  const router = useRouter()
+  const search = useSearchParams()
+
+  const completed = data?.filter((item) => item.isCompleted === true);
+  const { progress } = useProgress(data && data.length, completed.length);
+  const queryWatch = new URLSearchParams(search).get("watch")
+
+  
+  const loopAndSetPlayingVideo = () => {
+    if(!data){
+      return
+    }
+    for(let i: number = 0; i < data?.length; i++){
+      if(data[i].isCompleted === true){
+        console.log("this is the data here guys: ",data[i]);
+        router.push( `?id=${data[i + 1].id}&watch=${data[i + 1].videos}`)
+        break;
+      }else if(data[0].isCompleted === false){
+        router.push( `?id=${data[0].id}&watch=${data[0].videos}`)
+        break;
+      }
+    }
+  }
+
+  const manuallySetPlayingVideo = (id: string, video: string) => {
+    router.push( `?id=${id}&watch=${video}`)
+    setCurrentId(id)
+  }
+  
+  useEffect(() => {
+    loopAndSetPlayingVideo()
+  }, [])
+
 
   return (
-    <div className='w-full p-[13px] 2xl:p-[17px] bg-onPanelGray rounded-2xl flex flex-col '  >
-      
-      
+    <main className="w-full p-[13px] 2xl:p-[17px] bg-onPanelGray rounded-2xl flex flex-col">
       {/* BUTTON TO GO TO DASHBOARD */}
-      <div className='w-full '>
-        <button className='w-full p-[10px] bg-blueGray rounded flex items-center justify-center gap-[10px]' >
+      <div className="w-full ">
+        <button className="w-full p-[10px] bg-blueGray rounded flex items-center justify-center gap-[10px]">
           <Image
-            src={ require('../assets/icons/leftarrow.png') }
+            src={require("../assets/icons/leftarrow.png")}
             alt="stackfx.com"
-            className='w-[18px]'
+            className="w-[18px]"
           />
-          <p className='text-primary text-[13px] font-[200]' >Go to Dashboard</p>
+          <p className="text-primary text-[13px] font-[200]">Go to Dashboard</p>
         </button>
       </div>
-    
-    
+
       {/* ONBOARDING PROGRESS */}
-      <div className='w-full mt-[29px] 2xl:mt-[39px] mb-[38px] 2xl:mb-[50px]' >
-        <h3 className='text-primary2 text-sm font-normal mb-[9px] 2xl:mb-[12px]' >Onboarding Progress </h3>
+      <div className="w-full mt-[29px] 2xl:mt-[39px] mb-[38px] 2xl:mb-[50px]">
+        <h3 className="text-primary2 text-sm font-normal mb-[9px] 2xl:mb-[12px]">
+          Onboarding Progress{" "}
+        </h3>
 
         {/* PROGRESS BAR */}
-        <div className='w-full h-[5px] bg-progressTrack rounded-full mb-2' >
-          <div className='w-[20%] bg-progress h-full rounded-full'   />
+        <div className="w-full h-[5px] bg-progressTrack rounded-full mb-2">
+          <div
+            style={{
+              width: progress ? progress : 0,
+            }}
+            className="bg-progress h-full rounded-full transition duration-400"
+          />
         </div>
 
-
-        <p className='text-greytxt text-xs font-normal' >20% Complete</p>
+        <p className="text-greytxt text-xs font-normal">
+          {progress ? progress : 0}% Complete
+        </p>
       </div>
-
 
       {/* ONBOARDING STAGES */}
-      <div className='w-full flex flex-col ' >
+      <div className="w-full flex flex-col">
+        {loading === true ? (
+          <LoadButton />
+          ) : (
+            <>
+            {/* MAPPED STAGES */}
+            {data ? (
+              data.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => manuallySetPlayingVideo(item.id, item.videos)}
+                  className="transition duration-200 w-full flex items-center justify-between py-[9px] cursor-pointer px-1 rounded hover:bg-blackHover"
+                >
+                  <p className="text-headDesc text-[13px] font-normal">
+                    {item.title}
+                  </p>
 
-
-        {/* MAPPED STAGES */}
-        {
-          courses && courses.map((item) => (
-            <div key={item.id} className='transition duration-200 w-full flex items-center justify-between py-[9px] cursor-pointer px-1 rounded hover:bg-blackHover' >
-              <p className='text-headDesc text-[13px] font-normal' >{item.title}</p>
-
-              {item.isCompleted === true ? (<Image
-                src={require('../assets/icons/bluetick.png')}
-                alt='stacfx.com'
-                className='w-[20px]'
-              />) : (<Image
-                src={require('../assets/icons/notick.png')}
-                alt='stacfx.com'
-                className='w-[18px]'
-              />)}
-            </div>
-          )) 
-        }
-
+                  { item.videos === queryWatch ? (
+                    <Image
+                        src={require("../assets/icons/play.svg")}
+                        alt="stacfx.com"
+                        className="w-[20px]"
+                      />) : (
+                    <>
+                    {item.isCompleted === true ? (
+                      <Image
+                        src={require("../assets/icons/bluetick.png")}
+                        alt="stacfx.com"
+                        className="w-[20px]"
+                      />
+                    ) : (
+                      <Image
+                        src={require("../assets/icons/notick.png")}
+                        alt="stacfx.com"
+                        className="w-[18px]"
+                      />
+                    )}
+                    </>
+                  )}
+                  
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col w-full items-center justify-center gap-2">
+                <p className="text-center text-primary text-sm">
+                  Something went wrong
+                </p>
+                <button
+                  onClick={action}
+                  className="buttons-2 !py-2 text-white text-sm"
+                >
+                  Refresh
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
-    
-    
-    
-    </div>
-  )
-}
+    </main>
+  );
+};
 
-export default OnboardingPanel
+export default OnboardingPanel;

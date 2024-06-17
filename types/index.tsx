@@ -117,7 +117,15 @@ export interface IndicatorProps {
 
 export interface courseData {
     id: string;
-    videos: string[];
+    videos: string;
     title: string;
     isCompleted: boolean;
+}
+
+export interface onboardingPanelProps{
+    data: courseData[];
+    action: () => void;
+    loading: boolean;
+    setIsPlaying :  Function;
+    setCurrentId: Function;
 }

@@ -108,7 +108,7 @@ const Sidebar = () => {
 
                     <div className="w-full flex flex-col items-start gap-1 py-2">
                         {sidebarLinks?.map((item) => (
-                            <div onClick={() => {
+                            <div key={item.id} onClick={() => {
                                 router.push(item.route)
                             }} className={`w-full cursor-pointer relative transition duration-200 pl-[38px] py-[12px] 2xl:py-[15px] flex border-primary1 items-center gap-4 hover:bg-whiteHover active:bg-whiteActive`}
                                 style={{

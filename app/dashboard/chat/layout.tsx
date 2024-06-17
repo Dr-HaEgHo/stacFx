@@ -24,7 +24,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
             <div className='w-full flex-[1] max-h-full flex items-start relative ' >
 
                 {/* CHATROOM PANELS */}
-                <div className='h-full flex-[1] sticky left-0 top-[100%] ' >
+                <div className='h-full flex-[1] sticky left-0 top-0' >
                     <ChatSidebar />
                 </div>
 

@@ -75,11 +75,11 @@ const ChatSidebar = () => {
                                     backgroundColor: item.id === isActive ? "#E9F3FF" : "",
                                 }}
                             >
-                                {/* <div
+                                <div
                                     style={{
                                         width: location === item.route || location === item.subRoutes || location === item.subRoutes1 ? 3 : 0
                                     }}
-                                    className={`transition duration-200 left-0 bg-appOrange h-[20px] 2xl:h-[26px] absolute`} /> */}
+                                    className={`transition duration-200 left-0 bg-appOrange h-[20px] 2xl:h-[26px] absolute`} />
 
                                 <p className={`text-xs 2xl:text-sm text-primary2 `} >{item.title && item.title}</p>
                                 <div className='w-[33px] h-5 bg-appOrange rounded-full flex items-center justify-center' >

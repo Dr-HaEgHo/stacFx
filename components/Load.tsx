@@ -38,8 +38,6 @@ export const LoadButton = () => {
   useEffect(() => {
   }, [])
 
-
-  
   return (
     <main className="fade z-40 top-0 right-left w-full  flex items-center justify-center ">
       <div className="flex flex-col gap-4 items-center justify-center z-50">

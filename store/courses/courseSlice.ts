@@ -1,17 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
 import { courseData } from "@/types";
-import { getAllCourses } from "./courseAction";
+import { getAllCourses, getOnboardingVideos, updateOnboardingData } from "./courseAction";
 
-interface AuthState {
+interface coursesState {
   loading: boolean;
   courses: courseData[];
+  updateLoading: boolean;
+  onboardingData: courseData[]
 }
 
-const initialState: AuthState = {
+const initialState: coursesState = {
   loading: false,
-  courses: []
+  updateLoading: false,
+  courses: [],
+  onboardingData: []
 };
 
 export const authSlice = createSlice({
@@ -19,12 +21,38 @@ export const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+
+    //============================================================== TO FETCH ALL ONBOARDING COURSES
+    builder.addCase(getOnboardingVideos.pending, (state, { payload }) => {
+      state.loading = true;
+    }),
+    builder.addCase(getOnboardingVideos.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.onboardingData = payload.onboarding as unknown as courseData[] || undefined
+    }),
+    builder.addCase(getOnboardingVideos.rejected, (state, { payload }) => {
+      state.loading = false;
+    });
+
+
+    //============================================================== TO UPDATE ALL ONBOARDING COURSES
+    builder.addCase(updateOnboardingData.pending, (state) => {
+      state.updateLoading = true;
+    }),
+    builder.addCase(updateOnboardingData.fulfilled, (state, { payload }) => {
+      state.updateLoading = false;
+    }),
+    builder.addCase(updateOnboardingData.rejected, (state) => {
+      state.updateLoading = false;
+    });
+    
+    //============================================================== TO FETCH ALL COURSES
     builder.addCase(getAllCourses.pending, (state, { payload }) => {
       state.loading = true;
     }),
     builder.addCase(getAllCourses.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.courses = payload ? payload : undefined
+      state.courses = payload as unknown as courseData[] || undefined
     }),
     builder.addCase(getAllCourses.rejected, (state, { payload }) => {
       state.loading = false;
@@ -36,4 +64,4 @@ export const { } = authSlice.actions;
 
 // export const selectAuth = (state: RootState) => state.counter.value
 
-export default authSlice.reducer;
+export default authSlice.reducer; 
