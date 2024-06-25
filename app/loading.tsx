@@ -43,7 +43,7 @@ const Loading = () => {
           <div className='flex flex-col gap-4 items-center justify-center' >
 
               <div className='h-[70px] w-[70px] flex items-center justify-center' >
-                  <Image
+                  <Image 
                       src={require('../assets/images/logo.png')}
                       alt='hometown-admin.com'
                       className='spinning-logo'

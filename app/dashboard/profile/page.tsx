@@ -66,14 +66,14 @@ const page = () => {
                             {/* IMAGE */}
                             <div className='relative w-[70px] h-[70px] mb-6 2xl:mb-8' >
                                 <div className='w-full h-full rounded-full overflow-hidden' >
-                                    <Image
+                                    <Image 
                                         src={require('../../../assets/images/avatar2.png')}
                                         alt='stacfx.com'
                                         className='w-full'
                                     />
                                 </div>
                                 <div className='w-[24px] h-[24px] rounded-full flex items-center justify-center bg-primary2 absolute bottom-0 right-0 cursor-pointer'  >
-                                    <Image
+                                    <Image 
                                         src={require('../../../assets/icons/edit.png')}
                                         alt='stacfx.com'
                                         className="w-[18px]"

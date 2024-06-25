@@ -1,11 +1,10 @@
 import { ArrowCircleLeft, ArrowCircleRight } from "iconsax-react";
 import OnboardingPanel from "../OnboardingPanel";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { IndicatorProps } from "@/types";
 import { useSearchParams } from "next/navigation";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getAllCourses } from "@/store/courses/courseAction";
-
 
 
 const Indicator : FC<IndicatorProps> = ({text, status}) => {
@@ -27,12 +26,34 @@ const Indicator : FC<IndicatorProps> = ({text, status}) => {
 
 const WatchCourse = () => {
 
+    const dispatch = useAppDispatch();
     const search = useSearchParams()
     const queryWatch = new URLSearchParams(search).get("watch")
+
+    const coursesData = useAppSelector(state => state.courses.courses)
+    const isLoading = useAppSelector(state => state.courses.loading)
+
+    const [loading, setLoading] = useState<boolean>(false)
+
+    const fetchCourses = () => {
+        dispatch(getAllCourses())
+    }
 
     const ended = () => {
         alert('ended the video')
     }
+
+    // useEffect(() => {
+    //     fetchCourses()
+    // }, [])
+
+    useEffect(() => {
+        if(isLoading){
+            setLoading(true)
+        }else{
+            setLoading(false)
+        }
+    },[isLoading])
 
     return (
         <div className='w-full h-full bg-white ' >
@@ -42,7 +63,11 @@ const WatchCourse = () => {
                     {/* VIDEO AND COMPONENT */}
                     <div className='flex mt-[30px] 2xl:mt-[36px] items-start gap-[18px] 2xl:gap-[14rem]' >
                         <div className='flex flex-[1] max-w-[264px]' >
-                            <OnboardingPanel/>
+                            <OnboardingPanel 
+                                data={coursesData} 
+                                action={() => fetchCourses()} 
+                                loading={loading}
+                            />
                         </div>
 
                         <div className='flex-[2.8] '>

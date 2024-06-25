@@ -46,13 +46,13 @@ const Navbar = () => {
                         {/* Icon */}
                         <button className='transition duration-200 w-[30px] h-[30px] rounded-[6px] bg-noteIconBtn hover:bg-sidebarTxtHover active:bg-sidebarTxtActive flex items-center justify-center relative'>
                             {isNotification ? (<div className='w-5 h-5' >
-                                <Image
+                                <Image 
                                     src={require('../assets/icons/note.png')}
                                     alt='stacfx.com'
                                     className='w-full'
                                 />
                             </div>) : (<div className='w-5 h-5' >
-                                <Image
+                                <Image 
                                     src={require('../assets/icons/nonote.png')}
                                     alt='stacfx.com'
                                     className='w-full'
@@ -60,7 +60,7 @@ const Navbar = () => {
                             </div>)}
                         </button>
                         <button className='w-[36px] h-[36px] rounded-full bg-noteIconBtn overflow-hidden '>
-                            <Image
+                            <Image 
                                 src={require('../assets/images/Avatar.png')}
                                 alt="hometownadmin.com"
                             />

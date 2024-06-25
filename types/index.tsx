@@ -1,3 +1,4 @@
+import OngoingCard from "@/components/OngoingCard";
 import React from "react";
 
 export interface emailInputProps {
@@ -120,12 +121,27 @@ export interface courseData {
     videos: string;
     title: string;
     isCompleted: boolean;
+    instructor: string;
+    total: number;
+    completed: number;
+    photo: string;
 }
 
 export interface onboardingPanelProps{
     data: courseData[];
     action: () => void;
     loading: boolean;
-    setIsPlaying :  Function;
-    setCurrentId: Function;
+    // setIsPlaying :  Function;
+    // setCurrentId: Function;
+}
+
+export interface SWWType {
+    action?: () => void;
+    actionText?: string;
+    message?: string;
+}
+
+export interface CardData {
+    data: courseData,
+    action: () => void;
 }

@@ -53,7 +53,7 @@ export const SearchInputFade: FC<searchInputProps> = (props) => {
                 <input className='inputsfade min-w-[400px] 2xl:min-w-[460px] ' type='text' placeholder={props.placeholder && props.placeholder} />
                 <div onClick={handleClick} className='absolute cursor-pointer right-[20px] top-1/2 transform -translate-y-1/2 flex items-center justify-center text-icons'>
                     <div className='w-5 h-5' >
-                        <Image
+                        <Image 
                             src={require('../assets/icons/search.png')}
                             alt='stacfx.com'
                             className='w-full'

@@ -11,13 +11,13 @@ const page = () => {
 
     const dispatch = useAppDispatch();
     const onboardingData = useAppSelector((state) => state.courses.onboardingData);
-    const isLoading = useAppSelector(state => state.courses.loading)
+    const isLoading = useAppSelector(state => state.courses.updateLoading)
     const queryId = new URLSearchParams(search).get("id")
     const queryWatch = new URLSearchParams(search).get("watch")
 
-    const [isPlaying, setIsPlaying] = useState('')
     const [loading, setLoading] = useState<boolean>(false);
-    const [currentId, setCurrentId] = useState<string>('')
+    // const [isPlaying, setIsPlaying] = useState('')
+    // const [currentId, setCurrentId] = useState<string>('')
 
     const fetchOnboardingCourses = () => {
         dispatch(getOnboardingVideos())
@@ -43,9 +43,9 @@ const page = () => {
     }
     
 
-    useEffect(() => {
-        fetchOnboardingCourses()
-    }, [])
+    // useEffect(() => {
+    //     fetchOnboardingCourses()
+    // }, [])
 
     useEffect(() => {
         isLoading ? setLoading(true) : setLoading(false)
@@ -66,7 +66,7 @@ const page = () => {
                     {/* VIDEO AND COMPONENT */}
                     <div className='flex mt-[30px] 2xl:mt-[36px] items-stretch gap-[18px] 2xl:gap-[24px]' >
                         <div className='flex flex-[1]' >
-                            <OnboardingPanel setIsPlaying={setIsPlaying} setCurrentId={setCurrentId} data={onboardingData} loading={loading} action={() => fetchOnboardingCourses()}/>
+                            <OnboardingPanel data={onboardingData} loading={loading} action={() => fetchOnboardingCourses()}/>
                         </div>
 
                         <div className='flex flex-[2.8] items-center justify-center rounded-2xl overflow-hidden'>

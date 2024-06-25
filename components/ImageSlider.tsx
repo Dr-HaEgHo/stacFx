@@ -26,7 +26,7 @@ const ImageSlider = () => {
               {
                   pics?.map((item) => (<SwiperSlide>
                       <div className='w-full h-full' >
-                          <Image
+                          <Image 
                               src={item.img}
                               alt='stacfx.com'
                               className='w-full h-full object-cover'

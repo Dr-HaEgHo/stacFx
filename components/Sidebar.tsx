@@ -46,7 +46,7 @@ const Sidebar = () => {
     return (
         <div className='w-full h-screen sidebar-bg border-sidebarDiv border-r-[0.2px] relative' >
             <div className='w-full h-full absolute top-0 left-0'>
-                <Image
+                <Image 
                     src={require('../assets/images/sidebar.png')}
                     alt='sidebar'
                     className='w-full h-full object-cover'
@@ -66,7 +66,7 @@ const Sidebar = () => {
                 /> */}
 
                 {/* <div className='fixed -bottom-[80px] -right-[100px] w-[283px] h-auto 2xl:w-[303px] 2xl:h-[349px] ' >
-                    <Image
+                    <Image 
                         src={require('../assets/images/logomark.png')}
                         alt='stacfx.com'
                         className='w-full'
@@ -76,7 +76,7 @@ const Sidebar = () => {
                 {/* TOP  */}
                 <div className="w-full py-6  2xl:py-10  flex flex-col items-center justify-center">
                     <div className='w-[50%] flex items-center justify-center ' >
-                        <Image
+                        <Image 
                             src={require('../assets/images/fullLogo.png')}
                             alt='stacfx.com'
                             className='w-full'
@@ -88,7 +88,7 @@ const Sidebar = () => {
                 {/* USER DETAILS SECTION */}
                 <div className='w-full flex flex-col items-center gap-4 mb-[38px] mt-[20px] 2xl:mt-[27px] 2xl:mb-[47px]' >
                     <div className='w-[48px] h-[48px] rounded-full overflow-hidden flex items-center justify-center'>
-                        <Image
+                        <Image 
                             src={require('../assets/images/Avatar.png')} 
                             alt='stacfx.com'
                         />
@@ -123,7 +123,7 @@ const Sidebar = () => {
                                     className={`transition duration-200 left-0 bg-appOrange h-[20px] 2xl:h-[26px] absolute`} />
                                 
                                 <div className='w-5 h-5' >
-                                    <Image
+                                    <Image 
                                         src={item.image }
                                         alt='stacfx.com'
                                         className='w-full'
@@ -179,7 +179,7 @@ export const SidebarMobile =() => {
             <div className='w-full flex items-center justify-between'>
                 {/* LOGO FOMR MOBILE*/}
             <a href='/' className='w-[90px] block lg:hidden'>
-                <Image
+                <Image 
                     src={require('../assets/images/logoblack.png')}
                     alt='stacfx.com'
                     className='w-full'
@@ -202,7 +202,7 @@ export const SidebarMobile =() => {
                 <Link href="/signup" className=''>
                     <button className='buttons-2 flex items-center gap-1' >
                         <p className='text-xs 2xl:text-sm text-white' >Get Started</p>
-                        <Image
+                        <Image 
                             src={require('../assets/icons/circleArrow.png')}
                             alt='stacfx.com'
                             className='w-[18px]'

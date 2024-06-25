@@ -5,7 +5,7 @@ const WhoWeAre = () => {
     return (
         <div className='w-full py-20 flex max-lg:flex-col items-center gap-6' >
             <div className='max-lg:w-full w-[56%] aspect-[1.5] bg-slate-400' >
-                <Image
+                <Image 
                     src={require('../../assets/images/whoweare.png')}
                     alt='whoweare.png'
                     className='w-full h-full object-cover'
@@ -18,7 +18,7 @@ const WhoWeAre = () => {
                     Join STACFX for a journey to financial success and trading mastery.</p>
                 <button className='buttons-2 !px-8 flex items-center gap-2 !text-sm !font-[300]' >
                     Know More
-                    <Image
+                    <Image 
                         src={require('../../assets/icons/circleArrow.png')}
                         alt='stacfx.com'
                         className='w-[20px]'

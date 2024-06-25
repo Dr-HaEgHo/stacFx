@@ -16,7 +16,7 @@ const Load = () => {
       <div className="flex flex-col gap-4 items-center justify-center z-50">
         <div className="flex items-center flex-col gap-1">
         <div className="spinning-logo rounded-full flex items-center justify-center text-white font-bold">
-            <Image
+            <Image 
                 src={require('../assets/icons/logowhite.svg')}
                 alt="logo"
                 className="w-12 h-12"
@@ -43,7 +43,7 @@ export const LoadButton = () => {
       <div className="flex flex-col gap-4 items-center justify-center z-50">
         <div className="flex items-center flex-col gap-1">
           <div className="spinning-logo rounded-full flex items-center justify-center text-white font-bold">
-            <Image
+            <Image 
                 src={require('../assets/icons/logowhite.svg')}
                 alt="logo"
                 className="w-6 h-6"
@@ -70,7 +70,7 @@ export const LoadSmallButton = () => {
       <div className="flex flex-col gap-4 items-center justify-center z-50">
         <div className="flex items-center flex-col gap-1">
           <div className="spinning-logo rounded-full flex items-center justify-center text-white font-bold">
-            <Image
+            <Image 
                 src={require('../assets/images/logo.png')}
                 alt="logo"
                 className="w-4 h-4"

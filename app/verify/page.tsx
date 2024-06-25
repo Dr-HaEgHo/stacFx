@@ -45,7 +45,7 @@ const Verify = () => {
                 <div className="w-full h-full flex flex-col items-center py-[2rem] lg:py-[5rem] justify-center gap-[5rem]">
 
                     <Link href='/'>
-                        <Image
+                        <Image 
                             src={require('../../assets/images/logoblack.png')}
                             alt='stacfx.com'
                             className='w-32'

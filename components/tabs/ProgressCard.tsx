@@ -8,7 +8,7 @@ const ProgressCard = ({ data }: { data: any }) => {
 
           {/* IMAGE IN THE BACKGROUND */}
           <div className='w-full h-full absolute left-1/2 transform -translate-x-1/2 z-0' >
-              <Image
+              <Image 
                   src={require('../../assets/images/thumbnail.png')}
                   alt='stacFx.com'
                   className='w-full'
@@ -20,7 +20,7 @@ const ProgressCard = ({ data }: { data: any }) => {
               <button className='bg-appOrange rounded py-[5px] px-[10px] text-[13px] 2xl:text-[15px] text-white' >New</button>
 
               <button className='bg-primary2 flex items-center justify-center w-5 h-5 rounded-full' >
-                  <Image
+                  <Image 
                       src={require('../../assets/icons/moreVert.png')}
                       alt='stacFx.com'
                       className='w-[18px]'
@@ -32,7 +32,7 @@ const ProgressCard = ({ data }: { data: any }) => {
           {/* PLAY BADGE */}
           <div className='w-full h-full z-20 flex items-center justify-center'>
               <div className='transition duration-300 cursor-pointer w-[58px] h-[58px] 2xl:w-[66px] 2xl:h-[66px] rounded-full bg-[rgba(0,0,0,.6)] hover:bg-[rgba(0,0,0,.5)] active:bg-[rgba(0,0,0,.6)] flex items-center justify-center' >
-                  <Image
+                  <Image 
                       src={require('../../assets/icons/play.png')}
                       alt='stacfx.com'
                       className='w-[28px] 2xl:w-[34px]'

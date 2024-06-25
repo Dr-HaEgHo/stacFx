@@ -20,7 +20,7 @@ const ChatNavbar = () => {
                       <div className='flex items-center' >
                           <div className='h-8 w-8 rounded-full border-[2px] border-white z-[1] ' >
                               
-                              <Image
+                              <Image 
                                   src={require('../assets/images/user1.png')}
                                   alt='stacfx.com'
                                   className='w-full'
@@ -28,7 +28,7 @@ const ChatNavbar = () => {
                           </div>
                           <div className='h-8 w-8 rounded-full border-[2px] border-white z-[1] -mx-[14px]' >
                               
-                              <Image
+                              <Image 
                                   src={require('../assets/images/user2.png')}
                                   alt='stacfx.com'
                                   className='w-full'
@@ -36,7 +36,7 @@ const ChatNavbar = () => {
                           </div>
                           <div className='h-8 w-8 rounded-full border-[2px] border-white z-[1]' >
                               
-                              <Image
+                              <Image 
                                   src={require('../assets/images/user3.png')}
                                   alt='stacfx.com'
                                   className='w-full'

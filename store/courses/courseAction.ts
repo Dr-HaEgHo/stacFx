@@ -21,8 +21,6 @@ export const getOnboardingVideos = createAsyncThunk(
       // const token = getState().auth.token
       const res = await fetch('http://localhost:5050/0');
       if (res.status === 200 || res.status === 201) {
-
-        console.log('response fromteh asction', res.json)
         // cogoToast.success('Welcome to the onboarding, please take your onboarding before you can proceed')
         return res.json();
       }
@@ -56,7 +54,6 @@ export const updateOnboardingData = createAsyncThunk(
       const res = await fetch('http://localhost:5050/0', options);
       if (res.status === 200 || res.status === 201) {
         dispatch(getOnboardingVideos())
-        
         return res.json();
       }
     } catch (err: any) {
@@ -72,20 +69,43 @@ export const updateOnboardingData = createAsyncThunk(
   }
 );
 
-// ================================================================= Fetch Onboarding
+// ================================================================= Fetch All Courses
 export const getAllCourses = createAsyncThunk(
   "getAllCourses",
   async ( arg, { rejectWithValue, getState, dispatch }
   ) => {
     try {
-      const res = await fetch('../../assets/data/videos.json');
+      const res = await fetch('http://localhost:5050/1');
       if (res.status === 200 || res.status === 201) {
         cogoToast.success('Sign up successful')
-        return res;
+        return res.json();
       }
     } catch (err: any) {
       if (err.response.status === 400) {
         cogoToast.success('Something went Wrong')
+        return rejectWithValue(err.response);
+      } else {
+        return rejectWithValue(err.response);
+      }
+      // return rejectWithValue(err);
+    }
+  }
+);
+
+// ================================================================= Fetch All Courses
+export const getLatestCourses = createAsyncThunk(
+  "getLatestCourses",
+  async ( arg, { rejectWithValue, getState, dispatch }
+  ) => {
+    try {
+      const res = await fetch('http://localhost:5050/2');
+      if (res.status === 200 || res.status === 201) {
+        cogoToast.success('Sign up successful')
+        return res.json();
+      }
+    } catch (err: any) {
+      if (err.response.status === 400) {
+        cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -95,6 +115,31 @@ export const getAllCourses = createAsyncThunk(
     }
   }
 );
+
+// ================================================================= Fetch All Courses
+export const getOngoingCourses = createAsyncThunk(
+  "getOngoingCourses",
+  async ( arg, { rejectWithValue, getState, dispatch }
+  ) => {
+    try {
+      const res = await fetch('http://localhost:5050/3');
+      if (res.status === 200 || res.status === 201) {
+        cogoToast.success('Sign up successful')
+        return res.json();
+      }
+    } catch (err: any) {
+      if (err.response.status === 400) {
+        cogoToast.error('Something went Wrong')
+        return rejectWithValue(err.response);
+      } else {
+        return rejectWithValue(err.response);
+      }
+
+      // return rejectWithValue(err);
+    }
+  }
+);
+
 
 
 // ================================================================= LOG IN

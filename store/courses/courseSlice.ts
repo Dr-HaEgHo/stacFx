@@ -1,19 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { courseData } from "@/types";
-import { getAllCourses, getOnboardingVideos, updateOnboardingData } from "./courseAction";
+import { getAllCourses, getLatestCourses, getOnboardingVideos, getOngoingCourses, updateOnboardingData } from "./courseAction";
 
 interface coursesState {
   loading: boolean;
-  courses: courseData[];
   updateLoading: boolean;
+  latestLoading: boolean;
+  ongoingLoading: boolean;
   onboardingData: courseData[]
+  courses: courseData[];
+  latestCourses: courseData[];
+  ongoingCourses: courseData[];
 }
 
 const initialState: coursesState = {
   loading: false,
   updateLoading: false,
+  latestLoading: false,
+  ongoingLoading: false,
   courses: [],
-  onboardingData: []
+  onboardingData: [],
+  latestCourses: [],
+  ongoingCourses: [],
 };
 
 export const authSlice = createSlice({
@@ -23,14 +31,14 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
 
     //============================================================== TO FETCH ALL ONBOARDING COURSES
-    builder.addCase(getOnboardingVideos.pending, (state, { payload }) => {
+    builder.addCase(getOnboardingVideos.pending, (state) => {
       state.loading = true;
     }),
     builder.addCase(getOnboardingVideos.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.onboardingData = payload.onboarding as unknown as courseData[] || undefined
     }),
-    builder.addCase(getOnboardingVideos.rejected, (state, { payload }) => {
+    builder.addCase(getOnboardingVideos.rejected, (state) => {
       state.loading = false;
     });
 
@@ -52,10 +60,35 @@ export const authSlice = createSlice({
     }),
     builder.addCase(getAllCourses.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.courses = payload as unknown as courseData[] || undefined
+      state.courses = payload.courses as unknown as courseData[] || undefined
     }),
     builder.addCase(getAllCourses.rejected, (state, { payload }) => {
       state.loading = false;
+    });
+
+
+    //============================================================== TO FETCH LATEST COURSES
+    builder.addCase(getLatestCourses.pending, (state, { payload }) => {
+      state.latestLoading = true;
+    }),
+    builder.addCase(getLatestCourses.fulfilled, (state, { payload }) => {
+      state.latestLoading = false;
+      state.latestCourses = payload.latest as unknown as courseData[] || undefined
+    }),
+    builder.addCase(getLatestCourses.rejected, (state, { payload }) => {
+      state.latestLoading = false;
+    });
+
+    //============================================================== TO FETCH LATEST COURSES
+    builder.addCase(getOngoingCourses.pending, (state, { payload }) => {
+      state.ongoingLoading = true;
+    }),
+    builder.addCase(getOngoingCourses.fulfilled, (state, { payload }) => {
+      state.ongoingLoading = false;
+      state.ongoingCourses = payload.enrolled as unknown as courseData[] || undefined
+    }),
+    builder.addCase(getOngoingCourses.rejected, (state, { payload }) => {
+      state.ongoingLoading = false;
     });
   },
 });

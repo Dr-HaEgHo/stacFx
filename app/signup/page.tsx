@@ -117,7 +117,7 @@ export default function Signup() {
                 <div className=' z-10 pointer-events-none absolute w-full h-full bg-gradient-to-t from-primary2 to-transparent top-0 right-0 p-8 flex flex-col justify-between' >
                     {/* LOGO */}
                     <div className='w-[120px]' >
-                        <Image
+                        <Image 
                             src={require('../../assets/images/fullLogo.png')}
                             alt='stacfx.com'
                             className='w-full'
@@ -139,7 +139,7 @@ export default function Signup() {
                     </div>
 
                 </div>
-                <ImageSlider />
+                <Image Slider />
             </div>
 
             <div className="w-full lg:w-1/2 h-full mx-auto bg-white max-lg:scroll max-lg:mb-20">
@@ -150,7 +150,7 @@ export default function Signup() {
                     <div className='w-[90%] 2xl:w-[80%] max-w-[592px] mx-auto p-0 lg:p-[40px] 2xl:p-[60px] rounded ' >
                         <div className='w-full flex lg:hidden items-center justify-center mb-4'>
                             <Link href="/">
-                                <Image
+                                <Image 
                                     src={require('../../assets/images/logo.png')}
                                     alt='logo'
                                     className='w-12'

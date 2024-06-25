@@ -8,7 +8,7 @@ const Footer = () => {
 
           {/* LOGO AND ADDRESS */}
           <div className="flex flex-col items-start gap-12">
-            <Image
+            <Image 
               src={require("../../assets/icons/logofordark.png")}
               alt="logo"
               className="w-40"

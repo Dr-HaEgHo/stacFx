@@ -4,7 +4,7 @@ const NewsLetter = () => {
   return (
     <div className="w-full bg-primary2 py-[3rem] relative z-0 overflow-hidden">
         <div className="absolute h-[140%] z-10 top-1/2 transform -translate-y-1/2 -right-[200px]">
-            {/* <Image
+            {/* <Image 
                 src={require('../../assets/images/logomark.png')}
                 alt='stacfx.com'
                 className='h-full w-auto' 
@@ -31,7 +31,7 @@ const NewsLetter = () => {
                 <input type="email" placeholder="Enter your email..." className="w-full border-2 border-white ml-4"/>
                 <button className='buttons-2 !px-12 !py-3 flex items-center whitespace-nowrap gap-2 !text-sm !font-[300]' >
                     Subscribe
-                    <Image
+                    <Image 
                         src={require('../../assets/icons/circleArrow.png')}
                         alt='stacfx.com'
                         className='w-[20px]'

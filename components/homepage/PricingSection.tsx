@@ -9,7 +9,7 @@ const PricingSection = () => {
         <h2 className='text-white text-[28px] leading-[36px] font-light mb-5'>Leverage our flexible pricing plans</h2>
         <p className='text-xs text-white leading-[20px] font-[400] mb-3' >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proide laborum.</p>
         <div className='w-[80%] mx-auto'>
-          <Image src={require('@/assets/images/saly.png')} alt='saly' className='w-full h-full object-cover' />
+          <Image  src={require('@/assets/images/saly.png')} alt='saly' className='w-full h-full object-cover' />
         </div>
       </div>
 

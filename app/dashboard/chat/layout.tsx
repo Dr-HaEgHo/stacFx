@@ -41,7 +41,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                         {/* SEND FORM */}
                         <div className='w-full bg-white p-1 rounded-2xl flex items-center gap-[14px] 2xl:gap-[16px]' >
                             <button className='w-[38px] h-[38px] rounded-full bg-primary2 flex items-center justify-center' >
-                                <Image
+                                <Image 
                                     src={require('../../../assets/icons/addplus.png')}
                                     alt='stacfx.com'
                                     className='w-full'
@@ -50,7 +50,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             <form className='w-full relative' >
                                 <input type="text" placeholder='Type your text here...' className='w-full rounded-full bg-chatinput border-2 border-chatinput p-[12px] text-[12px] text-chatinputtext focus:outline-none focus:border-2 focus:border-primary2' />
                                 <button type='submit' onClick={handleSubmit} className='w-[30px] h-[30px] p-1 rounded-full 2xl:w-[30px] 2xl:h-[30px] absolute right-[30px] top-1/2 transform -translate-y-1/2 hover:bg-sidebarTxtHover active:bg-blueChatHighlightActive '>
-                                    <Image
+                                    <Image 
                                         src={require('../../../assets/icons/send.png')}
                                         alt='stacfx.com'
                                         className='w-full'

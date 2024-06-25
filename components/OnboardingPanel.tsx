@@ -1,8 +1,7 @@
 "use client";
-import { useAppSelector } from "@/store/hooks";
 import { onboardingPanelProps } from "@/types";
 import Image from "next/image";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { LoadButton } from "./Load";
 import useProgress from "@/hooks/useProgress";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,16 +10,17 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
   data,
   action,
   loading,
-  setIsPlaying,
-  setCurrentId
+  // setIsPlaying,
+  // setCurrentId
 }) => {
 
-  const router = useRouter()
-  const search = useSearchParams()
+  const router = useRouter();
+  const search = useSearchParams();
 
   const completed = data?.filter((item) => item.isCompleted === true);
-  const { progress } = useProgress(data && data.length, completed.length);
-  const queryWatch = new URLSearchParams(search).get("watch")
+  const { progress } = useProgress(data ? data.length : 0, completed.length);
+  const queryWatch = new URLSearchParams(search).get("watch");
+  const queryId = new URLSearchParams(search).get("id");
 
   
   const loopAndSetPlayingVideo = () => {
@@ -33,7 +33,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
         router.push( `?id=${data[i + 1].id}&watch=${data[i + 1].videos}`)
         break;
       }else if(data[0].isCompleted === false){
-        router.push( `?id=${data[0].id}&watch=${data[0].videos}`)
+        router.push(`?id=${data[0].id}&watch=${data[0].videos}`)
         break;
       }
     }
@@ -41,10 +41,11 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
 
   const manuallySetPlayingVideo = (id: string, video: string) => {
     router.push( `?id=${id}&watch=${video}`)
-    setCurrentId(id)
+    // setCurrentId(id)
   }
   
   useEffect(() => {
+    action()
     loopAndSetPlayingVideo()
   }, [])
 
@@ -54,7 +55,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
       {/* BUTTON TO GO TO DASHBOARD */}
       <div className="w-full ">
         <button className="w-full p-[10px] bg-blueGray rounded flex items-center justify-center gap-[10px]">
-          <Image
+          <Image 
             src={require("../assets/icons/leftarrow.png")}
             alt="stackfx.com"
             className="w-[18px]"
@@ -73,7 +74,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
         <div className="w-full h-[5px] bg-progressTrack rounded-full mb-2">
           <div
             style={{
-              width: progress ? progress : 0,
+              width: progress ? `${progress}%` : 0,
             }}
             className="bg-progress h-full rounded-full transition duration-400"
           />
@@ -102,21 +103,21 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
                     {item.title}
                   </p>
 
-                  { item.videos === queryWatch ? (
-                    <Image
+                  { item.id == queryId ? (
+                    <Image 
                         src={require("../assets/icons/play.svg")}
                         alt="stacfx.com"
                         className="w-[20px]"
                       />) : (
                     <>
                     {item.isCompleted === true ? (
-                      <Image
+                      <Image 
                         src={require("../assets/icons/bluetick.png")}
                         alt="stacfx.com"
                         className="w-[20px]"
                       />
                     ) : (
-                      <Image
+                      <Image 
                         src={require("../assets/icons/notick.png")}
                         alt="stacfx.com"
                         className="w-[18px]"

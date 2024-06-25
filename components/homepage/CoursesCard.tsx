@@ -14,7 +14,7 @@ const CoursesCard: FC<DataProps> = ({ data }) => {
 
             {/* IMAGE IN THE BACKGROUND */}
             <div className='w-full absolute left-1/2 transform -translate-x-1/2 z-0' >
-                <Image
+                <Image 
                     src={require('../../assets/images/hourglass.jpg')}
                     alt='stacFx.com'
                     className='w-full h-full object-cover'
@@ -26,7 +26,7 @@ const CoursesCard: FC<DataProps> = ({ data }) => {
                 {/* <button className='bg-appOrange rounded py-[5px] px-[10px] text-[13px] 2xl:text-[15px] text-white' >New</button> */}
 
                 <button className='bg-blackTrans20 flex items-center justify-center  w-5 h-5 rounded-full' >
-                    <Image
+                    <Image 
                         src={require('../../assets/icons/moreVert.png')}
                         alt='stacFx.com'
                         className='w-[18px]'

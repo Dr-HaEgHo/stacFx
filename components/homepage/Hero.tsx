@@ -13,7 +13,7 @@ const Hero = () => {
               <div className='flex items-center gap-2 mb-4' >
                   <button className='buttons-2 !px-8 flex items-center gap-2 !text-sm !font-[400]' >
                       Enroll Now
-                      <Image
+                      <Image 
                           src={require('../../assets/icons/circleArrow.png')}
                           alt='stacfx.com'
                           className='w-[20px]'
@@ -27,7 +27,7 @@ const Hero = () => {
                   <div className='flex items-center' >
                       <div className='h-10 w-10 rounded-full border-[2px] border-white z-[1] ' >
 
-                          <Image
+                          <Image 
                               src={require('../../assets/images/user1.png')}
                               alt='stacfx.com'
                               className='w-full'
@@ -35,7 +35,7 @@ const Hero = () => {
                       </div>
                       <div className='h-10 w-10 rounded-full border-[2px] border-white z-[1] -mx-[10px]' >
 
-                          <Image
+                          <Image 
                               src={require('../../assets/images/user2.png')}
                               alt='stacfx.com'
                               className='w-full'
@@ -43,7 +43,7 @@ const Hero = () => {
                       </div>
                       <div className='h-10 w-10 rounded-full border-[2px] border-white z-[1]' >
 
-                          <Image
+                          <Image 
                               src={require('../../assets/images/user3.png')}
                               alt='stacfx.com'
                               className='w-full'
@@ -54,7 +54,7 @@ const Hero = () => {
                           <div className='w-full h-full bg-[rgba(0,0,0,0.5)] absolute flex items-center justify-center' >
                               <p className='text-white text-[11px] font-[400]' >+2k</p>
                           </div>
-                          <Image
+                          <Image 
                               src={require('../../assets/images/user3.png')}
                               alt='stacfx.com'
                               className='w-full'
@@ -80,7 +80,7 @@ const Hero = () => {
                   <div className='bg-appOrange w-5 h-5 rounded-full' />
                   <p className='text-xs text-headDesc' >First hand knowledge</p>
               </div>
-              <Image
+              <Image 
                   src={require('../../assets/images/manlaptop.png')}
                   alt='manwithlaptop.png'
               />

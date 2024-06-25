@@ -16,7 +16,7 @@ const ReviewCard = () => {
 
     return (
         <div className={`w-full lg:w-[520px] lg:aspect-[1.5] bg-primary2 rounded-3xl p-10 flex flex-col justify-between items-center`}>
-            <Image 
+            <Image  
                 src={require('../../assets/icons/quote.png')}
                 alt="quote"
                 className="w-12"
@@ -26,7 +26,7 @@ const ReviewCard = () => {
             <div>
               <p className="w-full text-white text-base font-semibold"> Umar Dalorima</p>
               <div className="flex items-center mt-1 gap-[1px]">{
-                useMultiply(5, <Image
+                useMultiply(5, <Image 
                   src={require('../../assets/icons/star.png')}
                   alt="quote"
                   className="w-5"

@@ -32,7 +32,7 @@ const page = () => {
 
                             {/* IMAGE */}
                             <div className='w-[30px] h-[30px] rounded-full overflow-hidden' >
-                                <Image
+                                <Image 
                                     src={item?.image}
                                     alt='stacfx.com'
                                     className='w-full'

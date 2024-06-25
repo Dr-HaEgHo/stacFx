@@ -28,7 +28,7 @@ const FeaturedCourses = () => {
                 <div className="flex items-center gap-2">
                     <button className='buttons-2 !px-8 flex items-center gap-2 !text-sm !font-[300]' >
                         Know More
-                        <Image
+                        <Image 
                             src={require('../../assets/icons/circleArrow.png')}
                             alt='stacfx.com'
                             className='w-[20px]'
