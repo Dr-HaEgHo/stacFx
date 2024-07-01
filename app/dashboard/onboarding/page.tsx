@@ -1,9 +1,10 @@
 'use client'
 import OnboardingPanel from '@/components/OnboardingPanel';
+import { GlobalContext } from '@/context/context';
 import { getOnboardingVideos, updateOnboardingData } from '@/store/courses/courseAction';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 const page = () => {
 
@@ -14,6 +15,7 @@ const page = () => {
     const isLoading = useAppSelector(state => state.courses.updateLoading)
     const queryId = new URLSearchParams(search).get("id")
     const queryWatch = new URLSearchParams(search).get("watch")
+    const {nowPlaying} = useContext(GlobalContext)
 
     const [loading, setLoading] = useState<boolean>(false);
     // const [isPlaying, setIsPlaying] = useState('')
@@ -70,7 +72,7 @@ const page = () => {
                         </div>
 
                         <div className='flex flex-[2.8] items-center justify-center rounded-2xl overflow-hidden'>
-                            <video src={queryWatch ? queryWatch : ''} controls autoPlay={true} onEnded={onVideoEnd} className='w-full h-full object-cover' />
+                            <video src={nowPlaying ? nowPlaying as unknown as string : ''} controls autoPlay={true} onEnded={onVideoEnd} className='w-full h-full object-cover' />
 
                         </div>
                     </div>

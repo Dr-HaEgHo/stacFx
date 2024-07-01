@@ -149,3 +149,9 @@ export interface CardData {
 export interface CourseProps {
     ongoing: courseData[];
 }
+
+export interface ModalProps {
+    isOpen: boolean; 
+    setIsOpen: Function; 
+    children: React.ReactNode;
+}

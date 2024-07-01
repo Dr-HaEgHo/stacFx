@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import EmptyCourse from '../Empty'
 import ProgressCard from './ProgressCard'
 import CardLoader from '../CardLoader'
+import { courseCatProps } from './AllCourses'
+import { courseData } from '@/types'
 
-const ActiveCourses = ({ data }: { data: any }) => {
+const ActiveCourses: FC<courseCatProps> = ({data})=> {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -17,10 +19,10 @@ const ActiveCourses = ({ data }: { data: any }) => {
 
                         {
                             // loading === true ? (<Loader/>) :
-                            data && data.length ? data.map((item: {}) => (
+                            data && data.length ? data.map((item: courseData) => (
 
                                 <div className='slide-up'>
-                                    <ProgressCard data={item} />
+                                    <ProgressCard data={item} action={() => {}} />
                                 </div>
 
                             )) : (

@@ -1,5 +1,6 @@
 'use client'
 import { InputFade } from '@/components/Input'
+import Modal from '@/components/Modal'
 import { profileSchema } from '@/schemas'
 import { useFormik } from 'formik'
 import Image from 'next/image'
@@ -8,6 +9,7 @@ import React, { useEffect, useState } from 'react'
 const page = () => {
 
     const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false);
+    const[ openModal, setOpenModal ] = useState<boolean>(true)
 
     const onSubmit =  () => {
 
@@ -26,6 +28,10 @@ const page = () => {
     validationSchema: profileSchema,
     onSubmit,
   });
+
+  const openPhotoModal = () => {
+    setOpenModal(true)
+  }
 
   useEffect(() => {
     if (
@@ -50,6 +56,22 @@ const page = () => {
 
     return (
         <div className='w-full h-full bg-white ' >
+            <Modal isOpen={openModal} setIsOpen={setOpenModal}>
+                <h1 className='text-xl font-semibold text-appBlack'>Upload Profile Picture</h1>
+                <div className='w-full py-[50px] flex items-center justify-between flex-col'>
+                    <div className='w-[200px] h-[200px] rounded-full '>
+                        <Image
+                            src={require('../../../assets/images/avatar2.png')}
+                            alt="uploaded profile picture"
+                            width={1024}
+                            height={1024}
+                        />
+                    </div>
+                    <button className='buttons !w-fit !px-10'>Upload Pic
+                        {/* <input type="file" /> */}
+                    </button>
+                </div>
+            </Modal>
             <div className='dash-container' >
                 <div className="w-full pt-[26px] 2xl:pt-[34px] ">
 
@@ -72,13 +94,13 @@ const page = () => {
                                         className='w-full'
                                     />
                                 </div>
-                                <div className='w-[24px] h-[24px] rounded-full flex items-center justify-center bg-primary2 absolute bottom-0 right-0 cursor-pointer'  >
+                                <button onClick={openPhotoModal} className='w-[24px] h-[24px] rounded-full flex items-center justify-center bg-primary2 absolute bottom-0 right-0 cursor-pointer'  >
                                     <Image 
                                         src={require('../../../assets/icons/edit.png')}
                                         alt='stacfx.com'
                                         className="w-[18px]"
                                     />
-                                </div>
+                                </button>
                             </div>
 
 

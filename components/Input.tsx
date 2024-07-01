@@ -1,8 +1,8 @@
 'use client'
-import { dropDownProps, emailInputProps, emailInputPropsFade, pwInputProps, searchInputProps } from '@/types'
+import { dropDownProps, emailInputPropsFade, pwInputProps, searchInputProps } from '@/types'
 import { ArrowDown2, ArrowUp2, Eye, EyeSlash } from 'iconsax-react';
 import Image from 'next/image';
-import React, { FC, useReducer, useRef, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 
 
 export const InputFade: FC<emailInputPropsFade> = (props) => {

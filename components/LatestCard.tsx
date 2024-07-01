@@ -4,7 +4,7 @@ import React, { FC } from 'react'
 
 const LatestCard: FC<CardData> = ({ data, action }) => {
   return (
-      <div className='w-full aspect-[1.4] rounded-xl 2xl:rounded-3xl relative flex flex-col justify-between overflow-hidden shadow' >
+      <div onClick={() => action} className='w-full aspect-[1.4] rounded-xl 2xl:rounded-3xl relative flex flex-col justify-between overflow-hidden shadow' >
           
 
           {/* IMAGE IN THE BACKGROUND */}

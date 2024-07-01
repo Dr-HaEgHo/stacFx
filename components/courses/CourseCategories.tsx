@@ -3,6 +3,7 @@ import AllCourses from "../tabs/AllCourses";
 import Enrolled from "../tabs/Enrolled";
 import ActiveCourses from "../tabs/ActiveCourses";
 import Completed from "../tabs/Completed";
+import { useAppSelector } from "@/store/hooks";
 
 
 const tabs = [
@@ -26,6 +27,8 @@ const CourseCategories = () => {
     const handleSetTab = (idx: number) => {
         setIndex(idx)
     };
+    const courses = useAppSelector(state => state.courses.ongoingCourses)
+    const enrolled = useAppSelector(state => state.courses.ongoingCourses)
 
     return (
         <div className='w-full h-full bg-white ' >

@@ -1,10 +1,11 @@
 "use client";
-import { onboardingPanelProps } from "@/types";
+import { courseData, onboardingPanelProps } from "@/types";
 import Image from "next/image";
-import React, { FC, useEffect } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { LoadButton } from "./Load";
 import useProgress from "@/hooks/useProgress";
 import { useRouter, useSearchParams } from "next/navigation";
+import { GlobalContext } from "@/context/context";
 
 const OnboardingPanel: FC<onboardingPanelProps> = ({
   data,
@@ -20,6 +21,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
   const completed = data?.filter((item) => item.isCompleted === true);
   const { progress } = useProgress(data ? data.length : 0, completed.length);
   const queryWatch = new URLSearchParams(search).get("watch");
+  const { currentCourse, setCurrentCourse, setNowPlaying } = useContext(GlobalContext)
   const queryId = new URLSearchParams(search).get("id");
 
   
@@ -30,19 +32,30 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
     for(let i: number = 0; i < data?.length; i++){
       if(data[i].isCompleted === true){
         console.log("this is the data here guys: ",data[i]);
-        router.push( `?id=${data[i + 1].id}&watch=${data[i + 1].videos}`)
+        setCurrentCourse(data[i])
+        // router.push( `?id=${data[i + 1].id}&watch=${data[i + 1].videos}`)
         break;
       }else if(data[0].isCompleted === false){
-        router.push(`?id=${data[0].id}&watch=${data[0].videos}`)
+        setCurrentCourse(data[0])
+        // router.push(`?id=${data[0].id}&watch=${data[0].videos}`)
+
         break;
       }
     }
   }
 
-  const manuallySetPlayingVideo = (id: string, video: string) => {
-    router.push( `?id=${id}&watch=${video}`)
+  const manuallySetPlayingVideo = (id: string, video: string, course:courseData) => {
+    setCurrentCourse(course)
+    // router.push( `?id=${id}&watch=${video}`)
     // setCurrentId(id)
   }
+
+  useEffect(() => {
+    if(currentCourse === null){
+      return
+    }
+    setNowPlaying(currentCourse.videos)
+  }, [currentCourse])
   
   useEffect(() => {
     action()
@@ -96,7 +109,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
               data.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => manuallySetPlayingVideo(item.id, item.videos)}
+                  onClick={() => manuallySetPlayingVideo(item.id, item.videos, item)}
                   style={{
                     pointerEvents: item.isCompleted === false && item.videos !== queryWatch ? 'none' : 'auto'
                   }}

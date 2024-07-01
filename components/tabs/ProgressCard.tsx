@@ -1,9 +1,10 @@
+import { CardData } from '@/types'
 import Image from 'next/image'
-import React from 'react'
+import React, { FC } from 'react'
 
-const ProgressCard = ({ data }: { data: any }) => {
+const ProgressCard: FC<CardData> = ({ data, action })=> {
   return (
-      <div className='w-full aspect-[1.4] rounded-xl relative flex flex-col justify-between overflow-hidden shadow' >
+      <div onClick={() => action()} className='w-full aspect-[1.4] rounded-xl relative flex flex-col justify-between overflow-hidden shadow' >
 
 
           {/* IMAGE IN THE BACKGROUND */}

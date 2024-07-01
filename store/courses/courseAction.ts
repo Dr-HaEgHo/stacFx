@@ -40,7 +40,7 @@ export const getOnboardingVideos = createAsyncThunk(
 // ================================================================= Update Onboarding
 export const updateOnboardingData = createAsyncThunk(
   "updateOnboardingData",
-  async ( {readyData}: updateDataType, { rejectWithValue, getState, dispatch }
+  async ( { readyData }: updateDataType, { rejectWithValue, getState, dispatch }
   ) => {
     try {
       // const token = getState().auth.token
