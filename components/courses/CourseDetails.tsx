@@ -4,11 +4,12 @@ import Image from "next/image";
 import OngoingCard from "../OngoingCard";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { getLatestCourses, getOngoingCourses } from "@/store/courses/courseAction";
 import CardLoader from "../CardLoader";
 import SomethingWentWrong from "../SomethingWentWrong";
-import { courseData } from "@/types";
+import { CourseProps, courseData } from "@/types";
+import { GlobalContext } from "@/context/context";
 
 
 const latest = [
@@ -25,20 +26,19 @@ const ongoing = [
     // { id: 4, title: "The Fundamentals of FX trading - Beginner to Advanced", total: 20, completed: 12, instructor: "Kore Chiefdrummer" },
 ]
 
-const CourseDetails = () => {
+const CourseDetails: FC<CourseProps> = ({ongoing}) => {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
   const search = useSearchParams()
   const queryId = new URLSearchParams(search).get("id")
   const latest = useAppSelector((state) => state.courses.latestCourses);
-  const ongoing = useAppSelector((state) => state.courses.ongoingCourses);
   const isLatestLoading = useAppSelector(state => state.courses.latestLoading)
   const isOngoingLoading = useAppSelector(state => state.courses.ongoingLoading)
 
   const [latestLoading, setLatestLoading] = useState<boolean>(false)
   const [ongoingLoading, setOngoingLoading] = useState<boolean>(false)
-  const [currentCourse, setCurrentCourse] = useState<courseData | null>(null)
+  const {currentCourse, setCurrentCourse} = useContext(GlobalContext)
 
   const filterCourse = (arr: courseData[]) => {
     let newArr: courseData | null = null
@@ -47,6 +47,17 @@ const CourseDetails = () => {
             newArr = item
         }
     })
+
+    return newArr;
+  }
+
+  const nextCourse = (arr: courseData[]) => {
+    let newArr: courseData | null = null
+    for (let i:number = 0; i < arr.length; i++){
+        if(arr[i].id.toString() === queryId){
+            newArr = arr[i + 1]
+        }
+    }
 
     return newArr;
   }

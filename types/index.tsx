@@ -142,6 +142,10 @@ export interface SWWType {
 }
 
 export interface CardData {
-    data: courseData,
+    data: courseData;
     action: () => void;
+}
+
+export interface CourseProps {
+    ongoing: courseData[];
 }

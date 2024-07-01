@@ -1,6 +1,7 @@
 "use client"
 
 import { useAppSelector } from "@/store/hooks";
+import { courseData } from "@/types";
 import React, { createContext, useContext, SetStateAction, Dispatch, useState, useReducer, useEffect } from "react";
 
 // type DataType = {
@@ -11,7 +12,9 @@ interface ContextProps{
     isActive: number,
     setIsActive: Dispatch<SetStateAction<number>>
     isSidebarOpen: boolean;
-    setIsSidebarOpen: Dispatch<SetStateAction<boolean>>
+    setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
+    currentCourse: courseData | null;
+    setCurrentCourse: Dispatch<SetStateAction<courseData | null>>;
 }
 
 // const initialState = {
@@ -22,7 +25,9 @@ export const GlobalContext = createContext<ContextProps>({
     isActive: 0,
     setIsActive: (): number => 0,
     isSidebarOpen: false,
-    setIsSidebarOpen: (): boolean => false
+    setIsSidebarOpen: (): boolean => false,
+    currentCourse: null,
+    setCurrentCourse: (): courseData | null => null
 })
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -30,12 +35,13 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
     const [isActive, setIsActive] = useState<number>(0)
     const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
+    const [ currentCourse, setCurrentCourse ] = useState<courseData | null>(null);
 
 
     
     return (
         <GlobalContext.Provider value={{ 
-            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen
+            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen, currentCourse, setCurrentCourse
         }}>
             {children}
         </GlobalContext.Provider>

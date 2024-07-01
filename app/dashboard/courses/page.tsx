@@ -3,6 +3,7 @@ import Load from '@/components/Load'
 import CourseCategories from '@/components/courses/CourseCategories'
 import CourseDetails from '@/components/courses/CourseDetails'
 import WatchCourse from '@/components/courses/WatchCourse'
+import { useAppSelector } from '@/store/hooks'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -15,6 +16,8 @@ const page = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const queryId = new URLSearchParams(search).get("id")
     const queryWatch = new URLSearchParams(search).get("watch")
+    const ongoing = useAppSelector((state) => state.courses.ongoingCourses);
+
     
     const getId = () =>{
         setId(queryId)
@@ -43,10 +46,10 @@ const page = () => {
             queryId === null && queryWatch === null ?  <CourseCategories/> : null
             }
             {
-                queryId !== null && queryWatch === null ? (<CourseDetails/>) : null
+                queryId !== null && queryWatch === null ? (<CourseDetails ongoing={ongoing}/>) : null
             } 
             {
-                queryId !== null && queryWatch !== null ? (<WatchCourse/>) : null
+                queryId !== null && queryWatch !== null ? (<WatchCourse ongoing={ongoing}/>) : null
             }
 
         </>

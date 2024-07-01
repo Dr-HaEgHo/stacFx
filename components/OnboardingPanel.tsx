@@ -67,7 +67,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
       {/* ONBOARDING PROGRESS */}
       <div className="w-full mt-[29px] 2xl:mt-[39px] mb-[38px] 2xl:mb-[50px]">
         <h3 className="text-primary2 text-sm font-normal mb-[9px] 2xl:mb-[12px]">
-          Onboarding Progress{" "}
+          Onboarding Progress {}
         </h3>
 
         {/* PROGRESS BAR */}
@@ -97,9 +97,12 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
                 <div
                   key={item.id}
                   onClick={() => manuallySetPlayingVideo(item.id, item.videos)}
+                  style={{
+                    pointerEvents: item.isCompleted === false && item.videos !== queryWatch ? 'none' : 'auto'
+                  }}
                   className="transition duration-200 w-full flex items-center justify-between py-[9px] cursor-pointer px-1 rounded hover:bg-blackHover"
                 >
-                  <p className="text-headDesc text-[13px] font-normal">
+                  <p className={`${item.isCompleted || item.videos === queryWatch ? 'text-headDesc' : 'text-greytxt' }  text-[13px] font-normal`}>
                     {item.title}
                   </p>
 

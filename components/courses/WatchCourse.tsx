@@ -1,19 +1,14 @@
+'use client'
 import { ArrowCircleLeft, ArrowCircleRight } from "iconsax-react";
 import OnboardingPanel from "../OnboardingPanel";
 import { FC, useEffect, useState } from "react";
-import { IndicatorProps } from "@/types";
-import { useSearchParams } from "next/navigation";
+import { CourseProps, IndicatorProps, courseData } from "@/types";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getAllCourses } from "@/store/courses/courseAction";
 
 
 const Indicator : FC<IndicatorProps> = ({text, status}) => {
-
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(getAllCourses())
-    }, [])
 
     return (
         <div className="rounded-full bg-chatinput py-[5px] px-[14px]">
@@ -24,10 +19,12 @@ const Indicator : FC<IndicatorProps> = ({text, status}) => {
     )
 }
 
-const WatchCourse = () => {
+const WatchCourse: FC<CourseProps> = ({ongoing}) => {
 
+    const router = useRouter();
     const dispatch = useAppDispatch();
     const search = useSearchParams()
+    const queryId = new URLSearchParams(search).get("id")
     const queryWatch = new URLSearchParams(search).get("watch")
 
     const coursesData = useAppSelector(state => state.courses.courses)
@@ -43,9 +40,37 @@ const WatchCourse = () => {
         alert('ended the video')
     }
 
+    const nextCourse = (arr: courseData[]) => {
+        let newArr: courseData | null = null
+        for (let i:number = 0; i < arr.length; i++){
+            if(arr[i].id.toString() === queryId){
+                newArr = arr[i + 1]
+                alert('yes yes oh')
+                break;
+            }
+        }
+        router.push(`/dashboard/courses?id=${newArr?.id}&watch=${newArr?.videos}`)
+    }
+
+    const prevCourse = (arr: courseData[]) => {
+        let newArr: courseData | null = null
+        for (let i:number = 0; i < arr.length; i++){
+            if(arr[i].id.toString() === queryId){
+                newArr = arr[i + 1]
+                alert('yes yes oh')
+                break;
+            }
+        }
+        router.push(`/dashboard/courses?id=${newArr?.id}&watch=${newArr?.videos}`)
+    }
+
     // useEffect(() => {
     //     fetchCourses()
     // }, [])
+
+    useEffect(() => {
+
+    },[])
 
     useEffect(() => {
         if(isLoading){
@@ -79,8 +104,8 @@ const WatchCourse = () => {
                                     <p className="text-greytxt text-sm">LESSON 4 OF 17</p>
 
                                     <div className=" flex items-center gap-2 ">
-                                        <ArrowCircleLeft size="32" variant="Bulk" color="#2A66AE"/>
-                                        <ArrowCircleRight size="32" variant="Bulk" color="#2A66AE"/>
+                                        <ArrowCircleLeft className="hoverActive" size="32" variant="Bulk" color="#2A66AE"/>
+                                        <ArrowCircleRight onClick={() => nextCourse(ongoing)} className="hoverActive" size="32" variant="Bulk" color="#2A66AE"/>
                                     </div>
                                 </div>
 
