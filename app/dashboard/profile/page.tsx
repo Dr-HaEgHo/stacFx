@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 const page = () => {
 
     const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false);
-    const[ openModal, setOpenModal ] = useState<boolean>(true)
+    const[ openModal, setOpenModal ] = useState<boolean>(false)
 
     const onSubmit =  () => {
 
@@ -94,7 +94,7 @@ const page = () => {
                                         className='w-full'
                                     />
                                 </div>
-                                <button onClick={openPhotoModal} className='w-[24px] h-[24px] rounded-full flex items-center justify-center bg-primary2 absolute bottom-0 right-0 cursor-pointer'  >
+                                <button onClick={openPhotoModal} className='w-[24px] h-[24px] hoverActive rounded-full flex items-center justify-center bg-primary2 absolute bottom-0 right-0 cursor-pointer'  >
                                     <Image 
                                         src={require('../../../assets/icons/edit.png')}
                                         alt='stacfx.com'
