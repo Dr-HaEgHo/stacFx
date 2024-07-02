@@ -34,7 +34,7 @@ const page = () => {
                             <div className='w-[30px] h-[30px] rounded-full overflow-hidden' >
                                 <Image 
                                     src={item?.image}
-                                    alt='stacfx.com'
+                                    alt={item?.first_name}
                                     className='w-full'
                                 />
                             </div>
