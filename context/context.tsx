@@ -1,5 +1,4 @@
 "use client"
-
 import { useAppSelector } from "@/store/hooks";
 import { courseData } from "@/types";
 import React, { createContext, useContext, SetStateAction, Dispatch, useState, useReducer, useEffect } from "react";
