@@ -19,7 +19,8 @@ const config: Config = {
         primaryLight:"#D3E7FF",
         orangeLight: "#FFF0EA", 
         primary2: "#161C51",
-        primary10: "rgba(0, 105, 43, 0.1)",
+        primary10: "#161C5111",
+        // primary10: "rgba(0, 105, 43, 0.1)",
         primary1: "yellow-300",
         primary5: "rgba(25, 245, 111, 0.05)",
         primaryTrans10: "rgba(82, 255, 134, 0.1)",
@@ -148,6 +149,9 @@ const config: Config = {
 
 
       },
+      fontFamily: {
+        paci: 'Pacifico'
+      }
     },
   },
   plugins: [],
