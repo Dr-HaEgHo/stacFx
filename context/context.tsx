@@ -17,6 +17,8 @@ interface ContextProps{
     setCurrentCourse: Dispatch<SetStateAction<courseData | null>>;
     nowPlaying: string | null;
     setNowPlaying: Dispatch<SetStateAction<string | null>>;
+    picture: string | null;
+    setPicture: Dispatch<SetStateAction<string | null>>;
 }
 
 // const initialState = {
@@ -31,22 +33,22 @@ export const GlobalContext = createContext<ContextProps>({
     currentCourse: null,
     setCurrentCourse: (): courseData | null => null,
     nowPlaying: null,
-    setNowPlaying: (): courseData | null => null
+    setNowPlaying: (): courseData | null => null,
+    picture: null,
+    setPicture: (): string | null => null
 })
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
-
 
     const [isActive, setIsActive] = useState<number>(0)
     const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
     const [ currentCourse, setCurrentCourse ] = useState<courseData | null>(null);
     const [ nowPlaying, setNowPlaying ] = useState<string | null>(null);
-
-
+    const [ picture, setPicture] = useState<string | null>(null)
     
     return (
         <GlobalContext.Provider value={{ 
-            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen, currentCourse, setCurrentCourse, nowPlaying, setNowPlaying
+            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen, currentCourse, setCurrentCourse, nowPlaying, setNowPlaying, picture, setPicture
         }}>
             {children}
         </GlobalContext.Provider>

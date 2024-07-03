@@ -155,3 +155,14 @@ export interface ModalProps {
     setIsOpen: Function; 
     children: React.ReactNode;
 }
+
+export interface UserDetails {
+    id: string | null;
+    email: string | null;
+    first_name: string | null;
+    last_name: string | null;
+    created_at: string | null; 
+    photo: string | null;
+    user_type: string | null;
+    phone_number: string | null
+}

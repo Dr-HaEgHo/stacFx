@@ -1,37 +1,69 @@
-'use client'
-import { InputFade } from '@/components/Input'
-import Modal from '@/components/Modal'
-import { profileSchema } from '@/schemas'
-import { useFormik } from 'formik'
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+"use client";
+import { InputFade } from "@/components/Input";
+import Modal from "@/components/Modal";
+import { GlobalContext } from "@/context/context";
+import { profileSchema } from "@/schemas";
+import { useAppSelector } from "@/store/hooks";
+import { UserDetails } from "@/types";
+import cogoToast from "cogo-toast";
+import { useFormik } from "formik";
+import Image from "next/image";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 const page = () => {
+  const pictureRef = useRef<HTMLInputElement>(null);
 
-    const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false);
-    const[ openModal, setOpenModal ] = useState<boolean>(true)
+  const { picture, setPicture } = useContext(GlobalContext);
 
-    const onSubmit =  () => {
+  const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(true);
 
-    }
+  const userDetails = useAppSelector<UserDetails | null >((state) => state.auth.userDetails)
 
+  const onSubmit = () => {};
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-  useFormik({
-    initialValues: {
-      firstname: "Timothy",
-      lastname: "Awogbuyi",
-      username: "TeemTraderv1",
-      phoneNumber: '08139347195',
-      email: "Awogbuyitimothy@gmail.com",
-    },
-    validationSchema: profileSchema,
-    onSubmit,
-  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        firstname: userDetails?.first_name,
+        lastname: userDetails?.last_name,
+        username: userDetails?.first_name,
+        phoneNumber: userDetails?.phone_number,
+        email: userDetails?.email,
+      },
+      validationSchema: profileSchema,
+      onSubmit,
+    });
 
   const openPhotoModal = () => {
-    setOpenModal(true)
-  }
+    setOpenModal(true);
+  };
+
+  const handlePictureStaging = () => {
+    // if(!pictureRef.current || !pictureRef.current?.files){
+    //     cogoToast.warn('Please select a picture')
+    //     return
+    // }else{
+    //     setPicture(pictureRef.current?.files !== null ? pictureRef.current?.files[0].name : null)
+    // }
+    if (pictureRef.current && pictureRef.current.files) {
+      const file = pictureRef.current.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPicture(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    console.log(
+      "the picture file leleyii",
+      pictureRef.current?.files !== null
+        ? pictureRef.current?.files[0]
+        : "nothing"
+    );
+  };
 
   useEffect(() => {
     if (
@@ -48,155 +80,201 @@ const page = () => {
     ) {
       setFormButtonDisabled(true);
     } else {
-        setFormButtonDisabled(false);
+      setFormButtonDisabled(false);
     }
-    
   }, [values, errors]);
 
+  return (
+    <div className="w-full h-full bg-white ">
+      <Modal isOpen={openModal} setIsOpen={setOpenModal}>
+        <h1 className="text-xl font-semibold text-appBlack">
+          Upload Profile Picture
+        </h1>
+        <div className="w-full py-[50px] flex items-center justify-between flex-col">
+          <div className="w-[200px] h-[200px] rounded-full flex items-center justify-center overflow-hidden">
+            {/* MODAL PICTURE */}
+            {picture !== null ? (
+              //   <Image
+              //     src={picture !== null ? picture : ''}
+              //     width={1024}
+              //     height={1024}
+              //     alt="uploaded profile picture"
+              //   />
+              <img
+                src={picture}
+                width={1024}
+                height={1024}
+                alt="uploaded profile picture"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              // <p className="w-[300px]">Hello</p>
+              <Image
+                src={require("../../../assets/images/avatar2.png")}
+                alt="uploaded profile picture"
+                width={1024}
+                height={1024}
+              />
+            )}
+          </div>
+          <p className="text-sm max-w-[300px] text-center mt-8">
+            {pictureRef?.current &&
+            pictureRef?.current?.files &&
+            pictureRef?.current?.files[0]
+              ? pictureRef.current.files[0].name
+              : "plase select a file"}
+          </p>
 
-    return (
-        <div className='w-full h-full bg-white ' >
-            <Modal isOpen={openModal} setIsOpen={setOpenModal}>
-                <h1 className='text-xl font-semibold text-appBlack'>Upload Profile Picture</h1>
-                <div className='w-full py-[50px] flex items-center justify-between flex-col'>
-                    <div className='w-[200px] h-[200px] rounded-full '>
-                        <Image
-                            src={require('../../../assets/images/avatar2.png')}
-                            alt="uploaded profile picture"
-                            width={1024}
-                            height={1024}
-                        />
-                    </div>
-                    <button className='buttons !w-fit !px-10'>Upload Pic
-                        {/* <input type="file" /> */}
-                    </button>
-                </div>
-            </Modal>
-            <div className='dash-container' >
-                <div className="w-full pt-[26px] 2xl:pt-[34px] ">
+         {/* Add photo button */}
+          <button className="buttons !w-fit !px-10 !py-2 relative cursor-pointer">
+            <p className="text-sm">
+              {picture !== null ? "Choose another photo" : "Upload Photo"}
+            </p>
+            <input
+              type="file"
+              ref={pictureRef}
+              onChange={handlePictureStaging}
+              className="opacity-0 absolute w-full h-full top-0 left-0 cursor-pointer"
+            />
+          </button>
 
-                {/* TOP WITH HEADER DESCRIPTIONS */}
-                    <div className='flex flex-col items-start gap-[8px] 2xl:gap-3 pb-[26px] 2xl:pb-[34px]' >
-                        <h3 className='text-lg 2xl:text-xl text-headDesc ' >Profile</h3>
-                    </div>
-
-                    {/* PROFILE DIV */}
-                    <div className='w-full pl-[99px] flex items-center' >
-
-                        {/* PROFILE PICTURE */}
-                        <div className='flex flex-col items-center ' >
-                            {/* IMAGE */}
-                            <div className='relative w-[70px] h-[70px] mb-6 2xl:mb-8' >
-                                <div className='w-full h-full rounded-full overflow-hidden' >
-                                    <Image 
-                                        src={require('../../../assets/images/avatar2.png')}
-                                        alt='stacfx.com'
-                                        className='w-full'
-                                    />
-                                </div>
-                                <button onClick={openPhotoModal} className='w-[24px] h-[24px] rounded-full flex items-center justify-center bg-primary2 absolute bottom-0 right-0 cursor-pointer'  >
-                                    <Image 
-                                        src={require('../../../assets/icons/edit.png')}
-                                        alt='stacfx.com'
-                                        className="w-[18px]"
-                                    />
-                                </button>
-                            </div>
-
-
-                            {/* USER DETAILS TEXT */}
-                            <div className='flex flex-col items-center gap-1' >
-                                <h4 className='text-[20px] 2xl:text-[24px] text-headDesc' >Kenny Michael</h4>
-                                <p className='text-[11px] 2xl:text-[13px] text-greytxt' >Joined November 2023</p>
-                            </div>
-
-                        </div>
-
-
-                        {/* DIVIDER DIV */}
-
-                        <div className='h-[253px] w-[1px] bg-profileDividerGray border-none outline-none mx-[99px] 2xl:mx-[99px]' />
-
-
-                        {/* PROFILE FORM */}
-                        <div className='w-[360px]'>
-                            <form className='w-full flex flex-col gap-4 ' >
-                                <InputFade
-                                    id="firstname"
-                                    value={values.firstname} 
-                                    touched={touched.firstname}
-                                    blur={handleBlur}
-                                    handleChange={handleChange}
-                                    error={errors.firstname}
-                                    isDisabled={false} 
-                                    label="First Name" 
-                                    type='text' 
-                                    placeholder={values.firstname} 
-                                />
-                                <InputFade
-                                    id="lastname"
-                                    value={values.lastname} 
-                                    touched={touched.lastname}
-                                    blur={handleBlur}
-                                    handleChange={handleChange}
-                                    error={errors.lastname}
-                                    isDisabled={false} 
-                                    label="Last Name" 
-                                    type='text' 
-                                    placeholder='' 
-                                />
-                                <InputFade
-                                    id="username"
-                                    value={values.username} 
-                                    touched={touched.username}
-                                    blur={handleBlur}
-                                    handleChange={handleChange}
-                                    error={errors.username}
-                                    isDisabled={false} 
-                                    label="Username" 
-                                    type='text' 
-                                    placeholder='' 
-                                />
-                                <InputFade
-                                    id="email"
-                                    value={values.email} 
-                                    touched={touched.email}
-                                    blur={handleBlur}
-                                    handleChange={handleChange}
-                                    error={errors.email}
-                                    isDisabled={true} 
-                                    label="Email" 
-                                    type='email' 
-                                    placeholder='' 
-                                />
-                                <InputFade
-                                    id="phoneNumber"
-                                    value={values.phoneNumber} 
-                                    touched={touched.phoneNumber}
-                                    blur={handleBlur}
-                                    handleChange={handleChange}
-                                    error={errors.phoneNumber}
-                                    isDisabled={false} 
-                                    label="Phone Number" 
-                                    type='number' 
-                                    placeholder='' 
-                                />
-                                <button disabled={!formButtonDisabled} className='buttons' >
-                                    <p className='text-[13px] 2xl:text-[15px]'>Update Profile</p>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-
-
-
-
-
-                </div>
-            </div>
+                {/* SAVE BUTTON */}
+          {picture !== null && (
+            <button onClick={() => setOpenModal(false)} className="buttons !bg-success !w-fit !px-10 !py-2 relative cursor-pointer">
+              <p className="text-sm">Save</p>
+            </button>
+          )}
         </div>
-    )
-}
+      </Modal>
+      <div className="dash-container">
+        <div className="w-full pt-[26px] 2xl:pt-[34px] ">
+          {/* TOP WITH HEADER DESCRIPTIONS */}
+          <div className="flex flex-col items-start gap-[8px] 2xl:gap-3 pb-[26px] 2xl:pb-[34px]">
+            <h3 className="text-lg 2xl:text-xl text-headDesc ">Profile</h3>
+          </div>
 
-export default page
+          {/* PROFILE DIV */}
+          <div className="w-full pl-[99px] flex items-center">
+            {/* PROFILE PICTURE */}
+            <div className="flex flex-col items-center ">
+              {/* IMAGE */}
+              <div className="relative w-[70px] h-[70px] mb-6 2xl:mb-8">
+                <div className="w-full h-full rounded-full overflow-hidden">
+                  {/* USER PICTURE */}
+                  {picture !== null ? (
+                    <Image
+                      src={require("../../../assets/images/avatar2.png")}
+                      alt="stacfx.com"
+                      className="w-full"
+                    />
+                  ) : (
+                    <Image
+                      src={require("../../../assets/images/avatar2.png")}
+                      alt="stacfx.com"
+                      className="w-full"
+                    />
+                  )}
+                </div>
+                <button
+                  onClick={openPhotoModal}
+                  className="w-[24px] h-[24px] hoverActive rounded-full flex items-center justify-center bg-primary2 absolute bottom-0 right-0 cursor-pointer"
+                >
+                  <Image
+                    src={require("../../../assets/icons/edit.png")}
+                    alt="stacfx.com"
+                    className="w-[18px]"
+                  />
+                </button>
+              </div>
+
+              {/* USER DETAILS TEXT */}
+              <div className="flex flex-col items-center gap-1">
+                <h4 className="text-[20px] 2xl:text-[24px] text-headDesc">
+                  Kenny Michael
+                </h4>
+                <p className="text-[11px] 2xl:text-[13px] text-greytxt">
+                  Joined November 2023
+                </p>
+              </div>
+            </div>
+
+            {/* DIVIDER DIV */}
+
+            <div className="h-[253px] w-[1px] bg-profileDividerGray border-none outline-none mx-[99px] 2xl:mx-[99px]" />
+
+            {/* PROFILE FORM */}
+            <div className="w-[360px]">
+              <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4 ">
+                <InputFade
+                  id="firstname"
+                  value={values.firstname}
+                  touched={touched.firstname}
+                  blur={handleBlur}
+                  handleChange={handleChange}
+                  error={errors.firstname}
+                  isDisabled={false}
+                  label="First Name"
+                  type="text"
+                  placeholder={values.firstname as string}
+                />
+                <InputFade
+                  id="lastname"
+                  value={values.lastname}
+                  touched={touched.lastname}
+                  blur={handleBlur}
+                  handleChange={handleChange}
+                  error={errors.lastname}
+                  isDisabled={false}
+                  label="Last Name"
+                  type="text"
+                  placeholder=""
+                />
+                <InputFade
+                  id="username"
+                  value={values.username}
+                  touched={touched.username}
+                  blur={handleBlur}
+                  handleChange={handleChange}
+                  error={errors.username}
+                  isDisabled={true}
+                  label="Username"
+                  type="text"
+                  placeholder=""
+                />
+                <InputFade
+                  id="email"
+                  value={values.email}
+                  touched={touched.email}
+                  blur={handleBlur}
+                  handleChange={handleChange}
+                  error={errors.email}
+                  isDisabled={true}
+                  label="Email"
+                  type="email"
+                  placeholder=""
+                />
+                <InputFade
+                  id="phoneNumber"
+                  value={values.phoneNumber}
+                  touched={touched.phoneNumber}
+                  blur={handleBlur}
+                  handleChange={handleChange}
+                  error={errors.phoneNumber}
+                  isDisabled={false}
+                  label="Phone Number"
+                  type="number"
+                  placeholder=""
+                />
+                <button disabled={!formButtonDisabled} className="buttons">
+                  <p className="text-[13px] 2xl:text-[15px]">Update Profile</p>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default page;

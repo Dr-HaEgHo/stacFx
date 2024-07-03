@@ -2,13 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { login, signup } from "./authActions";
+import { UserDetails } from "@/types";
 
 interface AuthState {
   loading: boolean;
   isLoggedIn: boolean;
   signupSuccess: boolean;
   loginSuccess: boolean;
-  userDetails: {};
+  userDetails: UserDetails | null;
   userToken: string;
   requestToken: string;
   created_at: string
@@ -26,7 +27,7 @@ const initialState: AuthState = {
   isLoggedIn: false,
   signupSuccess: false,
   loginSuccess: false,
-  userDetails: {},
+  userDetails: null,
   userToken: "",
   requestToken: "",
   created_at: "",

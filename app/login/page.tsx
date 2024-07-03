@@ -26,10 +26,10 @@ export default function Home() {
     const loginSuccess = useAppSelector(state => state.auth.loginSuccess)
 
 
-    const [formButtonDisabled, setFormButtonDisabled]: [formButtonDisabled: boolean, setFormButtonDisabled: Function] = useState(true)
+    const [formButtonDisabled, setFormButtonDisabled]= useState<boolean>(true)
     const [email, setEmail]: [email: string, setEmail: Function] = useState("");
-    const [loading, setLoading]: [loading: boolean, setLoading: Function] = useState(false)
-    const [password, setPassword]: [password: string, setPassword: Function] = useState("");
+    const [loading, setLoading] = useState<boolean>(false)
+    const [password, setPassword]= useState<string>("");
 
 
     const submitHandler = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -137,7 +137,7 @@ export default function Home() {
                     </div>
 
                 </div>
-                <Image Slider />
+                <ImageSlider />
             </div>
             <div className="w-full lg:w-1/2 h-full mx-auto bg-white max-lg:scroll max-lg:mb-20">
                 <div className="w-full h-full flex flex-col items-center py-4 lg:py-[5rem] justify-center">
