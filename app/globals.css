@@ -69,7 +69,7 @@ input:focus{
 }
 
 .dash-container {
-  @apply w-[94%] max-lg:mx-auto max-w-[1400px] 2xl:ml-20
+  @apply w-[94%] max-2xl:mx-auto max-w-[1400px] 2xl:ml-20
 }
 
 .input-wrap {

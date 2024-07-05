@@ -1,6 +1,6 @@
 'use client'
 
-import { CloseSquare, Logout, MenuBoard, People, Profile } from 'iconsax-react'
+import { CloseCircle, CloseSquare, Logout, MenuBoard, People, Profile } from 'iconsax-react'
 import Image from 'next/image';
 import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
@@ -20,9 +20,11 @@ const Sidebar = () => {
     // const dispatch = useAppDispatch();
 
 
+    const { mainSidebarOpen, setMainSidebarOpen} = useContext(GlobalContext)
 
     const [onlineStatus, setOnlineStatus] = useState("online");
     const [logoutOpen, setLogoutOpen] = useState(false)
+    
 
     const sidebarLinks = [
         { id: 1, image:require('../assets/icons/onboarding.png'), title: "Onboarding", route: "/dashboard/onboarding" },
@@ -39,12 +41,17 @@ const Sidebar = () => {
         router.push('/login')
     }
 
+    const toggleSidebar = () => {
+        setMainSidebarOpen(!mainSidebarOpen)
+    }
+
     const handleCancel = () => {
         setLogoutOpen((prev: boolean) => prev = !prev)
     }
 
     return (
-        <div className='w-full h-screen sidebar-bg border-sidebarDiv border-r-[0.2px] relative' >
+        <div className='w-full h-screen sidebar-bg border-sidebarDiv border-r-[0.2px] relative'>
+            
             <div className='w-full h-full absolute top-0 left-0'>
                 <Image 
                     src={require('../assets/images/sidebar.png')}
@@ -54,6 +61,9 @@ const Sidebar = () => {
             </div>
             <div className="h-full w-full relative slim-scroll flex flex-col">
 
+                <div className='w-full lg:hidden flex items-center justify-center pt-10 z-[999999999999999999999999]'>
+                    <CloseCircle onClick={toggleSidebar} size="30" className="text-white hoverActive" variant='Bulk'/>
+                </div>
                 {/* <Prompt
                     title='Are you sure you want to logout ?'
                     subtitle='You can always log back in at any time'
@@ -110,6 +120,7 @@ const Sidebar = () => {
                         {sidebarLinks?.map((item) => (
                             <div key={item.id} onClick={() => {
                                 router.push(item.route)
+                                toggleSidebar()
                             }} className={`w-full cursor-pointer relative transition duration-200 pl-[38px] py-[12px] 2xl:py-[15px] flex border-primary1 items-center gap-4 hover:bg-whiteHover active:bg-whiteActive`}
                                 style={{
                                     color: "#fff",
@@ -133,8 +144,6 @@ const Sidebar = () => {
                             </div>
                         ))}
                     </div>
-
-
 
 
                     {/* SYSTEM LINKS */}
@@ -185,7 +194,7 @@ export const SidebarMobile =() => {
                     className='w-full'
                 />
             </a>
-                <CloseSquare onClick={toggleSidebar} className='text-primary transition duration-200 w-10 h-10 cursor-pointer hoverActive' variant="Bold" />
+                <CloseSquare onClick={toggleSidebar} className='text-primary transition duration-200 w-10 min-w-10 h-10 cursor-pointer hoverActive' variant="Bold" />
             </div>
 
 

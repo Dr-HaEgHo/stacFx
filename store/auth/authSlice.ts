@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { login, signup } from "./authActions";
+import { getProfileData, login, signup, updateProfileData } from "./authActions";
 import { UserDetails } from "@/types";
 
 interface AuthState {
@@ -63,7 +63,6 @@ export const authSlice = createSlice({
       state.loading = false;
       state.signupSuccess = true;
       state.userDetails = payload?.data.user;
-      state.userToken = payload?.data.user.id;
     }),
     builder.addCase(signup.rejected, (state, { payload }) => {
       state.loading = false;
@@ -81,6 +80,31 @@ export const authSlice = createSlice({
       state.userToken = payload?.data.token;
     }),
     builder.addCase(login.rejected, (state, { payload }) => {
+      state.loading = false;
+    });
+   
+   
+    // ==================================================== GET PROFILE DATA
+    builder.addCase(getProfileData.pending, (state, { payload }) => {
+      state.loading = true;
+    }),
+    builder.addCase(getProfileData.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.userDetails = payload?.data.user;
+    }),
+    builder.addCase(getProfileData.rejected, (state, { payload }) => {
+      state.loading = false;
+    });
+
+    // ==================================================== UPDATE PROFILE DATA
+    builder.addCase(updateProfileData.pending, (state, { payload }) => {
+      state.loading = true;
+    }),
+    builder.addCase(updateProfileData.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.userDetails = payload?.data.user;
+    }),
+    builder.addCase(updateProfileData.rejected, (state, { payload }) => {
       state.loading = false;
     });
   },

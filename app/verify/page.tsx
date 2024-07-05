@@ -24,7 +24,7 @@ const Verify = () => {
     
     const handleSubmit = () => {
         pinInputRef?.clear(),
-        router.push(`/dashboard/onboarding`)
+        router.push(`/login`)
     }
     
     

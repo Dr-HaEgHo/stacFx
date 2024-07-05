@@ -3,7 +3,6 @@ import { courseData, loginType, signUpType } from "@/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@reduxjs/toolkit/query";
 import axios from "axios";
-import cogoToast from "cogo-toast";
 
 // const baseUrl = process.env.BASE_URL
 type updateDataType = {
@@ -21,15 +20,15 @@ export const getOnboardingVideos = createAsyncThunk(
       // const token = getState().auth.token
       const res = await fetch('http://localhost:5050/0');
       if (res.status === 200 || res.status === 201) {
-        // cogoToast.success('Welcome to the onboarding, please take your onboarding before you can proceed')
+        // // cogoToast.success('Welcome to the onboarding, please take your onboarding before you can proceed')
         return res.json();
       }
     } catch (err: any) {
       if (err.response.status === 400) {
-        cogoToast.error('Something went Wrong')
+        // cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
         } else {
-        cogoToast.error('Something went Wrong too')
+        // cogoToast.error('Something went Wrong too')
         return rejectWithValue(err.response);
       }
       // return rejectWithValue(err);
@@ -58,10 +57,10 @@ export const updateOnboardingData = createAsyncThunk(
       }
     } catch (err: any) {
       if (err.response.status === 400) {
-        cogoToast.error('Something went Wrong')
+        // cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
         } else {
-        cogoToast.error('Something went Wrong too')
+        // cogoToast.error('Something went Wrong too')
         return rejectWithValue(err.response);
       }
       // return rejectWithValue(err);
@@ -77,12 +76,12 @@ export const getAllCourses = createAsyncThunk(
     try {
       const res = await fetch('http://localhost:5050/1');
       if (res.status === 200 || res.status === 201) {
-        cogoToast.success('Sign up successful')
+        // cogoToast.success('Sign up successful')
         return res.json();
       }
     } catch (err: any) {
       if (err.response.status === 400) {
-        cogoToast.success('Something went Wrong')
+        // cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -100,12 +99,12 @@ export const getLatestCourses = createAsyncThunk(
     try {
       const res = await fetch('http://localhost:5050/2');
       if (res.status === 200 || res.status === 201) {
-        cogoToast.success('Sign up successful')
+        // cogoToast.success('Sign up successful')
         return res.json();
       }
     } catch (err: any) {
       if (err.response.status === 400) {
-        cogoToast.error('Something went Wrong')
+        // cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -124,12 +123,12 @@ export const getOngoingCourses = createAsyncThunk(
     try {
       const res = await fetch('http://localhost:5050/3');
       if (res.status === 200 || res.status === 201) {
-        cogoToast.success('Sign up successful')
+        // cogoToast.success('Sign up successful')
         return res.json();
       }
     } catch (err: any) {
       if (err.response.status === 400) {
-        cogoToast.error('Something went Wrong')
+        // cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -161,13 +160,13 @@ export const login = createAsyncThunk(
         }
       );
       if (res.status === 200 || res.status === 201) {
-        cogoToast.success('Sign up successful')
+        // cogoToast.success('Sign up successful')
         return res;
       }
     } catch (err: any) {
       
       if (err.response.status === 400) {
-        cogoToast.success('Something went Wrong')
+        // cogoToast.success('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);

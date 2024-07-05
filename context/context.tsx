@@ -13,6 +13,8 @@ interface ContextProps{
     setIsActive: Dispatch<SetStateAction<number>>
     isSidebarOpen: boolean;
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
+    mainSidebarOpen: boolean;
+    setMainSidebarOpen: Dispatch<SetStateAction<boolean>>;
     currentCourse: courseData | null;
     setCurrentCourse: Dispatch<SetStateAction<courseData | null>>;
     nowPlaying: string | null;
@@ -28,8 +30,10 @@ interface ContextProps{
 export const GlobalContext = createContext<ContextProps>({
     isActive: 0,
     setIsActive: (): number => 0,
-    isSidebarOpen: false,
+    isSidebarOpen: true,
     setIsSidebarOpen: (): boolean => false,
+    mainSidebarOpen: false,
+    setMainSidebarOpen: (): boolean => false,
     currentCourse: null,
     setCurrentCourse: (): courseData | null => null,
     nowPlaying: null,
@@ -41,14 +45,15 @@ export const GlobalContext = createContext<ContextProps>({
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [isActive, setIsActive] = useState<number>(0)
-    const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
+    const [ isSidebarOpen, setIsSidebarOpen ] = useState<boolean>(false);
     const [ currentCourse, setCurrentCourse ] = useState<courseData | null>(null);
     const [ nowPlaying, setNowPlaying ] = useState<string | null>(null);
     const [ picture, setPicture] = useState<string | null>(null)
+    const [ mainSidebarOpen, setMainSidebarOpen] = useState<boolean>(false)
     
     return (
         <GlobalContext.Provider value={{ 
-            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen, currentCourse, setCurrentCourse, nowPlaying, setNowPlaying, picture, setPicture
+            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen, currentCourse, setCurrentCourse, nowPlaying, setNowPlaying, picture, setPicture, mainSidebarOpen, setMainSidebarOpen
         }}>
             {children}
         </GlobalContext.Provider>

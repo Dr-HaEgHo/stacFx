@@ -3,24 +3,42 @@ import { InputFade } from "@/components/Input";
 import Modal from "@/components/Modal";
 import { GlobalContext } from "@/context/context";
 import { profileSchema } from "@/schemas";
-import { useAppSelector } from "@/store/hooks";
+import { updateProfileData } from "@/store/auth/authActions";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { UserDetails } from "@/types";
-import cogoToast from "cogo-toast";
 import { useFormik } from "formik";
 import Image from "next/image";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
+
+export interface updateDetails {
+    firstname: string;
+    lastname: string;
+    phoneNumber: string;
+    photo: string;
+  }
+
 const page = () => {
+
+  const dispatch = useAppDispatch()
+
   const pictureRef = useRef<HTMLInputElement>(null);
 
   const { picture, setPicture } = useContext(GlobalContext);
 
   const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const userDetails = useAppSelector<UserDetails | null >((state) => state.auth.userDetails)
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    dispatch(updateProfileData({
+        firstname: values.firstname,
+        lastname: values.lastname,
+        phoneNumber: values.phoneNumber,
+        photo: picture || ''
+    } as updateDetails))
+  }
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -29,7 +47,7 @@ const page = () => {
         lastname: userDetails?.last_name,
         username: userDetails?.first_name,
         phoneNumber: userDetails?.phone_number,
-        email: userDetails?.email,
+        email: userDetails?.email
       },
       validationSchema: profileSchema,
       onSubmit,
@@ -41,7 +59,7 @@ const page = () => {
 
   const handlePictureStaging = () => {
     // if(!pictureRef.current || !pictureRef.current?.files){
-    //     cogoToast.warn('Please select a picture')
+    //     // cogoToast.warn('Please select a picture')
     //     return
     // }else{
     //     setPicture(pictureRef.current?.files !== null ? pictureRef.current?.files[0].name : null)
@@ -190,7 +208,7 @@ const page = () => {
               {/* USER DETAILS TEXT */}
               <div className="flex flex-col items-center gap-1">
                 <h4 className="text-[20px] 2xl:text-[24px] text-headDesc">
-                  Kenny Michael
+                  {`${userDetails?.first_name} ${userDetails?.last_name}`}
                 </h4>
                 <p className="text-[11px] 2xl:text-[13px] text-greytxt">
                   Joined November 2023

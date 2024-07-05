@@ -66,14 +66,13 @@ const page = () => {
                 
                     
                     {/* VIDEO AND COMPONENT */}
-                    <div className='flex mt-[30px] 2xl:mt-[36px] items-stretch gap-[18px] 2xl:gap-[24px]' >
+                    <div className='flex flex-col-reverse lg:flex-row  mt-[30px] 2xl:mt-[36px] items-stretch gap-[18px] 2xl:gap-[24px]' >
                         <div className='flex flex-[1]' >
                             <OnboardingPanel data={onboardingData} loading={loading} action={() => fetchOnboardingCourses()}/>
                         </div>
 
                         <div className='flex flex-[2.8] items-center justify-center rounded-2xl overflow-hidden'>
                             <video src={nowPlaying ? nowPlaying as unknown as string : ''} controls autoPlay={true} onEnded={onVideoEnd} className='w-full h-full object-cover' />
-
                         </div>
                     </div>
                     

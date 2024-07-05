@@ -67,7 +67,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
     <main className="w-full p-[13px] 2xl:p-[17px] bg-onPanelGray rounded-2xl flex flex-col">
       {/* BUTTON TO GO TO DASHBOARD */}
       <div className="w-full ">
-        <button className="w-full p-[10px] bg-blueGray rounded flex items-center justify-center gap-[10px]">
+        <button className="w-full p-[10px] hoverActive bg-blueGray rounded flex items-center justify-center gap-[10px]">
           <Image 
             src={require("../assets/icons/leftarrow.png")}
             alt="stackfx.com"

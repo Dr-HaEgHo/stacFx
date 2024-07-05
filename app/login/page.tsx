@@ -1,9 +1,6 @@
 'use client'
 import ImageSlider from '@/components/ImageSlider'
 import { InputFade, PasswordInputFade } from '@/components/Input'
-import Loader from '@/components/CardLoader'
-// import { authenticateAdminUser } from '@/store/auth/authActions'
-// import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -27,19 +24,7 @@ export default function Home() {
 
 
     const [formButtonDisabled, setFormButtonDisabled]= useState<boolean>(true)
-    const [email, setEmail]: [email: string, setEmail: Function] = useState("");
     const [loading, setLoading] = useState<boolean>(false)
-    const [password, setPassword]= useState<string>("");
-
-
-    const submitHandler = (e: React.FormEvent<HTMLButtonElement>) => {
-        router.push('/dashboard/onboarding')
-        // dispatch(authenticateAdminUser({
-        //     email: email,
-        //     password: password
-        // }))
-        e.preventDefault();
-    }
 
     const onSubmit = () => {
         dispatch(login(values))

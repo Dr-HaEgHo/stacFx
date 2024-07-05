@@ -1,9 +1,10 @@
 'use client'
-import { Notification } from 'iconsax-react'
+import { HambergerMenu, Menu, Notification } from 'iconsax-react'
 import Image from 'next/image'
 import { useParams, usePathname } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { SearchInputFade } from './Input'
+import { GlobalContext } from '@/context/context'
 // import { Activity } from "@untitled-ui/icons-react";
 
 const Navbar = () => {
@@ -12,11 +13,16 @@ const Navbar = () => {
     const location = usePathname();
     const params = useParams();
     const [searchValue, setSearchValue] = useState('')
+    const { mainSidebarOpen, setMainSidebarOpen } = useContext(GlobalContext);
+
+    const toggleSidebar = () => {
+        setMainSidebarOpen(!mainSidebarOpen)
+    }
 
     return (
         <div className='w-full bg-white border-b-[1px] border-border py-[7px]' >
             <div className="dash-container">
-                <div className="w-full flex items-center justify-between">
+                <div className="w-full flex items-center justify-between xl:max-w-[1200px]">
 
 
                     {/* LEFT */}
@@ -31,6 +37,9 @@ const Navbar = () => {
                             {location === `/dashboard/users/${params?.id}` && 'User Details'}
                         </h2>
                     </div> */}
+                    <div className='flex flex-col items-start lg:hidden' >
+                        <HambergerMenu onClick={toggleSidebar} size="24" variant='Bulk' className='text-greytxt hoverActive'/>
+                    </div>
                     <div className='flex flex-col items-start' >
                         <SearchInputFade
                             placeholder='Type to Search'

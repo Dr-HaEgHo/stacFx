@@ -50,7 +50,7 @@ export const SearchInputFade: FC<searchInputProps> = (props) => {
     return (
         <div className='input-wrap' >
             <div className='password-input' >
-                <input className='inputsfade min-w-[400px] 2xl:min-w-[460px] ' type='text' placeholder={props.placeholder && props.placeholder} />
+                <input className='inputsfade min-w-[260px] 2xl:min-w-[460px] ' type='text' placeholder={props.placeholder && props.placeholder} />
                 <div onClick={handleClick} className='absolute cursor-pointer right-[20px] top-1/2 transform -translate-y-1/2 flex items-center justify-center text-icons'>
                     <div className='w-5 h-5' >
                         <Image 

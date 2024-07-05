@@ -1,13 +1,19 @@
+'use client';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
-import React from 'react'
+import { GlobalContext } from '@/context/context';
+import React, { useContext } from 'react'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
 
-    return (
-        <div className='w-full h-screen flex items-start bg-dashboardBg ' >
+    const { mainSidebarOpen } = useContext(GlobalContext);
 
-            <div className="sticky top-0 flex flex-1 h-full max-w-[260px]">
+    return (
+        <div className='w-full h-screen flex items-start bg-dashboardBg'>
+
+            <div style={{
+                left: mainSidebarOpen === true ? 0 : -260
+            }} className={`fixed lg:sticky top-0 flex flex-1 h-full max-w-[260px] z-[999999999999999999999999999999] `}>
                 <Sidebar />
             </div>
             <div className="flex flex-[4.5] h-full flex-col">
@@ -27,4 +33,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     )
 }
 
-export default layout;
+export default layout

@@ -10,58 +10,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-// const latest = [
-//   {
-//     id: 1,
-//     title: "The Fundamentals of FX trading - Beginner to Advanced",
-//     total: 20,
-//     completed: 0,
-//     instructor: "Kore Ayobami",
-//   },
-//   {
-//     id: 2,
-//     title: "The Fundamentals of FX trading - Beginner to Advanced",
-//     total: 20,
-//     completed: 0,
-//     instructor: "Kore Ayobami",
-//   },
-//   {
-//     id: 3,
-//     title: "The Fundamentals of FX trading - Beginner to Advanced",
-//     total: 20,
-//     completed: 0,
-//     instructor: "Kore Ayobami",
-//   },
-// ];
-
-// const ongoing = [
-//   {
-//     id: 1,
-//     title: "The Fundamentals of FX trading - Beginner to Advanced",
-//     total: 20,
-//     completed: 4,
-//     instructor: "Kore Chiefdrummer",
-//   },
-//   {
-//     id: 2,
-//     title: "The Fundamentals of FX trading - Beginner to Advanced",
-//     total: 20,
-//     completed: 10,
-//     instructor: "Kore Chiefdrummer",
-//   },
-//   {
-//     id: 3,
-//     title: "The Fundamentals of FX trading - Beginner to Advanced",
-//     total: 20,
-//     completed: 12,
-//     instructor: "Kore Chiefdrummer",
-//   },
-// ];
 
 const page = () => {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
+  const userDetails = useAppSelector(state => state.auth.userDetails)
   const latest = useAppSelector((state) => state.courses.latestCourses);
   const ongoing = useAppSelector((state) => state.courses.ongoingCourses);
   const isLatestLoading = useAppSelector(state => state.courses.latestLoading)
@@ -96,7 +50,7 @@ const page = () => {
           {/* TOP BAR WELCOME */}
           <div className="w-full bg-primary2 h-[182px] 2xl:h-[202px] p-[26px] 2xl:p-[30px] relative rounded-xl overflow-hidden flex flex-col items-start justify-between">
             {/* ABSOLUTE BG IMG */}
-            <div className="w-[357px] 2xl:w-[387px] absolute z-0 -top-[10px] right-[128px] 2xl:right-[148px]">
+            <div className="w-[250px] lg:w-[337px] 2xl:w-[387px] absolute z-[1] top-[50px] lg:-top-[14px] right-[0px] lg:right-[68px] 2xl:right-[148px]">
               <Image 
                 src={require("../../assets/images/userdash.png")}
                 alt="stacfx.com"
@@ -105,7 +59,7 @@ const page = () => {
             </div>
 
             {/* ABSOLUTE USET IMAGE */}
-            <div className="w-[290px] 2xl:w-[304px] absolute z-0 left-[300px] 2xl:left-[338px]">
+            <div className="w-[200px] lg:w-[290px] 2xl:w-[304px] absolute z-0 top-10 left-1/2 transform -translate-x-1/2">
               <Image 
                 src={require("../../assets/images/logomark.png")}
                 alt="stacfx.com"
@@ -119,8 +73,8 @@ const page = () => {
             </p>
 
             <div className="z-10">
-              <h3 className="text-white text-[28px] 2xl:text-[32px] ">
-                Welcome Back, Khenny
+              <h3 className="text-white text-lg lg:text-[28px] 2xl:text-[32px] ">
+                Welcome Back, { userDetails?.first_name}
               </h3>
               <span className="text-userEmail text-[11px] 2xl:text-[13px] font-[100] ">
                 Always stay updated in your personal dashboard

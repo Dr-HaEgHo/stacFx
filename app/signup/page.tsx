@@ -139,7 +139,7 @@ export default function Signup() {
                     </div>
 
                 </div>
-                <Image Slider />
+                <ImageSlider />
             </div>
 
             <div className="w-full lg:w-1/2 h-full mx-auto bg-white max-lg:scroll max-lg:mb-20">
