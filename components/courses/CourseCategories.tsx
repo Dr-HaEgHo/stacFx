@@ -42,7 +42,7 @@ const CourseCategories = () => {
 
 
                     {/* TABS SYSTEM */}
-                    <div className='w-full  ' >
+                    <div className='w-full' >
                         <ul className='flex w-fit items-center' >
                             {
                                 tabs && tabs.map((item, idx) => (
@@ -51,7 +51,7 @@ const CourseCategories = () => {
                                         style={{
                                             color: idx === index ? "#161C51" : "#1A1A1A"
                                         }}
-                                        className='cursor-pointer w-[180px] flex items-center justify-center text-[12px] 2xl:text-[14px] text-headDesc p-[6px] hover:bg-inputBg transition duration-300 rounded'
+                                        className='cursor-pointer w-[90px] lg:w-[180px] flex items-center justify-center text-[12px] 2xl:text-[14px] text-headDesc p-[6px] hover:bg-inputBg transition duration-300 rounded'
                                     >
                                         {item.title}
                                     </li>
@@ -59,12 +59,19 @@ const CourseCategories = () => {
                             }
                         </ul>
 
-                        <div className='h-[1px] bg-greytxt w-full relative'>
+                        <div className='h-[1px] hidden lg:block bg-greytxt w-full relative'>
                             <div
                                 style={{
                                     left: 180 * index
                                 }}
                                 className='absolute top-1/2 transform -translate-y-1/2 w-[180px] h-2 bg-primary2 transition duration-300' />
+                        </div>
+                        <div className='flex justify-between lg:hidden h-[1px] bg-greytxt w-full relative'>
+                            <div
+                                style={{
+                                    left: 90 * index
+                                }}
+                                className='absolute top-1/2 transform -translate-y-1/2 w-[90px] h-2 bg-primary2 transition duration-300' />
                         </div>
                     </div>
 

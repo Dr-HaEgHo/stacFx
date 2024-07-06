@@ -1,12 +1,14 @@
 'use client'
 import ChatNavbar from '@/components/ChatNavbar'
 import ChatSidebar from '@/components/ChatSidebar'
+import { GlobalContext } from '@/context/context'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
 
     // const [active, setActive] = useState(0)
+    const { openChatNav, setOpenChatNav} = useContext(GlobalContext)
 
     const handleSubmit = (e:React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -24,7 +26,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
             <div className='w-full flex-[1] max-h-full flex items-start relative ' >
 
                 {/* CHATROOM PANELS */}
-                <div className='h-full flex-[1] sticky left-0 top-0' >
+                <div style={{
+                    left: openChatNav === true ? 0 : -260
+                }} className='h-full flex-[1] min-w-[200px] bg-orange-400 fixed lg:sticky left-0 top-0 z-[999999999999999] lg:z-0' >
                     <ChatSidebar />
                 </div>
 

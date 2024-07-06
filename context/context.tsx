@@ -21,6 +21,8 @@ interface ContextProps{
     setNowPlaying: Dispatch<SetStateAction<string | null>>;
     picture: string | null;
     setPicture: Dispatch<SetStateAction<string | null>>;
+    openChatNav: boolean;
+    setOpenChatNav: Dispatch <SetStateAction<boolean>>;
 }
 
 // const initialState = {
@@ -39,7 +41,9 @@ export const GlobalContext = createContext<ContextProps>({
     nowPlaying: null,
     setNowPlaying: (): courseData | null => null,
     picture: null,
-    setPicture: (): string | null => null
+    setPicture: (): string | null => null,
+    openChatNav: false,
+    setOpenChatNav: (): boolean => false
 })
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -50,10 +54,11 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
     const [ nowPlaying, setNowPlaying ] = useState<string | null>(null);
     const [ picture, setPicture] = useState<string | null>(null)
     const [ mainSidebarOpen, setMainSidebarOpen] = useState<boolean>(false)
+    const [openChatNav, setOpenChatNav] = useState<boolean>(true)
     
     return (
         <GlobalContext.Provider value={{ 
-            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen, currentCourse, setCurrentCourse, nowPlaying, setNowPlaying, picture, setPicture, mainSidebarOpen, setMainSidebarOpen
+            isActive, setIsActive, isSidebarOpen, setIsSidebarOpen, currentCourse, setCurrentCourse, nowPlaying, setNowPlaying, picture, setPicture, mainSidebarOpen, setMainSidebarOpen, openChatNav, setOpenChatNav
         }}>
             {children}
         </GlobalContext.Provider>

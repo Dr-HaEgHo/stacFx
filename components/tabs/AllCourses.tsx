@@ -23,7 +23,7 @@ const AllCourses: FC<courseCatProps> = ({data}) => {
             {
                 loading === true ? (<Loader />) : (
 
-                    <div className='w-full pt-8 gridd' >
+                    <div className={`w-full pt-8 ${data && data.length ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4' : ''}`} >
 
 
                         {

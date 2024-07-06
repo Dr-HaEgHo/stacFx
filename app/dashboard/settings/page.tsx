@@ -38,7 +38,7 @@ const page = () => {
                     style={{
                       color: idx === index ? "#161C51" : "#1A1A1A"
                     }}
-                    className='cursor-pointer w-[180px] flex items-center justify-center text-[12px] 2xl:text-[14px] text-headDesc p-[6px] hover:bg-inputBg transition duration-300 rounded'
+                    className='cursor-pointer w-[140px] flex items-center justify-center text-[12px] 2xl:text-[14px] text-headDesc p-[6px] hover:bg-inputBg transition duration-300 rounded'
                   >
                     {item.title}
                   </li>
@@ -49,9 +49,9 @@ const page = () => {
             <div className='h-[1px] bg-greytxt w-full relative'>
               <div
                 style={{
-                  left: 180 * index
+                  left: 140 * index
                 }}
-                className='absolute top-1/2 transform -translate-y-1/2 w-[180px] h-2 bg-primary2 transition duration-300' />
+                className='absolute top-1/2 transform -translate-y-1/2 w-[140px] h-2 bg-primary2 transition duration-300' />
             </div>
           </div>
 

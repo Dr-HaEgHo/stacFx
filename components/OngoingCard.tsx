@@ -22,7 +22,7 @@ const OngoingCard:FC<CardData> = ({ data, action }) => {
             </div>
 
             {/* WHITE AREA WITH CONTENT */}
-            <div className='w-full h-[50%] bg-white z-10 pt-[8px] px-[16px] 2xl:py-[20px] flex flex-col xl:justify-between gap-3' >
+            <div className='w-full h-[50%] bg-white z-10 pt-[8px] pb-[10px] px-[16px] 2xl:py-[20px] flex flex-col justify-between gap-3' >
 
                 {/* TITLE AND NAME OF INSTRUCTOR */}
                 <div className=''>

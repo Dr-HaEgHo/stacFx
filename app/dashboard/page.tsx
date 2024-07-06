@@ -92,14 +92,14 @@ const page = () => {
           </div>
 
           {/*LATEST COURSES MAPPED OUT */}
-          <div className="flex gap-[18px] 2xl:gap-[24px] justify-between">
+          <div className={`flex gap-[18px] 2xl:gap-[24px] md:justify-between`}>
             {latestLoading === true ? (
               <CardLoader />
             ) : (
               <>
                 {latest ? (
-                  latest.slice(0,3).map((item) => (
-                    <div className="w-[33%]">
+                  latest.slice(0,3).map((item, idx) => (
+                    <div className={`w-full md:w-[33%] ${idx === 2 && 'hidden md:flex' } ${idx === 1 && 'hidden sm:flex' }`}>
                       <LatestCard data={item} action={()=> {router.push(`/dashboard/courses?id=${item.id}`)}}/>
                     </div>
                   ))
@@ -124,8 +124,8 @@ const page = () => {
             {
                 ongoingLoading === true ? (<CardLoader/>): (<>
                     {ongoing ? (
-                    ongoing.slice(0,3).map((item) => (
-                        <div className="w-[33%]">
+                    ongoing.slice(0,3).map((item, idx) => (
+                        <div className={`w-full md:w-[33%] ${idx === 2 && 'hidden md:flex' } ${idx === 1 && 'hidden sm:flex' }`}>
                         <OngoingCard data={item} action={()=> {router.push(`/dashboard/courses?id=${item.id}`)}} />
                         </div>
                     ))

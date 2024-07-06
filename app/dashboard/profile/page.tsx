@@ -172,7 +172,7 @@ const page = () => {
           </div>
 
           {/* PROFILE DIV */}
-          <div className="w-full pl-[99px] flex items-center">
+          <div className="w-full pl-0 lg:pl-[99px] flex flex-col lg:flex-row items-center">
             {/* PROFILE PICTURE */}
             <div className="flex flex-col items-center ">
               {/* IMAGE */}
@@ -207,7 +207,7 @@ const page = () => {
 
               {/* USER DETAILS TEXT */}
               <div className="flex flex-col items-center gap-1">
-                <h4 className="text-[20px] 2xl:text-[24px] text-headDesc">
+                <h4 className="text-[20px] 2xl:text-[24px] text-headDesc text-center">
                   {`${userDetails?.first_name} ${userDetails?.last_name}`}
                 </h4>
                 <p className="text-[11px] 2xl:text-[13px] text-greytxt">
@@ -218,7 +218,7 @@ const page = () => {
 
             {/* DIVIDER DIV */}
 
-            <div className="h-[253px] w-[1px] bg-profileDividerGray border-none outline-none mx-[99px] 2xl:mx-[99px]" />
+            <div className="h-[1px] lg:h-[253px] w-[70%] max-lg:my-[50px] lg:w-[1px] bg-profileDividerGray border-none outline-none mx-[99px] 2xl:mx-[99px]" />
 
             {/* PROFILE FORM */}
             <div className="w-[360px]">
@@ -288,6 +288,7 @@ const page = () => {
                 </button>
               </form>
             </div>
+
           </div>
         </div>
       </div>
