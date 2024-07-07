@@ -7,6 +7,12 @@ module.exports = {
           port: '',
           pathname: '/gtv-videos-bucket/sample/images/**',
         },
+        {
+          protocol: 'https',
+          hostname: 'fx-lms.onrender.com',
+          port: '',
+          pathname: '/user-images/**',
+        },
       ],
     },
   }

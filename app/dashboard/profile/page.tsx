@@ -1,26 +1,26 @@
 "use client";
 import { InputFade } from "@/components/Input";
+import { LoadButton } from "@/components/Load";
 import Modal from "@/components/Modal";
 import { GlobalContext } from "@/context/context";
 import { profileSchema } from "@/schemas";
-import { updateProfileData } from "@/store/auth/authActions";
+import { getProfileData, updateProfileData } from "@/store/auth/authActions";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { UserDetails } from "@/types";
+import cogoToast from "cogo-toast";
 import { useFormik } from "formik";
 import Image from "next/image";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-
 export interface updateDetails {
-    firstname: string;
-    lastname: string;
-    phoneNumber: string;
-    photo: string;
-  }
+  firstname: string;
+  lastname: string;
+  phoneNumber: string;
+  photo: string;
+}
 
 const page = () => {
-
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const pictureRef = useRef<HTMLInputElement>(null);
 
@@ -28,17 +28,28 @@ const page = () => {
 
   const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [updateLoading, setUpdateLoading] = useState<boolean>(false);
 
-  const userDetails = useAppSelector<UserDetails | null >((state) => state.auth.userDetails)
+  const userDetails = useAppSelector<UserDetails | null>(
+    (state) => state.auth.userDetails
+  );
+  const isLoading = useAppSelector<boolean>((state) => state.auth.loading);
+  const isUpdateLoading = useAppSelector<boolean>(
+    (state) => state.auth.updateLoading
+  );
 
   const onSubmit = () => {
-    dispatch(updateProfileData({
+    dispatch(
+      updateProfileData({
         firstname: values.firstname,
         lastname: values.lastname,
         phoneNumber: values.phoneNumber,
-        photo: picture || ''
-    } as updateDetails))
-  }
+        photo: picture || "",
+      } as updateDetails)
+    );
+    setPicture(null);
+  };
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -47,7 +58,7 @@ const page = () => {
         lastname: userDetails?.last_name,
         username: userDetails?.first_name,
         phoneNumber: userDetails?.phone_number,
-        email: userDetails?.email
+        email: userDetails?.email,
       },
       validationSchema: profileSchema,
       onSubmit,
@@ -57,9 +68,14 @@ const page = () => {
     setOpenModal(true);
   };
 
+  const updateProfile = () => {
+    setOpenModal(false);
+    cogoToast.warn('Update Profile to save changes')
+  };
+
   const handlePictureStaging = () => {
     // if(!pictureRef.current || !pictureRef.current?.files){
-    //     // cogoToast.warn('Please select a picture')
+    //     cogoToast.warn('Please select a picture')
     //     return
     // }else{
     //     setPicture(pictureRef.current?.files !== null ? pictureRef.current?.files[0].name : null)
@@ -102,6 +118,27 @@ const page = () => {
     }
   }, [values, errors]);
 
+  useEffect(() => {
+    if (isLoading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+
+    if (isUpdateLoading) {
+      setUpdateLoading(true);
+    } else {
+      setUpdateLoading(false);
+    }
+  }, [isLoading, isUpdateLoading]);
+
+  useEffect(() => {
+    if(userDetails){
+        return
+    }
+    dispatch(getProfileData())
+  },[])
+
   return (
     <div className="w-full h-full bg-white ">
       <Modal isOpen={openModal} setIsOpen={setOpenModal}>
@@ -138,12 +175,12 @@ const page = () => {
           <p className="text-sm max-w-[300px] text-center mt-8">
             {pictureRef?.current &&
             pictureRef?.current?.files &&
-            pictureRef?.current?.files[0]
+            pictureRef?.current?.files[0] && picture !== null
               ? pictureRef.current.files[0].name
-              : "plase select a file"}
+              : "please select a file"}
           </p>
 
-         {/* Add photo button */}
+          {/* Add photo button */}
           <button className="buttons !w-fit !px-10 !py-2 relative cursor-pointer">
             <p className="text-sm">
               {picture !== null ? "Choose another photo" : "Upload Photo"}
@@ -156,9 +193,12 @@ const page = () => {
             />
           </button>
 
-                {/* SAVE BUTTON */}
+          {/* SAVE BUTTON */}
           {picture !== null && (
-            <button onClick={() => setOpenModal(false)} className="buttons !bg-success !w-fit !px-10 !py-2 relative cursor-pointer">
+            <button
+              onClick={updateProfile}
+              className="buttons !bg-success !w-fit !px-10 !py-2 relative cursor-pointer"
+            >
               <p className="text-sm">Save</p>
             </button>
           )}
@@ -177,21 +217,29 @@ const page = () => {
             <div className="flex flex-col items-center ">
               {/* IMAGE */}
               <div className="relative w-[70px] h-[70px] mb-6 2xl:mb-8">
-                <div className="w-full h-full rounded-full overflow-hidden">
+                <div className="w-full h-full rounded-full overflow-hidden relative">
                   {/* USER PICTURE */}
-                  {picture !== null ? (
+                  {updateLoading === true ? (
+                    <div className="absolute top-0 w-full h-full flex items-center justify-center bg-blackLoading z-10">
+                        <LoadButton />
+                    </div>
+                  ) : ''}
+                    {userDetails?.photo ? (
                     <Image
-                      src={require("../../../assets/images/avatar2.png")}
-                      alt="stacfx.com"
-                      className="w-full"
+                        src={`https://fx-lms.onrender.com${userDetails.photo}`}
+                        alt="stacfx.com"
+                        width={1024}
+                        height={1024}
+                        className="w-full h-full object-cover"
                     />
-                  ) : (
+                    ) : (
                     <Image
-                      src={require("../../../assets/images/avatar2.png")}
-                      alt="stacfx.com"
-                      className="w-full"
+                        src={require("../../../assets/images/avatar2.png")}
+                        alt="stacfx.com"
+                        className="w-full"
                     />
-                  )}
+                    )}
+                
                 </div>
                 <button
                   onClick={openPhotoModal}
@@ -222,7 +270,10 @@ const page = () => {
 
             {/* PROFILE FORM */}
             <div className="w-[360px]">
-              <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4 ">
+              <form
+                onSubmit={handleSubmit}
+                className="w-full flex flex-col gap-4 "
+              >
                 <InputFade
                   id="firstname"
                   value={values.firstname}
@@ -283,12 +334,13 @@ const page = () => {
                   type="number"
                   placeholder=""
                 />
-                <button disabled={!formButtonDisabled} className="buttons">
-                  <p className="text-[13px] 2xl:text-[15px]">Update Profile</p>
+                <button disabled={!formButtonDisabled || loading === true || updateLoading === true} className="buttons">
+                  {
+                    loading === true || updateLoading === true ? (<LoadButton/>) : (<p className="text-[13px] 2xl:text-[15px]">Update Profile</p>)
+                  }
                 </button>
               </form>
             </div>
-
           </div>
         </div>
       </div>

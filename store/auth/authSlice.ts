@@ -6,6 +6,7 @@ import { UserDetails } from "@/types";
 
 interface AuthState {
   loading: boolean;
+  updateLoading: boolean;
   isLoggedIn: boolean;
   signupSuccess: boolean;
   loginSuccess: boolean;
@@ -24,6 +25,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   loading: false,
+  updateLoading: false,
   isLoggedIn: false,
   signupSuccess: false,
   loginSuccess: false,
@@ -90,7 +92,7 @@ export const authSlice = createSlice({
     }),
     builder.addCase(getProfileData.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.userDetails = payload?.data.user;
+      state.userDetails = payload?.data;
     }),
     builder.addCase(getProfileData.rejected, (state, { payload }) => {
       state.loading = false;
@@ -102,7 +104,7 @@ export const authSlice = createSlice({
     }),
     builder.addCase(updateProfileData.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.userDetails = payload?.data.user;
+      state.userDetails = payload?.data;
     }),
     builder.addCase(updateProfileData.rejected, (state, { payload }) => {
       state.loading = false;

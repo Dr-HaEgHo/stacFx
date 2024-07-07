@@ -4,6 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 import { updateDetails } from "@/app/dashboard/profile/page";
+import cogoToast from "cogo-toast";
 
 // const baseUrl = process.env.BASE_URL
 
@@ -31,19 +32,15 @@ export const signup = createAsyncThunk(
         if(!res.status){
           alert('time don reach boss.')
         }
-      }, 1000) 
+      }, 1000)
       if (res.status === 200 || res.status === 201) {
-        // // cogoToast.success('')
-        
-        
-
-        console.log('tre response', res)
+        cogoToast.success('Successful')
         return res;
       }
     } catch (err: any) {
-      
+      console.log('the error of the signup', err)
       if (err.response.status === 400) {
-        // cogoToast.success('Something went Wrong')
+        cogoToast.success('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -74,15 +71,17 @@ export const login = createAsyncThunk(
         }
       );
       if (res.status === 200 || res.status === 201) {
-        // cogoToast.success('Sign up successful')
+        cogoToast.success('Successful')
         return res;
       }
     } catch (err: any) {
-      
       if (err.response.status === 400) {
-        // cogoToast.success('Something went Wrong')
+        cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
-      } else {
+      } else if(err.response.status === 404) {
+        cogoToast.error('Incorrect Credentials')
+        return rejectWithValue(err.response);
+      }else {
         return rejectWithValue(err.response);
       }
 
@@ -105,12 +104,11 @@ export const getProfileData = createAsyncThunk(
         }
       });
       if (res.status === 200 || res.status === 201) {
-        // cogoToast.success('Sign up successful')
         return res;
       }
     } catch (err: any) {
       if (err.response.status === 400) {
-        // cogoToast.success('Something went Wrong')
+        cogoToast.success('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -135,7 +133,7 @@ export const updateProfileData = createAsyncThunk(
         {
           first_name: values.firstname,
           last_name: values.lastname,
-          phone_number: "0" + values.phoneNumber.toString(),
+          phone_number: "+" + values.phoneNumber.toString(),
           photo : values.photo
         },
         {
@@ -146,13 +144,16 @@ export const updateProfileData = createAsyncThunk(
         }
       );
       if (res.status === 200 || res.status === 201) {
-        // cogoToast.success('Sign up successful')
+        cogoToast.success('Update Successful')
+        console.log('update succerr res', res)
+        dispatch(getProfileData())
         return res;
       }
     } catch (err: any) {
       
       if (err.response.status === 400) {
-        // cogoToast.success('Something went Wrong')
+        console.log('the update error')
+        cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
