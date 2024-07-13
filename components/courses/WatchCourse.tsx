@@ -2,7 +2,7 @@
 import { ArrowCircleLeft, ArrowCircleRight } from "iconsax-react";
 import OnboardingPanel from "../OnboardingPanel";
 import { FC, useEffect, useState } from "react";
-import { CourseProps, IndicatorProps, courseData } from "@/types";
+import { CourseProps, IndicatorProps, courseData, onboardingCourses } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getAllCourses } from "@/store/courses/courseAction";
@@ -40,8 +40,8 @@ const WatchCourse: FC<CourseProps> = ({ongoing}) => {
         alert('ended the video')
     }
 
-    const nextCourse = (arr: courseData[]) => {
-        let newArr: courseData | null = null
+    const nextCourse = (arr: onboardingCourses[]) => {
+        let newArr: onboardingCourses | null = null
         for (let i:number = 0; i < arr.length; i++){
             if(arr[i].id.toString() === queryId){
                 newArr = arr[i + 1]
@@ -49,11 +49,11 @@ const WatchCourse: FC<CourseProps> = ({ongoing}) => {
                 break;
             }
         }
-        router.push(`/dashboard/courses?id=${newArr?.id}&watch=${newArr?.videos}`)
+        // router.push(`/dashboard/courses?id=${newArr?.id}&watch=${newArr?.videos}`)
     }
 
-    const prevCourse = (arr: courseData[]) => {
-        let newArr: courseData | null = null
+    const prevCourse = (arr: onboardingCourses[]) => {
+        let newArr: onboardingCourses | null = null
         for (let i:number = 0; i < arr.length; i++){
             if(arr[i].id.toString() === queryId){
                 newArr = arr[i + 1]
@@ -61,7 +61,7 @@ const WatchCourse: FC<CourseProps> = ({ongoing}) => {
                 break;
             }
         }
-        router.push(`/dashboard/courses?id=${newArr?.id}&watch=${newArr?.videos}`)
+        // router.push(`/dashboard/courses?id=${newArr?.id}&watch=${newArr?.videos}`)
     }
 
     // useEffect(() => {
@@ -89,7 +89,7 @@ const WatchCourse: FC<CourseProps> = ({ongoing}) => {
                     <div className='flex mt-[30px] 2xl:mt-[36px] items-start gap-[18px] 2xl:gap-[14rem]' >
                         <div className='flex flex-[1] max-w-[264px]' >
                             <OnboardingPanel 
-                                data={coursesData} 
+                                data={coursesData as unknown as onboardingCourses} 
                                 action={() => fetchCourses()} 
                                 loading={loading}
                             />

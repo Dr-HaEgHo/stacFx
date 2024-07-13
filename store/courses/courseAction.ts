@@ -1,5 +1,5 @@
 import { baseUrl, baseUrlApi } from "@/config";
-import { courseData, loginType, signUpType } from "@/types";
+import { courseData, loginType } from "@/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import cogoToast from "cogo-toast";
