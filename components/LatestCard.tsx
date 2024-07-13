@@ -10,7 +10,7 @@ const LatestCard: FC<CardData> = ({ data, action }) => {
           {/* IMAGE IN THE BACKGROUND */}
           <div className='w-full h-[50%] absolute bg-orange-300 left-1/2 transform -translate-x-1/2 z-0' >
               <Image 
-                  src={data.photo}
+                  src={data.cover_image as unknown as string}
                   alt='stacFx.com'
                   width={1024}
                   height={1024}
@@ -29,7 +29,7 @@ const LatestCard: FC<CardData> = ({ data, action }) => {
               {/* TITLE AND NAME OF INSTRUCTOR */}
               <div className='' >
                   <h3 className='text-[14px] 2xl:text-base text-black' >{data?.title}</h3>
-                  <p className='text-greytxt text-[10px] 2xl:text-xs font-[100]' >{ data?.instructor }</p>
+                  <p className='text-greytxt text-[10px] 2xl:text-xs font-[100]' >{ data?.instructor.first_name } { data?.instructor.last_name }</p>
               </div>
 
 
@@ -41,7 +41,7 @@ const LatestCard: FC<CardData> = ({ data, action }) => {
                           alt='stacfx.com'
                           className='w-[14px]'
                       />
-                      <p className='text-[10px] 2xl:text-xs text-greytxt font-[100]'>12 Lessons</p>
+                      <p className='text-[10px] 2xl:text-xs text-greytxt font-[100]'>{data?.lesson_count} Lessons</p>
                   </div>
 
                   <button onClick={action} className='hoverActive flex items-center gap-2 text-greytxt bg-primary p-[6px] rounded'>

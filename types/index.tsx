@@ -1,4 +1,3 @@
-import OngoingCard from "@/components/OngoingCard";
 import React from "react";
 
 export interface emailInputProps {
@@ -128,7 +127,7 @@ export interface courseData {
 }
 
 export interface onboardingPanelProps{
-    data: courseData[];
+    data: onboardingCourses;
     action: () => void;
     loading: boolean;
     // setIsPlaying :  Function;
@@ -142,12 +141,17 @@ export interface SWWType {
 }
 
 export interface CardData {
-    data: courseData;
+    data: onboardingCourses;
+    action: () => void;
+}
+
+export interface OngoingCardData {
+    data: innerCourses;
     action: () => void;
 }
 
 export interface CourseProps {
-    ongoing: courseData[];
+    ongoing: onboardingCourses[];
 }
 
 export interface ModalProps {
@@ -166,3 +170,55 @@ export interface UserDetails {
     user_type: string | null;
     phone_number: string | null
 }
+
+export interface lessonType {
+    id : number;
+    title : string
+    content : string
+    duration : string
+    video_url : string
+    course : string
+    is_completed: boolean
+  }
+export interface onboardingData {
+    data: {
+      id: string;
+    }
+  }
+  
+
+  interface instructorProps {
+    first_name: string;
+    last_name: string;
+  }
+
+  export interface innerCourses{
+    id:string;
+    lessons: lessonType[];
+    completed_lessons_count: number; 
+    total_lessons_count: number; 
+    completed_modules_count: number; 
+    total_modules_count: number; 
+    lessons_completion_percentage: number; 
+    cover_image: number; 
+    title: number; 
+    description: string;
+    is_completed: boolean;
+    instructor: instructorProps;
+  }
+export interface onboardingCourses{
+    id:string;
+    course?: innerCourses
+    lessons: lessonType[];
+    completed_lessons_count: number; 
+    total_lessons_count: number; 
+    completed_modules_count: number; 
+    total_modules_count: number; 
+    lessons_completion_percentage: number; 
+    cover_image: number; 
+    title: number; 
+    lesson_count: number;
+    description: string;
+    is_completed: boolean;
+    instructor: instructorProps;
+  }

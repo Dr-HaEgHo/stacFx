@@ -11,7 +11,6 @@ const rubik = Rubik({
   subsets: ['latin']
 })
 
-
 // export const metadata: Metadata = {
 //   title: 'StacFx',
 //   description: 'Learn and get better at industry trading secrets',

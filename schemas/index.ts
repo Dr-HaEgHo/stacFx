@@ -40,13 +40,13 @@ export const profileSchema = yup.object().shape({
     firstname: yup.string().required('Required'),
     lastname: yup.string().required("Required"),
     username: yup.string().required("Required"),
-    phoneNumber: yup
-    .number()
-    .min(11)
-    // .matches()
-    .positive()
-    .integer()
-    .required("Required"),
+    // phoneNumber: yup
+    // .number()
+    // .min(11)
+    // // .matches()
+    // .positive()
+    // .integer()
+    // .required("Required"),
     email: yup.string().email("Please enter a valid email").required("Required")
 });
 

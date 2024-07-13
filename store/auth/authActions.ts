@@ -17,9 +17,9 @@ export const signup = createAsyncThunk(
       const res = await axios.post(
         `${baseUrl}/register/`,
         {
-          first_name: values.firstname,
-          last_name:values.lastname,
-          email: values.email,
+          first_name: values.firstname.toLowerCase(),
+          last_name:values.lastname.toLowerCase(),
+          email: values.email.toLowerCase(),
           password: values.password,
         },
         {
@@ -40,7 +40,7 @@ export const signup = createAsyncThunk(
     } catch (err: any) {
       console.log('the error of the signup', err)
       if (err.response.status === 400) {
-        cogoToast.success('Something went Wrong')
+        cogoToast.error(err.response.data.phone_number || err.response.data.first_name || err.response.data.email || err.response.data.last_name || err.response.data.username)
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -61,7 +61,7 @@ export const login = createAsyncThunk(
       const res = await axios.post(
         `${baseUrl}/login/`,
         {
-          email: values.email,
+          email: values.email.toLowerCase(),
           password: values.password,
         },
         {
@@ -107,8 +107,8 @@ export const getProfileData = createAsyncThunk(
         return res;
       }
     } catch (err: any) {
-      if (err.response.status === 400) {
-        cogoToast.success('Something went Wrong')
+      if (err.response.status === 400 || err.response.status === 401 || err.response.status === 404) {
+        cogoToast.error('Something went Wrong')
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);
@@ -143,17 +143,21 @@ export const updateProfileData = createAsyncThunk(
           },
         }
       );
+      setTimeout(() => {
+        // if(!res.status){
+          // alert('time don reach boss.')
+        // }
+      }, 1000)
       if (res.status === 200 || res.status === 201) {
         cogoToast.success('Update Successful')
-        console.log('update succerr res', res)
         dispatch(getProfileData())
         return res;
       }
     } catch (err: any) {
       
       if (err.response.status === 400) {
-        console.log('the update error')
-        cogoToast.error('Something went Wrong')
+        console.log('the update error: ', err)
+        cogoToast.error(err.response.data.phone_number || err.response.data.first_name || err.response.data.email || err.response.data.last_name || err.response.data.username)
         return rejectWithValue(err.response);
       } else {
         return rejectWithValue(err.response);

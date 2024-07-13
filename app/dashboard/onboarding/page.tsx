@@ -1,8 +1,10 @@
 'use client'
+import Load from '@/components/Load';
 import OnboardingPanel from '@/components/OnboardingPanel';
 import { GlobalContext } from '@/context/context';
-import { getOnboardingVideos, updateOnboardingData } from '@/store/courses/courseAction';
+import { getOnboardingId, updateOnboardingData } from '@/store/courses/courseAction';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { onboardingCourses } from '@/types';
 import { useSearchParams } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react'
 
@@ -11,8 +13,8 @@ const page = () => {
     const search = useSearchParams()
 
     const dispatch = useAppDispatch();
-    const onboardingData = useAppSelector((state) => state.courses.onboardingData);
-    const isLoading = useAppSelector(state => state.courses.updateLoading)
+    const onboardingCourses = useAppSelector((state) => state.courses.onboardingCourses);
+    const isLoading = useAppSelector(state => state.courses.loading)
     const queryId = new URLSearchParams(search).get("id")
     const queryWatch = new URLSearchParams(search).get("watch")
     const {nowPlaying} = useContext(GlobalContext)
@@ -22,32 +24,32 @@ const page = () => {
     // const [currentId, setCurrentId] = useState<string>('')
 
     const fetchOnboardingCourses = () => {
-        dispatch(getOnboardingVideos())
+        dispatch(getOnboardingId())
     }
 
-    const updateDBAndReloadPage = () => {
-        let updated = onboardingData;
-        let updatedData = updated.map((item) => {
-          if(item.id.toString() === queryId){
-            return {...item, isCompleted: true}
-          }
-          return item
-        })
-        let readyData = {
-            onboarding: updatedData
-        }
-        console.log('this is the ready data',readyData)
-        dispatch(updateOnboardingData({readyData}))
-    }
+    // const updateDBAndReloadPage = () => {
+    //     let updated = onboardingCourses;
+    //     let updatedData = updated.map((item) => {
+    //       if(item.id.toString() === queryId){
+    //         return {...item, isCompleted: true}
+    //       }
+    //       return item
+    //     })
+    //     let readyData = {
+    //         onboarding: updatedData
+    //     }
+    //     console.log('this is the ready data',readyData)
+    //     dispatch(updateOnboardingData({readyData}))
+    // }
 
-    const onVideoEnd = () => {
-        updateDBAndReloadPage()
-    }
+    // const onVideoEnd = () => {
+    //     updateDBAndReloadPage()
+    // }
     
 
-    // useEffect(() => {
-    //     fetchOnboardingCourses()
-    // }, [])
+    useEffect(() => {
+        fetchOnboardingCourses()
+    }, [])
 
     useEffect(() => {
         isLoading ? setLoading(true) : setLoading(false)
@@ -55,6 +57,9 @@ const page = () => {
 
     return (
         <div className='w-full h-full bg-white'>
+            {
+                loading === true && (<Load/>)
+            }
             <div className='dash-container' >
                 <div className="w-full pt-[26px] 2xl:pt-[34px] xl:max-w-[1200px] ">
                     
@@ -64,15 +69,14 @@ const page = () => {
                         <p className='text-[13px] text-greytxt ' >Watch welcome video to complete onboarding process</p>
                     </div>
                 
-                    
                     {/* VIDEO AND COMPONENT */}
                     <div className='flex flex-col-reverse lg:flex-row  mt-[30px] 2xl:mt-[36px] items-stretch gap-[18px] 2xl:gap-[24px]' >
                         <div className='flex flex-[1]' >
-                            <OnboardingPanel data={onboardingData} loading={loading} action={() => fetchOnboardingCourses()}/>
+                            <OnboardingPanel data={onboardingCourses as onboardingCourses} loading={loading} action={() => fetchOnboardingCourses()}/>
                         </div>
 
                         <div className='flex flex-[2.8] items-center justify-center rounded-2xl overflow-hidden'>
-                            <video src={nowPlaying ? nowPlaying as unknown as string : ''} controls autoPlay={true} onEnded={onVideoEnd} className='w-full h-full object-cover' />
+                            <video src={nowPlaying ? nowPlaying as unknown as string : ''} controls autoPlay={true} onEnded={() => {}} className='w-full h-full object-cover' />
                         </div>
                     </div>
                     

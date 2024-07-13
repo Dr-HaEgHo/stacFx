@@ -6,63 +6,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FC, useContext, useEffect, useState } from "react";
 import {
+  getCourseDetails,
   getLatestCourses,
   getOngoingCourses,
 } from "@/store/courses/courseAction";
 import CardLoader from "../CardLoader";
 import SomethingWentWrong from "../SomethingWentWrong";
-import { CourseProps, courseData } from "@/types";
+import { CourseProps, courseData, innerCourses, onboardingCourses } from "@/types";
 import { GlobalContext } from "@/context/context";
-
-const latest = [
-  {
-    id: 1,
-    title: "The Fundamentals of FX trading - Beginner to Advanced",
-    total: 20,
-    completed: 0,
-    instructor: "Kore Ayobami",
-  },
-  {
-    id: 2,
-    title: "The Fundamentals of FX trading - Beginner to Advanced",
-    total: 20,
-    completed: 0,
-    instructor: "Kore Ayobami",
-  },
-  {
-    id: 3,
-    title: "The Fundamentals of FX trading - Beginner to Advanced",
-    total: 20,
-    completed: 0,
-    instructor: "Kore Ayobami",
-  },
-  // { id: 4, title: "The Fundamentals of FX trading - Beginner to Advanced", total: 20, completed: 0, instructor: "Kore Ayobami" },
-];
-
-const ongoing = [
-  {
-    id: 1,
-    title: "The Fundamentals of FX trading - Beginner to Advanced",
-    total: 20,
-    completed: 4,
-    instructor: "Kore Chiefdrummer",
-  },
-  {
-    id: 2,
-    title: "The Fundamentals of FX trading - Beginner to Advanced",
-    total: 20,
-    completed: 10,
-    instructor: "Kore Chiefdrummer",
-  },
-  {
-    id: 3,
-    title: "The Fundamentals of FX trading - Beginner to Advanced",
-    total: 20,
-    completed: 12,
-    instructor: "Kore Chiefdrummer",
-  },
-  // { id: 4, title: "The Fundamentals of FX trading - Beginner to Advanced", total: 20, completed: 12, instructor: "Kore Chiefdrummer" },
-];
+import Load from "../Load";
 
 const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
   const router = useRouter();
@@ -76,22 +28,28 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
   const isOngoingLoading = useAppSelector(
     (state) => state.courses.ongoingLoading
   );
+  const detailsLoading = useAppSelector(
+    (state) => state.courses.courseDetailLoading
+  );
+  const courseDetails = useAppSelector(state => state.courses.courseDetails)
 
+  const [loading, setLoading] = useState<boolean>(false)
   const [latestLoading, setLatestLoading] = useState<boolean>(false);
   const [ongoingLoading, setOngoingLoading] = useState<boolean>(false);
   const { currentCourse, setCurrentCourse } = useContext(GlobalContext);
 
-  const filterCourse = (arr: courseData[]) => {
-    let newArr: courseData | null = null;
-    arr?.filter((item) => {
-      if (item.id.toString() === queryId) {
-        newArr = item;
-      }
-    });
+  // const filterCourse = (arr: onboardingCourses[]) => {
+  //   let newArr: onboardingCourses | null = null;
+  //   arr?.filter((item) => {
+  //     if (item.id.toString() === queryId) {
+  //       newArr = item;
+  //     }
+  //   });
 
-    return newArr;
-  };
+  //   return newArr;
+  // };
 
+  console.log("this is the ;atest course data", latest)
   const nextCourse = (arr: courseData[]) => {
     let newArr: courseData | null = null;
     for (let i: number = 0; i < arr.length; i++) {
@@ -104,17 +62,19 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
   };
 
   useEffect(() => {
-    dispatch(getLatestCourses());
-    dispatch(getOngoingCourses());
-
-    setCurrentCourse(filterCourse(ongoing));
-  }, []);
-
-  useEffect(() => {
-    setCurrentCourse(filterCourse(ongoing));
+    dispatch(getCourseDetails(queryId as string));
   }, [queryId]);
 
   useEffect(() => {
+    setCurrentCourse(courseDetails as onboardingCourses);
+  }, []);
+
+  useEffect(() => {
+    if (detailsLoading) {
+      setLoading(true);
+    } else setLoading(false);
+
+
     if (isLatestLoading) {
       setLatestLoading(true);
     } else setLatestLoading(false);
@@ -124,10 +84,11 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
     } else {
       setOngoingLoading(false);
     }
-  }, [latestLoading, ongoingLoading]);
+  }, [detailsLoading, isLatestLoading, isOngoingLoading]);
 
   return (
     <div className="w-full bg-white ">
+      { loading === true && <Load/> }
       <div className="dash-container">
         <div className="w-full pt-[26px] 2xl:pt-[34px] ">
           {/* TOP BAR WELCOME */}
@@ -135,7 +96,7 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
             {/* ABSOLUTE BG IMAGE */}
             <div className="w-full z-0 top-0 left-0">
               <Image
-                src={currentCourse?.photo as unknown as string}
+                src={currentCourse?.cover_image as unknown as string}
                 width={1024}
                 height={1024}
                 alt="stacfx.com"
@@ -145,7 +106,7 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
 
             <div className="z-10 mt-20 absolute top-1/2 transform -translate-y-1/2 p-10">
               <span className="text-white tracking-widest text-[11px] 2xl:text-[13px] font-[100] ">
-                STACFX ACADEMY
+                STACFX ACADEMY 
               </span>
               <h3 className="text-white text-[28px] 2xl:text-[32px] ">
                 {currentCourse?.title}
@@ -171,11 +132,8 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
                 <div
                   style={{
                     width: `${
-                      currentCourse
-                        ? Math.floor(
-                            (currentCourse?.completed / currentCourse?.total) *
-                              100
-                          )
+                      currentCourse !== null
+                        ? Math.floor( currentCourse?.lessons_completion_percentage )
                         : 0
                     }%`,
                   }}
@@ -183,10 +141,8 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
                 />
               </div>
               <span className="text-primary text-[11px] 2xl:text-[13px] font-[100] ">
-                {currentCourse
-                  ? Math.floor(
-                      (currentCourse?.completed / currentCourse?.total) * 100
-                    )
+                {currentCourse !== null
+                  ? Math.floor(currentCourse?.lessons_completion_percentage )
                   : 0}
                 % Completed
               </span>
@@ -195,18 +151,31 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
             {/* BUTTON FOR CTA */}
             <div>
               <div className="hidden lg:block">
-                <button
-                  onClick={() =>
-                    router.push(
-                      `/dashboard/courses?id=${currentCourse?.id}&watch=${currentCourse?.videos}`
-                    )
-                  }
-                  className="buttons-2 flex items-center gap-1 !px-16"
-                >
-                  <p className="text-xs 2xl:text-sm text-white">
-                    Continue Course
-                  </p>
-                </button>
+                { currentCourse !== null && currentCourse.completed_lessons_count <= 0 ? (
+                  <button
+                    onClick={() =>{
+                      router.push(`/dashboard/courses?id=${currentCourse?.id}&watch=""`)
+                    }}
+                    className="buttons-2 flex items-center gap-1 !px-16"
+                  >
+                    <p className="text-xs 2xl:text-sm text-white">
+                      Enroll Course
+                    </p>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() =>
+                      router.push(
+                        `/dashboard/courses?id=${currentCourse?.id}&watch=""`
+                      )
+                    }
+                    className="buttons-2 flex items-center gap-1 !px-16"
+                  >
+                    <p className="text-xs 2xl:text-sm text-white">
+                      Continue Course
+                    </p>
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -222,19 +191,14 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
 
           {/* LATEST COURSES MAPPED OUT */}
           <div className="flex gap-[18px] 2xl:gap-[24px] justify-between">
-            {latestLoading === true ? (
+          {latestLoading === true ? (
               <CardLoader />
             ) : (
               <>
                 {latest ? (
-                  latest.slice(0, 3).map((item) => (
-                    <div className="w-[33%]">
-                      <LatestCard
-                        data={item}
-                        action={() => {
-                          router.push(`/dashboard/courses?id=${item.id}`);
-                        }}
-                      />
+                  latest.slice(0,3).map((item, idx) => (
+                    <div className={`w-full md:w-[33%] ${idx === 2 && 'hidden md:flex' } ${idx === 1 && 'hidden sm:flex' }`}>
+                      <LatestCard data={item} action={()=> {router.push(`/dashboard/courses?id=${item.id}`)}}/>
                     </div>
                   ))
                 ) : (
@@ -255,26 +219,19 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
 
           {/* ONGOING COURSES MAPPED OUT */}
           <div className="w-full flex items-start gap-[18px] 2xl:gap-[24px] flex-nowrap">
-            {ongoingLoading === true ? (
-              <CardLoader />
-            ) : (
-              <>
-                {ongoing ? (
-                  ongoing.slice(0, 3).map((item) => (
-                    <div className="w-[33%]">
-                      <OngoingCard
-                        data={item}
-                        action={() => {
-                          router.push(`/dashboard/courses?id=${item.id}`);
-                        }}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <SomethingWentWrong />
-                )}
-              </>
-            )}
+          {
+                ongoingLoading === true ? (<CardLoader/>): (<>
+                    {ongoing !== null && ongoing ? (
+                    ongoing.slice(0,3).map((item, idx) => (
+                        <div className={`w-full md:w-[33%] ${idx === 2 && 'hidden md:flex' } ${idx === 1 && 'hidden sm:flex' }`}>
+                        <OngoingCard data={item} action={()=> {router.push(`/dashboard/courses?id=${item.course?.id}`)}} />
+                        </div>
+                    ))
+                    ) : (
+                    <SomethingWentWrong />
+                    )}
+                </>)
+            }
           </div>
 
           <div className="h-[5rem]" />

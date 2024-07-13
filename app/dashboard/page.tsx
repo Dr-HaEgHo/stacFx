@@ -2,9 +2,11 @@
 import CardLoader from "@/components/CardLoader";
 import LatestCard from "@/components/LatestCard";
 import OngoingCard from "@/components/OngoingCard";
+import withProtectedRoute from "@/components/ProtectedRoute";
 import SomethingWentWrong from "@/components/SomethingWentWrong";
 import { getLatestCourses, getOngoingCourses } from "@/store/courses/courseAction";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { innerCourses } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -123,10 +125,10 @@ const page = () => {
           <div className="w-full flex items-start gap-[18px] 2xl:gap-[24px] flex-nowrap">
             {
                 ongoingLoading === true ? (<CardLoader/>): (<>
-                    {ongoing ? (
+                    {ongoing !== null && ongoing ? (
                     ongoing.slice(0,3).map((item, idx) => (
                         <div className={`w-full md:w-[33%] ${idx === 2 && 'hidden md:flex' } ${idx === 1 && 'hidden sm:flex' }`}>
-                        <OngoingCard data={item} action={()=> {router.push(`/dashboard/courses?id=${item.id}`)}} />
+                        <OngoingCard data={item} action={()=> {router.push(`/dashboard/courses?id=${item?.course?.id}`)}} />
                         </div>
                     ))
                     ) : (
@@ -143,4 +145,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default withProtectedRoute(page);

@@ -1,7 +1,9 @@
+'use client'
+import { GlobalContext } from '@/context/context'
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
 
-const chats = [
+let chats = [
     { id: 1, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
     { id: 2, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
     { id: 3, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
@@ -15,6 +17,8 @@ const chats = [
 ]
 
 const page = () => {
+    const { message, setMessage, messages, setMessages} = useContext(GlobalContext)
+
     return (
         <div className=' flex flex-col gap-[14px] 2xl:gap-[14px]' >
             {

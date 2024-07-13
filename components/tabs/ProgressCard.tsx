@@ -14,7 +14,7 @@ const ProgressCard: FC<CardData> = ({ data, action }) => {
       {/* IMAGE */}
       <div className="w-full h-[50%]  bg-orange-300 flex items-center justify-between z-10 relative">
         <Image
-          src={data.photo}
+          src={data.cover_image as unknown as string}
           width={1024}
           height={1024}
           alt="stacFx.com"
@@ -40,7 +40,7 @@ const ProgressCard: FC<CardData> = ({ data, action }) => {
             {data?.title}
           </h3>
           <p className="text-greytxt text-[10px] 2xl:text-sm font-[100]">
-            {data?.instructor}
+            {data?.instructor.first_name + " " + data?.instructor.last_name}
           </p>
         </div>
 
@@ -50,16 +50,16 @@ const ProgressCard: FC<CardData> = ({ data, action }) => {
           <div className="w-full h-[8px] bg-progressTrack2 rounded-full mb-2">
             <div
               style={{
-                width: `${Math.floor((data?.completed / data?.total) * 100)}%`,
+                width: `${Math.floor(data.lessons_completion_percentage)}%`,
               }}
               className={`bg-progress2 h-full rounded-full`}
             />
           </div>
 
           <p className="text-black text-xs font-normal">
-            {Math.floor((data?.completed / data?.total) * 100)}% Complete{" "}
+            {Math.floor(data?.lessons_completion_percentage)}% Complete{" "}
             <span className="text-greytxt text-xs font-normal">
-              ( {data?.completed} of {data?.total} complete )
+              ( {data?.completed_lessons_count} of {data?.total_lessons_count} complete )
             </span>
           </p>
         </div>

@@ -1,25 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { courseData } from "@/types";
-import { getAllCourses, getLatestCourses, getOnboardingVideos, getOngoingCourses, updateOnboardingData } from "./courseAction";
+import { courseData, onboardingCourses, onboardingData } from "@/types";
+import { getAllCourses, getCourseDetails, getLatestCourses, getOnboardingId, getOnboardingVideos, getOngoingCourses, updateOnboardingData } from "./courseAction";
+
 
 interface coursesState {
   loading: boolean;
+  courseDetailLoading: boolean;
   updateLoading: boolean;
   latestLoading: boolean;
   ongoingLoading: boolean;
-  onboardingData: courseData[]
-  courses: courseData[];
-  latestCourses: courseData[];
-  ongoingCourses: courseData[];
+  onboardingData: onboardingData | null;
+  onboardingCourses: onboardingCourses | null;
+  courses: onboardingCourses[];
+  courseDetails: {}
+  latestCourses: onboardingCourses[];
+  ongoingCourses: onboardingCourses[];
 }
 
 const initialState: coursesState = {
   loading: false,
+  courseDetailLoading: false,
   updateLoading: false,
   latestLoading: false,
   ongoingLoading: false,
   courses: [],
-  onboardingData: [],
+  courseDetails: {},
+  onboardingData: null,
+  onboardingCourses: null,
   latestCourses: [],
   ongoingCourses: [],
 };
@@ -31,12 +38,24 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
 
     //============================================================== TO FETCH ALL ONBOARDING COURSES
+    builder.addCase(getOnboardingId.pending, (state) => {
+      state.loading = true;
+    }),
+    builder.addCase(getOnboardingId.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.onboardingData = payload as unknown as onboardingData || undefined
+    }),
+    builder.addCase(getOnboardingId.rejected, (state) => {
+      state.loading = false;
+    });
+
+    //============================================================== TO FETCH ALL ONBOARDING COURSES
     builder.addCase(getOnboardingVideos.pending, (state) => {
       state.loading = true;
     }),
     builder.addCase(getOnboardingVideos.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.onboardingData = payload.onboarding as unknown as courseData[] || undefined
+      state.onboardingCourses = payload?.data as unknown as onboardingCourses || undefined
     }),
     builder.addCase(getOnboardingVideos.rejected, (state) => {
       state.loading = false;
@@ -45,13 +64,13 @@ export const authSlice = createSlice({
 
     //============================================================== TO UPDATE ALL ONBOARDING COURSES
     builder.addCase(updateOnboardingData.pending, (state) => {
-      state.updateLoading = true;
+      state.loading = true;
     }),
     builder.addCase(updateOnboardingData.fulfilled, (state, { payload }) => {
-      state.updateLoading = false;
+      state.loading = false;
     }),
     builder.addCase(updateOnboardingData.rejected, (state) => {
-      state.updateLoading = false;
+      state.loading = false;
     });
     
     //============================================================== TO FETCH ALL COURSES
@@ -60,7 +79,7 @@ export const authSlice = createSlice({
     }),
     builder.addCase(getAllCourses.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.courses = payload.courses as unknown as courseData[] || undefined
+      state.courses = payload?.data?.results as unknown as onboardingCourses[] || undefined
     }),
     builder.addCase(getAllCourses.rejected, (state, { payload }) => {
       state.loading = false;
@@ -73,7 +92,7 @@ export const authSlice = createSlice({
     }),
     builder.addCase(getLatestCourses.fulfilled, (state, { payload }) => {
       state.latestLoading = false;
-      state.latestCourses = payload.latest as unknown as courseData[] || undefined
+      state.latestCourses = payload?.data as unknown as onboardingCourses[] || undefined
     }),
     builder.addCase(getLatestCourses.rejected, (state, { payload }) => {
       state.latestLoading = false;
@@ -85,10 +104,23 @@ export const authSlice = createSlice({
     }),
     builder.addCase(getOngoingCourses.fulfilled, (state, { payload }) => {
       state.ongoingLoading = false;
-      state.ongoingCourses = payload.enrolled as unknown as courseData[] || undefined
+      state.ongoingCourses = payload?.data?.results as unknown as onboardingCourses[] || undefined
     }),
     builder.addCase(getOngoingCourses.rejected, (state, { payload }) => {
       state.ongoingLoading = false;
+    });
+
+
+    //============================================================== TO FETCH LATEST COURSES
+    builder.addCase(getCourseDetails.pending, (state, { payload }) => {
+      state.courseDetailLoading = true;
+    }),
+    builder.addCase(getCourseDetails.fulfilled, (state, { payload }) => {
+      state.courseDetailLoading = false;
+      state.courseDetails = payload?.data as unknown as onboardingCourses || undefined
+    }),
+    builder.addCase(getCourseDetails.rejected, (state, { payload }) => {
+      state.courseDetailLoading = false;
     });
   },
 });

@@ -1,5 +1,5 @@
 "use client";
-import { courseData, onboardingPanelProps } from "@/types";
+import { courseData, lessonType, onboardingCourses, onboardingPanelProps } from "@/types";
 import Image from "next/image";
 import React, { FC, useContext, useEffect } from "react";
 import { LoadButton } from "./Load";
@@ -18,25 +18,27 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
   const router = useRouter();
   const search = useSearchParams();
 
-  const completed = data?.filter((item) => item.isCompleted === true);
-  const { progress } = useProgress(data ? data.length : 0, completed.length);
+  // const completed = data?.filter((item) => item.isCompleted === true);
+  const { progress } = useProgress(data !== null ? data?.total_lessons_count : undefined, data !== null ? data?.completed_lessons_count : undefined);
   const queryWatch = new URLSearchParams(search).get("watch");
   const { currentCourse, setCurrentCourse, setNowPlaying } = useContext(GlobalContext)
   const queryId = new URLSearchParams(search).get("id");
 
   
   const loopAndSetPlayingVideo = () => {
-    if(!data){
+    if(!data || data === null){
       return
     }
-    for(let i: number = 0; i < data?.length; i++){
-      if(data[i].isCompleted === true){
-        console.log("this is the data here guys: ",data[i]);
-        setCurrentCourse(data[i])
-        // router.push( `?id=${data[i + 1].id}&watch=${data[i + 1].videos}`)
+    for(let i: number = 0; i < data.lessons?.length; i++){
+      if(data.lessons[i].is_completed === true){
+        console.log("this is the data here guys: ",data.lessons[i]);
+        setCurrentCourse(data)
+        setNowPlaying(data.lessons[i].video_url)
+        // router.push( `?id=${data.lessons[i + 1].id}&watch=${data.lessons[i + 1].videos}`)
         break;
-      }else if(data[0].isCompleted === false){
-        setCurrentCourse(data[0])
+      }else if(data.lessons[0].is_completed === false){
+        setCurrentCourse(data)
+        setNowPlaying(data.lessons[0].video_url);
         // router.push(`?id=${data[0].id}&watch=${data[0].videos}`)
 
         break;
@@ -44,7 +46,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
     }
   }
 
-  const manuallySetPlayingVideo = (id: string, video: string, course:courseData) => {
+  const manuallySetPlayingVideo = (course: onboardingCourses) => {
     setCurrentCourse(course)
     // router.push( `?id=${id}&watch=${video}`)
     // setCurrentId(id)
@@ -54,11 +56,11 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
     if(currentCourse === null){
       return
     }
-    setNowPlaying(currentCourse.videos)
+    // setNowPlaying(data.video_url)
   }, [currentCourse])
   
   useEffect(() => {
-    action()
+    // action()
     loopAndSetPlayingVideo()
   }, [])
 
@@ -105,28 +107,28 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
           ) : (
             <>
             {/* MAPPED STAGES */}
-            {data ? (
-              data.map((item) => (
+            {data !== null && data.lessons ? (
+              data.lessons.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => manuallySetPlayingVideo(item.id, item.videos, item)}
+                  onClick={() => manuallySetPlayingVideo(data)}
                   style={{
-                    pointerEvents: item.isCompleted === false && item.videos !== queryWatch ? 'none' : 'auto'
+                    pointerEvents: item.is_completed === false && item.video_url !== queryWatch ? 'none' : 'auto'
                   }}
                   className="transition duration-200 w-full flex items-center justify-between py-[9px] cursor-pointer px-1 rounded hover:bg-blackHover"
                 >
-                  <p className={`${item.isCompleted || item.videos === queryWatch ? 'text-headDesc' : 'text-greytxt' }  text-[13px] font-normal`}>
+                  <p className={`${item.is_completed || item.video_url === queryWatch ? 'text-headDesc' : 'text-greytxt' }  text-[13px] font-normal`}>
                     {item.title}
                   </p>
 
-                  { item.id == queryId ? (
+                  { item.id.toString() == queryId ? (
                     <Image 
                         src={require("../assets/icons/play.svg")}
                         alt="stacfx.com"
                         className="w-[20px]"
                       />) : (
                     <>
-                    {item.isCompleted === true ? (
+                    {item.is_completed === true ? (
                       <Image 
                         src={require("../assets/icons/bluetick.png")}
                         alt="stacfx.com"

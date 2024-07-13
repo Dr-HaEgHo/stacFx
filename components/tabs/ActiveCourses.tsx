@@ -3,7 +3,7 @@ import EmptyCourse from '../Empty'
 import ProgressCard from './ProgressCard'
 import Loader from '../CardLoader'
 import { courseCatProps } from './AllCourses'
-import { courseData } from '@/types'
+import { courseData, onboardingCourses } from '@/types'
 import { useRouter } from 'next/navigation'
 
 const ActiveCourses: FC<courseCatProps> = ({data})=> {
@@ -11,7 +11,7 @@ const ActiveCourses: FC<courseCatProps> = ({data})=> {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false)
 
-    const routeToLocation = (id: string, video: string) => {
+    const routeToLocation = (id: string) => {
         router.push(`/dashboard/courses?id=${id}`)
     }
 
@@ -25,10 +25,10 @@ const ActiveCourses: FC<courseCatProps> = ({data})=> {
 
                         {
                             // loading === true ? (<Loader/>) :
-                            data && data.length ? data.map((item: courseData, index: number) => (
+                            data && data.length ? data.map((item: onboardingCourses, index: number) => (
 
                                 <div key={index} className='slide-up'>
-                                    <ProgressCard data={item} action={() => routeToLocation(item.id, item.videos)}/>
+                                    <ProgressCard data={item} action={() => routeToLocation(item.id)}/>
                                 </div>
 
                             )) : (

@@ -1,6 +1,6 @@
 "use client";
 import { InputFade } from "@/components/Input";
-import { LoadButton } from "@/components/Load";
+import Load, { LoadButton } from "@/components/Load";
 import Modal from "@/components/Modal";
 import { GlobalContext } from "@/context/context";
 import { profileSchema } from "@/schemas";
@@ -11,6 +11,8 @@ import cogoToast from "cogo-toast";
 import { useFormik } from "formik";
 import Image from "next/image";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import "react-phone-input-2/lib/style.css";
+import PhoneInput from "react-phone-input-2";
 
 export interface updateDetails {
   firstname: string;
@@ -30,6 +32,8 @@ const page = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [updateLoading, setUpdateLoading] = useState<boolean>(false);
+  const [phone, setPhone] = useState<string>("");
+  const [errorPH, setErrorPH] = useState<string>("");
 
   const userDetails = useAppSelector<UserDetails | null>(
     (state) => state.auth.userDetails
@@ -44,7 +48,7 @@ const page = () => {
       updateProfileData({
         firstname: values.firstname,
         lastname: values.lastname,
-        phoneNumber: values.phoneNumber,
+        phoneNumber: phone,
         photo: picture || "",
       } as updateDetails)
     );
@@ -57,7 +61,6 @@ const page = () => {
         firstname: userDetails?.first_name,
         lastname: userDetails?.last_name,
         username: userDetails?.first_name,
-        phoneNumber: userDetails?.phone_number,
         email: userDetails?.email,
       },
       validationSchema: profileSchema,
@@ -70,7 +73,7 @@ const page = () => {
 
   const updateProfile = () => {
     setOpenModal(false);
-    cogoToast.warn('Update Profile to save changes')
+    cogoToast.warn("Update Profile to save changes");
   };
 
   const handlePictureStaging = () => {
@@ -105,18 +108,31 @@ const page = () => {
       values.lastname !== "" &&
       values.email !== "" &&
       values.username !== "" &&
-      values.phoneNumber !== "" &&
+      phone !== "" &&
       !errors.firstname &&
       !errors.lastname &&
       !errors.username &&
-      !errors.phoneNumber &&
+      errorPH === "" &&
       !errors.email
     ) {
       setFormButtonDisabled(true);
     } else {
       setFormButtonDisabled(false);
     }
-  }, [values, errors]);
+
+    if (phone === "") {
+      setErrorPH("This field is required");
+    } else if (phone.length < 13) {
+      setErrorPH("Invalid: phone number too short");
+    } else if (phone.length > 14) {
+      setErrorPH("Invalid: phone number too long");
+    } else {
+      setErrorPH("");
+    }
+
+    console.log(phone);
+    console.log(errorPH);
+  }, [values, errors, phone, errorPH]);
 
   useEffect(() => {
     if (isLoading) {
@@ -133,14 +149,15 @@ const page = () => {
   }, [isLoading, isUpdateLoading]);
 
   useEffect(() => {
-    if(userDetails){
-        return
+    if (userDetails) {
+      return;
     }
-    dispatch(getProfileData())
-  },[])
+    dispatch(getProfileData());
+  }, []);
 
   return (
     <div className="w-full h-full bg-white ">
+      { loading === true && <Load/>}
       <Modal isOpen={openModal} setIsOpen={setOpenModal}>
         <h1 className="text-xl font-semibold text-appBlack">
           Upload Profile Picture
@@ -175,7 +192,8 @@ const page = () => {
           <p className="text-sm max-w-[300px] text-center mt-8">
             {pictureRef?.current &&
             pictureRef?.current?.files &&
-            pictureRef?.current?.files[0] && picture !== null
+            pictureRef?.current?.files[0] &&
+            picture !== null
               ? pictureRef.current.files[0].name
               : "please select a file"}
           </p>
@@ -221,25 +239,26 @@ const page = () => {
                   {/* USER PICTURE */}
                   {updateLoading === true ? (
                     <div className="absolute top-0 w-full h-full flex items-center justify-center bg-blackLoading z-10">
-                        <LoadButton />
+                      <LoadButton />
                     </div>
-                  ) : ''}
-                    {userDetails?.photo ? (
+                  ) : (
+                    ""
+                  )}
+                  {userDetails?.photo ? (
                     <Image
-                        src={`https://fx-lms.onrender.com${userDetails.photo}`}
-                        alt="stacfx.com"
-                        width={1024}
-                        height={1024}
-                        className="w-full h-full object-cover"
+                      src={`https://fx-lms.onrender.com${userDetails.photo}`}
+                      alt="stacfx.com"
+                      width={1024}
+                      height={1024}
+                      className="w-full h-full object-cover"
                     />
-                    ) : (
+                  ) : (
                     <Image
-                        src={require("../../../assets/images/avatar2.png")}
-                        alt="stacfx.com"
-                        className="w-full"
+                      src={require("../../../assets/images/avatar2.png")}
+                      alt="stacfx.com"
+                      className="w-full"
                     />
-                    )}
-                
+                  )}
                 </div>
                 <button
                   onClick={openPhotoModal}
@@ -255,9 +274,13 @@ const page = () => {
 
               {/* USER DETAILS TEXT */}
               <div className="flex flex-col items-center gap-1">
-                <h4 className="text-[20px] 2xl:text-[24px] text-headDesc text-center">
-                  {`${userDetails?.first_name} ${userDetails?.last_name}`}
-                </h4>
+                {userDetails?.first_name ? (
+                  <h4 className="text-[20px] 2xl:text-[24px] text-headDesc">{`${userDetails?.first_name} ${userDetails?.last_name}`}</h4>
+                ) : (
+                  <h4 className="text-[20px] 2xl:text-[24px] text-headDesc">
+                    Please Wait...
+                  </h4>
+                )}
                 <p className="text-[11px] 2xl:text-[13px] text-greytxt">
                   Joined November 2023
                 </p>
@@ -322,7 +345,7 @@ const page = () => {
                   type="email"
                   placeholder=""
                 />
-                <InputFade
+                {/* <InputFade
                   id="phoneNumber"
                   value={values.phoneNumber}
                   touched={touched.phoneNumber}
@@ -333,11 +356,52 @@ const page = () => {
                   label="Phone Number"
                   type="number"
                   placeholder=""
-                />
-                <button disabled={!formButtonDisabled || loading === true || updateLoading === true} className="buttons">
-                  {
-                    loading === true || updateLoading === true ? (<LoadButton/>) : (<p className="text-[13px] 2xl:text-[15px]">Update Profile</p>)
+                /> */}
+
+                <div className="input-wrap">
+                  <label className="labelsFade">Phone Number</label>
+                  <div className="w-full flex inputsfade !p-0">
+                    <PhoneInput
+                      country={"ng"}
+                      placeholder="Enter phone number"
+                      value={userDetails?.phone_number || phone}
+                      onChange={(phone) => setPhone(phone)}
+                      searchStyle={{
+                        width: "100%",
+                      }}
+                      inputStyle={{
+                        width: "100%",
+                        padding: "20px 50px",
+                        border: 'none',
+                        background: 'none'
+                      }}
+                      buttonStyle={{
+                        border: 'none',
+                        background: "none"
+                      }}
+                    />
+                  </div>
+                  {errorPH && (
+                    <p className="text-error text-[10px] italic">{errorPH}</p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={
+                    !formButtonDisabled ||
+                    loading === true ||
+                    updateLoading === true
                   }
+                  className="buttons"
+                >
+                  {loading === true || updateLoading === true ? (
+                    <LoadButton />
+                  ) : (
+                    <p className="text-[13px] 2xl:text-[15px]">
+                      Update Profile
+                    </p>
+                  )}
                 </button>
               </form>
             </div>

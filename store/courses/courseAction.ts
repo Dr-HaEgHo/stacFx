@@ -1,9 +1,9 @@
-import { baseUrl } from "@/config";
+import { baseUrl, baseUrlApi } from "@/config";
 import { courseData, loginType, signUpType } from "@/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "@reduxjs/toolkit/query";
 import axios from "axios";
 import cogoToast from "cogo-toast";
+import { RootState } from "../store";
 
 // const baseUrl = process.env.BASE_URL
 type updateDataType = {
@@ -13,16 +13,56 @@ type updateDataType = {
 }
 
 // ================================================================= Fetch Onboarding
-export const getOnboardingVideos = createAsyncThunk(
-  "getOnboardingVideos",
-  async ( arg, { rejectWithValue, getState }
+export const getOnboardingId = createAsyncThunk(
+  "getOnboardingId",
+  async ( arg, { rejectWithValue, getState, dispatch }
   ) => {
+    const { auth, courses } = getState() as RootState 
     try {
       // const token = getState().auth.token
-      const res = await fetch('http://localhost:5050/0');
+      const res = await axios(`${baseUrlApi}/api/onboarding-course/`,{
+        headers:{
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.userToken}`
+        }
+      });
       if (res.status === 200 || res.status === 201) {
         // cogoToast.success('Welcome to the onboarding, please take your onboarding before you can proceed')
-        return res.json();
+        console.log('onboarding data', res)
+        dispatch(getOnboardingVideos( courses.onboardingData !== null ? courses.onboardingData?.data?.id : "null"))
+        return res;
+      }
+    } catch (err: any) {
+      if (err.response.status === 400) {
+        cogoToast.error('Something went Wrong')
+        return rejectWithValue(err.response);
+        } else {
+        cogoToast.error('Something went Wrong too')
+        return rejectWithValue(err.response);
+      }
+      // return rejectWithValue(err);
+    }
+  }
+);
+
+// ================================================================= Fetch Onboarding
+export const getOnboardingVideos = createAsyncThunk(
+  "getOnboardingVideos",
+  async ( id:string, { rejectWithValue, getState }
+  ) => {
+    const { auth } = getState() as RootState 
+    try {
+      // const token = getState().auth.token
+      const res = await axios(`${baseUrlApi}/api/course/${id}/`,{
+        headers:{
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.userToken}`
+        }
+      });
+      if (res.status === 200 || res.status === 201) {
+        // cogoToast.success('Welcome to the onboarding, please take your onboarding before you can proceed')
+        console.log('onboarding data', res)
+        return res;
       }
     } catch (err: any) {
       if (err.response.status === 400) {
@@ -53,7 +93,7 @@ export const updateOnboardingData = createAsyncThunk(
       }
       const res = await fetch('http://localhost:5050/0', options);
       if (res.status === 200 || res.status === 201) {
-        dispatch(getOnboardingVideos())
+        // dispatch(getOnboardingVideos())
         return res.json();
       }
     } catch (err: any) {
@@ -74,11 +114,17 @@ export const getAllCourses = createAsyncThunk(
   "getAllCourses",
   async ( arg, { rejectWithValue, getState, dispatch }
   ) => {
+    const  { auth } = getState() as RootState
     try {
-      const res = await fetch('http://localhost:5050/1');
+      const res = await axios.get(`${baseUrlApi}/api/courses/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.userToken}`
+        },
+      });
       if (res.status === 200 || res.status === 201) {
-        cogoToast.success('Sign up successful')
-        return res.json();
+        // cogoToast.success('Sign up successful')
+        return res;
       }
     } catch (err: any) {
       if (err.response.status === 400) {
@@ -92,16 +138,22 @@ export const getAllCourses = createAsyncThunk(
   }
 );
 
-// ================================================================= Fetch All Courses
+// ================================================================= Fetch latest Courses
 export const getLatestCourses = createAsyncThunk(
   "getLatestCourses",
   async ( arg, { rejectWithValue, getState, dispatch }
   ) => {
+    const  { auth } = getState() as RootState
     try {
-      const res = await fetch('http://localhost:5050/2');
+      const res = await axios.get(`${baseUrlApi}/api/latest-courses/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.userToken}`
+        },
+      });
       if (res.status === 200 || res.status === 201) {
-        cogoToast.success('Sign up successful')
-        return res.json();
+        // cogoToast.success('Sign up successful')
+        return res;
       }
     } catch (err: any) {
       if (err.response.status === 400) {
@@ -110,22 +162,27 @@ export const getLatestCourses = createAsyncThunk(
       } else {
         return rejectWithValue(err.response);
       }
-
       // return rejectWithValue(err);
     }
   }
 );
 
-// ================================================================= Fetch All Courses
+// ================================================================= Fetch ongoing Courses
 export const getOngoingCourses = createAsyncThunk(
   "getOngoingCourses",
   async ( arg, { rejectWithValue, getState, dispatch }
   ) => {
+    const  { auth } = getState() as RootState
     try {
-      const res = await fetch('http://localhost:5050/3');
+      const res = await axios.get(`${baseUrlApi}/api/all-enrolled-courses/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.userToken}`
+        },
+      });
       if (res.status === 200 || res.status === 201) {
-        cogoToast.success('Sign up successful')
-        return res.json();
+        // cogoToast.success('Sign up successful')
+        return res;
       }
     } catch (err: any) {
       if (err.response.status === 400) {
@@ -134,7 +191,38 @@ export const getOngoingCourses = createAsyncThunk(
       } else {
         return rejectWithValue(err.response);
       }
+      // return rejectWithValue(err);
+    }
+  }
+);
 
+// ================================================================= Fetch COURSE DETAILS
+export const getCourseDetails = createAsyncThunk(
+  "getCourseDetails",
+  async ( id:string, { rejectWithValue, getState }
+  ) => {
+    const { auth } = getState() as RootState 
+    try {
+      // const token = getState().auth.token
+      const res = await axios(`${baseUrlApi}/api/course/${id}/`,{
+        headers:{
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.userToken}`
+        }
+      });
+      if (res.status === 200 || res.status === 201) {
+        // cogoToast.success('Welcome to the onboarding, please take your onboarding before you can proceed')
+        console.log('onboarding data', res)
+        return res;
+      }
+    } catch (err: any) {
+      if (err.response.status === 400) {
+        cogoToast.error('Something went Wrong')
+        return rejectWithValue(err.response);
+        } else {
+        cogoToast.error('Something went Wrong too')
+        return rejectWithValue(err.response);
+      }
       // return rejectWithValue(err);
     }
   }

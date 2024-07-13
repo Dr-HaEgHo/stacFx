@@ -6,6 +6,7 @@ import courseReducer from './courses/courseSlice';
 // import userReducer from './users/userSlice';
 import { persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
+import ChatReducer from './chats/ChatSlice';
 
 const persistConfig = {
     key: 'root',
@@ -17,7 +18,7 @@ const persistConfig = {
 const appReducer = combineReducers({
     auth: authReducer,
     courses: courseReducer,
-    // dash: dashReducer,
+    chats: ChatReducer,
     // incubatees: incuReducer,
     // user: userReducer
 })

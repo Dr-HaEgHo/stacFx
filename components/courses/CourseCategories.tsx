@@ -27,8 +27,7 @@ const CourseCategories = () => {
     const handleSetTab = (idx: number) => {
         setIndex(idx)
     };
-    const courses = useAppSelector(state => state.courses.ongoingCourses)
-    const enrolled = useAppSelector(state => state.courses.ongoingCourses)
+    const courses = useAppSelector(state => state.courses.courses)
 
     return (
         <div className='w-full h-full bg-white ' >

@@ -13,6 +13,12 @@ module.exports = {
           port: '',
           pathname: '/user-images/**',
         },
+        {
+          protocol: 'https',
+          hostname: 'fx-lms.onrender.com',
+          port: '',
+          pathname: '/courses/**',
+        },
       ],
     },
   }
