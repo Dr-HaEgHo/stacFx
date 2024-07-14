@@ -73,7 +73,7 @@ input:focus{
 }
 
 .input-wrap {
-  @apply w-full flex flex-col items-start gap-2 relative
+  @apply w-full flex flex-col items-start gap-2 relative !z-0
 }
 
 .labels {
