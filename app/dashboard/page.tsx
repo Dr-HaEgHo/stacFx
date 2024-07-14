@@ -145,4 +145,4 @@ const page = () => {
   );
 };
 
-export default withProtectedRoute(page);
+export default page;
