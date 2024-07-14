@@ -12,7 +12,7 @@ interface coursesState {
   onboardingData: onboardingData | null;
   onboardingCourses: onboardingCourses | null;
   courses: onboardingCourses[];
-  courseDetails: {}
+  courseDetails: onboardingCourses | null;
   latestCourses: onboardingCourses[];
   ongoingCourses: onboardingCourses[];
 }
@@ -24,7 +24,7 @@ const initialState: coursesState = {
   latestLoading: false,
   ongoingLoading: false,
   courses: [],
-  courseDetails: {},
+  courseDetails: null,
   onboardingData: null,
   onboardingCourses: null,
   latestCourses: [],

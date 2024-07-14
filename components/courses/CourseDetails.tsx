@@ -63,11 +63,11 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
 
   useEffect(() => {
     dispatch(getCourseDetails(queryId as string));
+    setCurrentCourse(courseDetails as onboardingCourses);
   }, [queryId]);
 
-  useEffect(() => {
-    setCurrentCourse(courseDetails as onboardingCourses);
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
   useEffect(() => {
     if (detailsLoading) {
@@ -96,7 +96,7 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
             {/* ABSOLUTE BG IMAGE */}
             <div className="w-full z-0 top-0 left-0">
               <Image
-                src={currentCourse?.cover_image as unknown as string}
+                src={courseDetails?.cover_image as unknown as string}
                 width={1024}
                 height={1024}
                 alt="stacfx.com"
@@ -109,7 +109,7 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
                 STACFX ACADEMY 
               </span>
               <h3 className="text-white text-[28px] 2xl:text-[32px] ">
-                {currentCourse?.title}
+                {courseDetails?.title}
               </h3>
             </div>
           </div>
@@ -132,8 +132,8 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
                 <div
                   style={{
                     width: `${
-                      currentCourse !== null
-                        ? Math.floor( currentCourse?.lessons_completion_percentage )
+                      courseDetails !== null
+                        ? Math.floor( courseDetails?.lessons_completion_percentage )
                         : 0
                     }%`,
                   }}
@@ -141,8 +141,8 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
                 />
               </div>
               <span className="text-primary text-[11px] 2xl:text-[13px] font-[100] ">
-                {currentCourse !== null
-                  ? Math.floor(currentCourse?.lessons_completion_percentage )
+                {courseDetails !== null
+                  ? Math.floor(courseDetails?.lessons_completion_percentage )
                   : 0}
                 % Completed
               </span>
@@ -151,10 +151,10 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
             {/* BUTTON FOR CTA */}
             <div>
               <div className="hidden lg:block">
-                { currentCourse !== null && currentCourse.completed_lessons_count <= 0 ? (
+                { courseDetails !== null && courseDetails.completed_lessons_count <= 0 ? (
                   <button
                     onClick={() =>{
-                      router.push(`/dashboard/courses?id=${currentCourse?.id}&watch=""`)
+                      router.push(`/dashboard/courses?id=${courseDetails?.id}&watch=""`)
                     }}
                     className="buttons-2 flex items-center gap-1 !px-16"
                   >
@@ -166,7 +166,7 @@ const CourseDetails: FC<CourseProps> = ({ ongoing }) => {
                   <button
                     onClick={() =>
                       router.push(
-                        `/dashboard/courses?id=${currentCourse?.id}&watch=""`
+                        `/dashboard/courses?id=${courseDetails?.id}&watch=""`
                       )
                     }
                     className="buttons-2 flex items-center gap-1 !px-16"
