@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 
 
 interface widthHeight {
-    width: 0 | undefined;
-    height: 0 | undefined;
+    width: number | undefined;
+    height: number | undefined;
 }
 
 
