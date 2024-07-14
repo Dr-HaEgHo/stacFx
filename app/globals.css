@@ -280,7 +280,7 @@ input:focus{
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
   position: fixed;
-  z-index: 99999999999999999999999999999999 !important;
+  z-index: 99999999999 !important;
   top: 0;
   left: 0;
   display: flex;
