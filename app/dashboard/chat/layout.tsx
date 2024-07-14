@@ -22,9 +22,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     const { openChatNav, setOpenChatNav} = useContext(GlobalContext)
     const { message, setMessage, messages, setMessages} = useContext(GlobalContext);
     // const { chats, sendChat } = useWebSocket(`${socketUrl}/chat/?token=${token}`)
-    const socketRef = useRef<WebSocket | null>(null);
-    const socket = new WebSocket(`${socketUrl}/chat/?token=${token}`);
-    socketRef.current = socket;
+    // const socketRef = useRef<WebSocket | null>(null);
+    // const socket = new WebSocket(`${socketUrl}/chat/?token=${token}`);
+    // socketRef.current = socket;
     
     const [ loading, setLoading ] = useState<boolean>(false)
     
@@ -35,16 +35,16 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
     function handleSubmit(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        socket.send(message);
-        setMessage("");
+        // socket.send(message);
+        // setMessage("");
         // alert(message)
     }
 
-    useEffect(() => {
-        socket.onmessage = (data: any) => {
-            setMessages((prevMessages) => { return [...prevMessages, data]; })
-        }
-    }, [])
+    // useEffect(() => {
+    //     socket.onmessage = (data: any) => {
+    //         setMessages((prevMessages) => { return [...prevMessages, data]; })
+    //     }
+    // }, [])
 
     useEffect(() => {
         if(isLoading === true){
