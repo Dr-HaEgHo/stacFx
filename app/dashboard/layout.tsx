@@ -13,7 +13,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
             <div style={{
                 left: mainSidebarOpen === true ? 0 : -260
-            }} className={`fixed lg:sticky top-0 flex flex-1 h-full max-w-[260px] z-[999999999999999999999999999999] `}>
+            }} className={`fixed lg:sticky top-0 flex flex-1 h-full max-w-[260px] z-[9999999999999999] `}>
                 <Sidebar />
             </div>
             <div className="flex flex-[4.5] h-full flex-col">

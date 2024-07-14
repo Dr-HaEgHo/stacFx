@@ -295,7 +295,7 @@ const page = () => {
             <div className="w-[360px]">
               <form
                 onSubmit={handleSubmit}
-                className="w-full flex flex-col gap-4 "
+                className="w-full flex flex-col gap-4 z-0"
               >
                 <InputFade
                   id="firstname"
