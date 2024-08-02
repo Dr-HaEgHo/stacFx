@@ -1,6 +1,6 @@
 "use client";
 
-import { courseData, onboardingCourses } from "@/types";
+import { courseData, messagesData, onboardingCourses } from "@/types";
 import React, {
   createContext,
   SetStateAction,
@@ -20,8 +20,8 @@ interface messageType {
 
 
 interface ContextProps {
-  isActive: number;
-  setIsActive: Dispatch<SetStateAction<number>>;
+  isActive: string;
+  setIsActive: Dispatch<SetStateAction<string>>;
   isSidebarOpen: boolean;
   setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
   mainSidebarOpen: boolean;
@@ -36,8 +36,10 @@ interface ContextProps {
   setOpenChatNav: Dispatch<SetStateAction<boolean>>;
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
-  messages: string[];
-  setMessages: Dispatch<SetStateAction<string[]>>;
+  messages: messagesData[] | null;
+  setMessages: Dispatch<SetStateAction<messagesData[] | null>>;
+  chatId: string;
+  setChatId : Dispatch<SetStateAction<string>>;
 }
 
 // const initialState = {
@@ -45,8 +47,8 @@ interface ContextProps {
 // };
 
 export const GlobalContext = createContext<ContextProps>({
-  isActive: 0,
-  setIsActive: (): number => 0,
+  isActive: '',
+  setIsActive: (): string => '',
   isSidebarOpen: false,
   setIsSidebarOpen: (): boolean => false,
   mainSidebarOpen: false,
@@ -61,8 +63,10 @@ export const GlobalContext = createContext<ContextProps>({
   setOpenChatNav: (): boolean => false,
   message: "",
   setMessage: () : string => '',
-  messages: [],
-  setMessages: () : string[] => []
+  messages: null,
+  setMessages: () : messagesData[] | null => null,
+  chatId: '',
+  setChatId : () :string => ''
 });
 
 export const GlobalContextProvider = ({
@@ -70,7 +74,7 @@ export const GlobalContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [isActive, setIsActive] = useState<number>(0);
+  const [isActive, setIsActive] = useState<string>('');
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [currentCourse, setCurrentCourse] = useState<onboardingCourses | null>(
     null
@@ -79,8 +83,9 @@ export const GlobalContextProvider = ({
   const [picture, setPicture] = useState<string | null>(null);
   const [mainSidebarOpen, setMainSidebarOpen] = useState<boolean>(false);
   const [openChatNav, setOpenChatNav] = useState<boolean>(false);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<messagesData[] | null>(null);
   const [message, setMessage] = useState<string>("");
+  const [ chatId, setChatId ] = useState<string>('')
 
   return (
     <GlobalContext.Provider
@@ -103,7 +108,8 @@ export const GlobalContextProvider = ({
         setMessage,
         messages,
         setMessages,
-
+        chatId,
+        setChatId
       }}
     >
       {children}

@@ -29,7 +29,12 @@ export const getOnboardingId = createAsyncThunk(
       if (res.status === 200 || res.status === 201) {
         // cogoToast.success('Welcome to the onboarding, please take your onboarding before you can proceed')
         console.log('onboarding data', res)
-        dispatch(getOnboardingVideos( courses.onboardingData !== null ? courses.onboardingData?.data?.id : "null"))
+        if(courses.onboardingData !== null){
+          dispatch(getOnboardingVideos(courses.onboardingData?.data?.id))
+        }else{
+          cogoToast.error('Error fetching onboarding, please reload page')
+          throw new Error
+        }
         return res;
       }
     } catch (err: any) {

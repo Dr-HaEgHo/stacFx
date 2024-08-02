@@ -30,3 +30,30 @@ export const getChatRooms = createAsyncThunk(
       }
     }
   );
+
+  // ================================================================= GET PROFILE DATA
+export const getChatDetails = createAsyncThunk(
+    "getChatDetails",
+    async ( chatId: string, { rejectWithValue, getState, dispatch }) => {
+      const { auth } = getState() as RootState;
+      try {
+        const res = await axios.get(`${baseUrlApi}/api/chat/${chatId}/`, {
+          headers:{
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.userToken}`
+          }
+        });
+        if (res.status === 200 || res.status === 201) {
+          return res;
+        }
+      } catch (err: any) {
+        if (err.response.status === 400) {
+          cogoToast.success('Something went Wrong')
+          return rejectWithValue(err.response);
+        } else {
+          return rejectWithValue(err.response);
+        }
+        // return rejectWithValue(err);
+      }
+    }
+  );

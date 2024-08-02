@@ -6,6 +6,9 @@ import React, { useContext, useState } from 'react';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { GlobalContext } from '@/context/context';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { resultsData } from '@/types';
+import { getChatDetails } from '@/store/chats/ChatActions';
 // import { useGlobalContext } from '@/context/context';
 // import Prompt from './Prompt';/
 // import { useAppDispatch } from '@/store/hooks';
@@ -17,16 +20,19 @@ const ChatSidebar = () => {
     const router = useRouter();
     const param = useParams();
     const search = useSearchParams()
+    const dispatch = useAppDispatch()
     // const dispatch = useAppDispatch()
     const queryRoom = new URLSearchParams(search).get('room')
     
     const useGlobalContext = useContext(GlobalContext)
     
+    const chatRooms = useAppSelector(state => state.chats.chatRooms)
     
     const [onlineStatus, setOnlineStatus] = useState<string>("online");
     const [logoutOpen, setLogoutOpen] = useState<boolean>(false)
     // const [ active, setActive ] = useState<number>(0);
-    const { isActive, setIsActive, openChatNav, setOpenChatNav } = useContext(GlobalContext);
+    const { isActive, setIsActive, openChatNav, setOpenChatNav, chatId, setChatId, setMessages} = useContext(GlobalContext);
+
 
     const sidebarLinks = [
         { id: 1, image: require('../assets/icons/onboarding.png'), title: "FX 101 forum", route: `/chat` },
@@ -39,13 +45,18 @@ const ChatSidebar = () => {
     ]
 
 
-    const handleSwitchForums = (title : string) => {
-        if(!title){
+    const handleSwitchForums = (title : string, id: string) => {
+        if(!title || !chatRooms || !chatRooms.results){
             return;
         }
+        
         toggleChatNav()
-        const hashedId = title.split(" ").join('-')
-        router.push(`/dashboard/chat?room=${hashedId}`)
+        const hashedTitle = title.split(" ").join('-')
+        
+        setChatId(id)
+        dispatch(getChatDetails(id));
+    
+        router.push(`/dashboard/chat?room=${hashedTitle}`);
     }
 
     const toggleChatNav = () => {
@@ -82,29 +93,31 @@ const ChatSidebar = () => {
                     {/* MAIN LINKS */}
 
                     <div className="w-full flex flex-col items-start py-2">
-                        {sidebarLinks?.map((item) => (
+                        {chatRooms ? chatRooms?.results.map((item) => (
                             <div onClick={() => {
                                 // router.push(item.route)
-                                handleSwitchForums(item?.title)
+                                handleSwitchForums(item?.course, item?.id)
                                 setIsActive(item?.id)
                             }} className={`w-full cursor-pointer relative transition duration-200 pl-[26px] border-b border-onPanelGray pr-[10px] py-[13px] 2xl:py-[16px] flex border-primary1 items-center justify-between hover:bg-blueChatHighlightHover active:bg-blueChatHighlightActive`}
                                 style={{
                                     color: "#fff",
-                                    backgroundColor: queryRoom?.split('-').join(' ') === item.title ? "#E9F3FF" : "",
+                                    backgroundColor: queryRoom === item.course ? "#E9F3FF" : "",
                                 }}
                             >
                                 <div
                                     style={{
-                                        width: location === item.route || location === item.subRoutes || location === item.subRoutes1 ? 3 : 0
+                                        width: queryRoom === item.course ? 3 : 0
                                     }}
                                     className={`transition duration-200 left-0 bg-appOrange h-[20px] 2xl:h-[26px] absolute`} />
 
-                                <p className={`text-xs 2xl:text-sm text-primary2 `} >{item.title && item.title}</p>
+                                    <p className={`text-xs 2xl:text-sm text-primary2 `} >{item.course && item.course}</p>
                                 <div className='w-[33px] h-5 bg-appOrange rounded-full flex items-center justify-center' >
                                     <p className='text-[10px] 2xl:text-[10px] text-white font-medium leading-3' >355</p>
                                 </div>
                             </div>
-                        ))}
+                        )) : (<div className='w-full text-center'>
+                            <p className={`text-xs 2xl:text-sm text-primary2 `}>You are currently not enrolled in any course, please enroll to see chats</p>
+                        </div>)}
                     </div>
 
 

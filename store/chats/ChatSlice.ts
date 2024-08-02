@@ -1,21 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { getChatRooms } from "./ChatActions";
+import { getChatDetails, getChatRooms } from "./ChatActions";
+import { chatRoomsData } from "@/types";
+import { chatDetailsData } from "@/types";
+
+
+
+
 
 interface AuthState {
   loading: boolean;
-  chatRooms: [];
+  chatLoading: boolean;
+  chatRooms: chatRoomsData | null;
+  chatDetails: chatDetailsData | null;
 }
 
 const initialState: AuthState = {
   loading: false,
-  chatRooms: []
+  chatLoading : false ,
+  chatRooms: null,
+  chatDetails: null
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    resetChatDetails: (state) => {
+      state.chatDetails = null
+    }
   },
   extraReducers: (builder) => {
 
@@ -30,13 +43,26 @@ export const authSlice = createSlice({
     builder.addCase(getChatRooms.rejected, (state, { payload }) => {
       state.loading = false;
     });
+
+
+    // ==================================================== GET ALL CHAT ROOMS
+    builder.addCase(getChatDetails.pending, (state, { payload }) => {
+      state.chatLoading = true;
+    }),
+    builder.addCase(getChatDetails.fulfilled, (state, { payload }) => {
+      state.chatLoading = false;
+      state.chatDetails = payload?.data;
+    }),
+    builder.addCase(getChatDetails.rejected, (state, { payload }) => {
+      state.chatLoading = false;
+    });
    
    
   
   },
 });
 
-export const { } = authSlice.actions;
+export const { resetChatDetails } = authSlice.actions;
 
 // export const selectAuth = (state: RootState) => state.counter.value
 

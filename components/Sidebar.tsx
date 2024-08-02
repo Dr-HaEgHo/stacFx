@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 import { GlobalContext } from '@/context/context';
 import { links } from './homepage/Navbar';
 import Link from 'next/link';
+import { useAppDispatch } from '@/store/hooks';
+import { resetChatDetails } from '@/store/chats/ChatSlice';
 // import Prompt from './Prompt';/
 // import { useAppDispatch } from '@/store/hooks';
 // import { logout } from '@/store/auth/authSlice';
@@ -17,7 +19,7 @@ const Sidebar = () => {
     const location = usePathname();
     const router = useRouter();
     const param = useParams();
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
 
     const { mainSidebarOpen, setMainSidebarOpen} = useContext(GlobalContext)
@@ -113,7 +115,6 @@ const Sidebar = () => {
                 <div className="w-full ">   
 
 
-
                     {/* MAIN LINKS */}
 
                     <div className="w-full flex flex-col items-start gap-1 py-2">
@@ -121,6 +122,9 @@ const Sidebar = () => {
                             <div key={item.id} onClick={() => {
                                 router.push(item.route)
                                 toggleSidebar()
+                                if(item.route === '/dashboard/chat'){
+                                    dispatch(resetChatDetails())
+                                }
                             }} className={`w-full cursor-pointer relative transition duration-200 pl-[38px] py-[12px] 2xl:py-[15px] flex border-primary1 items-center gap-4 hover:bg-whiteHover active:bg-whiteActive`}
                                 style={{
                                     color: "#fff",

@@ -25,26 +25,26 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
   const queryId = new URLSearchParams(search).get("id");
 
   
-  const loopAndSetPlayingVideo = () => {
-    if(!data || data === null){
-      return
-    }
-    for(let i: number = 0; i < data.lessons?.length; i++){
-      if(data.lessons[i].is_completed === true){
-        console.log("this is the data here guys: ",data.lessons[i]);
-        setCurrentCourse(data)
-        setNowPlaying(data.lessons[i].video_url)
-        // router.push( `?id=${data.lessons[i + 1].id}&watch=${data.lessons[i + 1].videos}`)
-        break;
-      }else if(data.lessons[0].is_completed === false){
-        setCurrentCourse(data)
-        setNowPlaying(data.lessons[0].video_url);
-        // router.push(`?id=${data[0].id}&watch=${data[0].videos}`)
+  // const loopAndSetPlayingVideo = () => {
+  //   if(!data || data === null){
+  //     return
+  //   }
+  //   for(let i: number = 0; i < data.lessons?.length; i++){
+  //     if(data.lessons[i].is_completed === true){
+  //       console.log("this is the data here guys: ",data.lessons[i]);
+  //       setCurrentCourse(data)
+  //       setNowPlaying(data.lessons[i].video_url)
+  //       // router.push( `?id=${data.lessons[i + 1].id}&watch=${data.lessons[i + 1].videos}`)
+  //       break;
+  //     }else if(data.lessons[0].is_completed === false){
+  //       setCurrentCourse(data)
+  //       setNowPlaying(data.lessons[0].video_url);
+  //       // router.push(`?id=${data[0].id}&watch=${data[0].videos}`)
 
-        break;
-      }
-    }
-  }
+  //       break;
+  //     }
+  //   }
+  // }
 
   const manuallySetPlayingVideo = (course: onboardingCourses) => {
     setCurrentCourse(course)
@@ -61,7 +61,7 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
   
   useEffect(() => {
     // action()
-    loopAndSetPlayingVideo()
+    // loopAndSetPlayingVideo()
   }, [])
 
 
@@ -107,8 +107,8 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
           ) : (
             <>
             {/* MAPPED STAGES */}
-            {data !== null && data.lessons ? (
-              data.lessons.map((item) => (
+            {data !== null && data?.lessons ? (
+              data?.lessons?.map((item) => (
                 <div
                   key={item.id}
                   onClick={() => manuallySetPlayingVideo(data)}

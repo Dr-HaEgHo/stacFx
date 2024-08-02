@@ -8,14 +8,26 @@ module.exports = {
           pathname: '/gtv-videos-bucket/sample/images/**',
         },
         {
-          protocol: 'https',
+          protocol: 'http',
           hostname: 'fx-lms.onrender.com',
           port: '',
           pathname: '/user-images/**',
         },
         {
-          protocol: 'https',
+          protocol: 'http',
           hostname: 'fx-lms.onrender.com',
+          port: '',
+          pathname: '/courses/**',
+        },
+        {
+          protocol: 'http',
+          hostname: 'fx-lms-1.onrender.com',
+          port: '',
+          pathname: '/user-images/**',
+        },
+        {
+          protocol: 'http',
+          hostname: 'fx-lms-1.onrender.com',
           port: '',
           pathname: '/courses/**',
         },

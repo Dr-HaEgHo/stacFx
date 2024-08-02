@@ -1,70 +1,126 @@
-'use client'
-import { GlobalContext } from '@/context/context'
-import Image from 'next/image'
-import React, { useContext } from 'react'
+"use client";
+import { LoadButton, LoadSmallButton } from "@/components/Load";
+import { GlobalContext } from "@/context/context";
+import { useAppSelector } from "@/store/hooks";
+import { messagesData } from "@/types";
+import { Messages } from "iconsax-react";
+import Image from "next/image";
+import React, { useContext, useEffect, useState } from "react";
 
-let chats = [
-    { id: 1, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
-    { id: 2, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
-    { id: 3, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
-    { id: 4, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: true, image: require('../../../assets/images/IMG1.png') },
-    { id: 5, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: true, image: require('../../../assets/images/IMG1.png') },
-    { id: 6, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
-    { id: 7, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: true, image: require('../../../assets/images/IMG1.png') },
-    { id: 8, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
-    { id: 9, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
-    { id: 10, first_name: "Khenny", last_name: "Michael", message: "Hi guys! what are we studying today?", time: "10:30pm", isUser: false, image: require('../../../assets/images/IMG1.png') },
-]
 
 const page = () => {
-    const { message, setMessage, messages, setMessages} = useContext(GlobalContext)
+  const { message, setMessage, messages, setMessages } =
+    useContext(GlobalContext);
 
-    return (
-        <div className=' flex flex-col gap-[14px] 2xl:gap-[14px]' >
-            {
-                chats?.map((item) => (
-                    <div style={{
-                        justifyContent: item.isUser ? "flex-end" : "flex-start"
-                    }} className='w-full flex justify-start' >
+  const chatMessages = useAppSelector(
+    (state) => state.chats.chatDetails?.messages
+  );
+  const isChatLoading = useAppSelector((state) => state.chats.chatLoading);
+  const me = useAppSelector((state) => state.auth.userDetails?.id);
 
-                        {/* CHAT CARD */}
-                        <div
-                            style={{
-                                flexDirection: item.isUser === true ? "row-reverse" : "row",
-                            }}
-                            className=' w-full flex items-start gap-1' >
+  const [chatLoading, setChatLoading] = useState<boolean>(false);
 
-                            {/* IMAGE */}
-                            <div className='w-[30px] h-[30px] rounded-full overflow-hidden' >
-                                <Image 
-                                    src={item?.image}
-                                    alt={item?.first_name}
-                                    className='w-full'
-                                />
-                            </div>
+  useEffect(() => {
+    if (isChatLoading === true) {
+      setChatLoading(true);
+    } else {
+      setChatLoading(false);
+    }
+  }, [isChatLoading]);
 
+  useEffect(() => {
+    if (chatMessages === null) {
+      return;
+    }
+    setMessages(chatMessages as messagesData[]);
+  }, [chatMessages]);
 
-                            {/* MESSAGE */}
-                            <div
-                                style={{
-                                    alignItems: item.isUser === true ? "flex-end" : "flex-start",
-                                }}
-                                className='flex flex-col w-full max-w-[50%]' >
-                                <p className='text-[11px] text-nameTag '>Khenny Michael</p>
-                                <div className={`${item?.isUser === true ? "mechat" : "outchat"}`} >
-                                    <p
-                                        style={{
-                                            color: item.isUser === true ? "#FFF" : "#000"
-                                        }}
-                                        className='text-[12px] 2xl:text-[14px]' >This is what I said to the man!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))
-            }
+  return (
+    <>
+      {chatLoading === true ? (
+        <div className="h-full flex flex-col w-full items-center justify-center">
+          <LoadSmallButton />
+          <p className="text-xs 2xl:text-sm text-primary2">Loading Chats...</p>
         </div>
-    )
-}
+      ) : (
+        <>
+          {messages ? (
+            <div className=" flex flex-col gap-[14px] 2xl:gap-[14px]">
+              {messages?.map((item) => (
+                <div
+                    key={item.id}
+                  style={
+                    {
+                      justifyContent: item?.sender.id === me ? "flex-end" : "flex-start"
+                    }
+                  }
+                  className="w-full flex justify-start"
+                >
+                  {/* CHAT CARD */}
+                  <div
+                    style={
+                      {
+                        flexDirection: item?.sender.id === me ? "row-reverse" : "row",
+                      }
+                    }
+                    className=" w-full flex items-start gap-1"
+                  >
+                    {/* IMAGE */}
+                    <div className="w-[30px] h-[30px] rounded-full overflow-hidden">
+                      {/* <Image 
+                            src={item?.sender.photo}
+                            alt={item?.sender.first_name}
+                            className='w-full'
+                            width={1024}
+                            height={1024}
+                        /> */}
+                    </div>
 
-export default page
+                    {/* MESSAGE */}
+                    <div
+                      style={
+                        {
+                          alignItems: item?.sender.id === me ? "flex-end" : "flex-start",
+                        }
+                      }
+                      className="flex flex-col w-full max-w-[50%]"
+                    >
+                      <p className="text-[11px] text-nameTag ">
+                        {item?.sender.first_name} {item?.sender.last_name}
+                      </p>
+                      <div
+                        className={`${item?.sender.id === me ? "mechat" : "outchat"}`}
+                      >
+                        <p
+                          style={
+                            {
+                              color: item?.sender.id === me ? "#FFF" : "#000"
+                            }
+                          }
+                          className="text-[12px] 2xl:text-[14px]"
+                        >
+                          {item?.text}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="w-full p-20 flex flex-col items-center justify-center">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <Messages size="120" color="#2A66AE" variant="Bulk"/>
+              </div>
+              <p className="text-xs 2xl:text-sm text-primary2">Your chats will show here</p>
+            </div>
+          )}
+        </>
+      )}
+    </>
+  );
+};
+
+export default page;
+
+// :
