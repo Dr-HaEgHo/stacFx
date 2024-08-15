@@ -17,28 +17,29 @@ const Indicator : FC<IndicatorProps> = ({text, status}) => {
             { status === 'failed' && <p className="text-[10px] text-pending">{ text }</p>}
         </div>
     )
-}
+};
 
 const WatchCourse: FC<CourseProps> = ({ongoing}) => {
 
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const search = useSearchParams()
-    const queryId = new URLSearchParams(search).get("id")
-    const queryWatch = new URLSearchParams(search).get("watch")
+    const search = useSearchParams();
+    const queryId = new URLSearchParams(search).get("id");
+    const queryWatch = new URLSearchParams(search).get("watch");
 
-    const coursesData = useAppSelector(state => state.courses.courses)
-    const isLoading = useAppSelector(state => state.courses.loading)
+    const coursesData = useAppSelector(state => state.courses.courseDetails);
+    const isLoading = useAppSelector(state => state.courses.loading);
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false);
+    const [ currentVideo, setCurrentVideo ] = useState<string>(queryWatch ? queryWatch : '')
 
     const fetchCourses = () => {
-        dispatch(getAllCourses())
-    }
+        dispatch(getAllCourses());
+    };
 
     const ended = () => {
-        alert('ended the video')
-    }
+        alert('ended the video');
+    };
 
     const nextCourse = (arr: onboardingCourses[]) => {
         let newArr: onboardingCourses | null = null
@@ -69,8 +70,8 @@ const WatchCourse: FC<CourseProps> = ({ongoing}) => {
     // }, [])
 
     useEffect(() => {
-
-    },[])
+        setCurrentVideo(queryWatch ? queryWatch : '')
+    },[queryWatch])
 
     useEffect(() => {
         if(isLoading){
@@ -87,6 +88,7 @@ const WatchCourse: FC<CourseProps> = ({ongoing}) => {
                     
                     {/* VIDEO AND COMPONENT */}
                     <div className='flex mt-[30px] 2xl:mt-[36px] items-start gap-[18px] 2xl:gap-[14rem]' >
+
                         <div className='flex flex-[1] max-w-[264px]' >
                             <OnboardingPanel 
                                 data={coursesData as unknown as onboardingCourses} 

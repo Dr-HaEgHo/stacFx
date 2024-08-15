@@ -17,7 +17,7 @@ const page = () => {
     const isLoading = useAppSelector(state => state.courses.loading)
     const queryId = new URLSearchParams(search).get("id")
     const queryWatch = new URLSearchParams(search).get("watch")
-    const {nowPlaying} = useContext(GlobalContext)
+    const {nowPlaying , setNowPlaying} = useContext(GlobalContext)
 
     const [loading, setLoading] = useState<boolean>(false);
     // const [isPlaying, setIsPlaying] = useState('')
@@ -50,6 +50,10 @@ const page = () => {
     useEffect(() => {
         fetchOnboardingCourses()
     }, [])
+
+    useEffect(() => {
+        setNowPlaying(queryWatch !== null ? queryWatch : null)
+    }, [queryWatch])
 
     useEffect(() => {
         isLoading ? setLoading(true) : setLoading(false)

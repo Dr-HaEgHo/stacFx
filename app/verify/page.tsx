@@ -14,8 +14,8 @@ const Verify = () => {
     const router = useRouter()
 
     const [formButtonDisabled, setFormButtonDisabled] = useState<boolean>(false)
-    const [loading, setLoading]= useState<boolean>(false)
     const [values, setValues] = useState<string[]>([])
+    const [loading, setLoading]= useState<boolean>(false)
 
     const token = useAppSelector(state => state.auth.userToken)
 

@@ -14,7 +14,19 @@ module.exports = {
           pathname: '/user-images/**',
         },
         {
+          protocol: 'https',
+          hostname: 'fx-lms.onrender.com',
+          port: '',
+          pathname: '/user-images/**',
+        },
+        {
           protocol: 'http',
+          hostname: 'fx-lms.onrender.com',
+          port: '',
+          pathname: '/courses/**',
+        },
+        {
+          protocol: 'https',
           hostname: 'fx-lms.onrender.com',
           port: '',
           pathname: '/courses/**',
@@ -26,10 +38,28 @@ module.exports = {
           pathname: '/user-images/**',
         },
         {
+          protocol: 'https',
+          hostname: 'fx-lms-1.onrender.com',
+          port: '',
+          pathname: '/user-images/**',
+        },
+        {
           protocol: 'http',
           hostname: 'fx-lms-1.onrender.com',
           port: '',
           pathname: '/courses/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'fx-lms-1.onrender.com',
+          port: '',
+          pathname: '/courses/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'videocdn.cdnpk.net',
+          port: '',
+          pathname: '/videos/**',
         },
       ],
     },

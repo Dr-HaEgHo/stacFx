@@ -1,7 +1,7 @@
 "use client";
 import { LoadButton, LoadSmallButton } from "@/components/Load";
 import { GlobalContext } from "@/context/context";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { messagesData } from "@/types";
 import { Messages } from "iconsax-react";
 import Image from "next/image";
@@ -9,6 +9,8 @@ import React, { useContext, useEffect, useState } from "react";
 
 
 const page = () => {
+
+  const dispatch = useAppDispatch()
   const { message, setMessage, messages, setMessages } =
     useContext(GlobalContext);
 
@@ -30,9 +32,11 @@ const page = () => {
 
   useEffect(() => {
     if (chatMessages === null) {
+      
       return;
     }
     setMessages(chatMessages as messagesData[]);
+    console.log('this is the new messages array: ', messages)
   }, [chatMessages]);
 
   return (
@@ -48,7 +52,7 @@ const page = () => {
             <div className=" flex flex-col gap-[14px] 2xl:gap-[14px]">
               {messages?.map((item) => (
                 <div
-                    key={item.id}
+                    key={item?.id}
                   style={
                     {
                       justifyContent: item?.sender.id === me ? "flex-end" : "flex-start"

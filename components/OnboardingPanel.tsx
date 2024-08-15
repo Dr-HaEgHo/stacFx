@@ -46,9 +46,9 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
   //   }
   // }
 
-  const manuallySetPlayingVideo = (course: onboardingCourses) => {
-    setCurrentCourse(course)
-    // router.push( `?id=${id}&watch=${video}`)
+  const manuallySetPlayingVideo = (id: number, course: string) => {
+    // setCurrentCourse(course)
+    router.push( `?id=${id}&watch=${course}`)
     // setCurrentId(id)
   }
 
@@ -111,13 +111,13 @@ const OnboardingPanel: FC<onboardingPanelProps> = ({
               data?.lessons?.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => manuallySetPlayingVideo(data)}
+                  onClick={() => manuallySetPlayingVideo(item.id, item.video_url)}
                   style={{
-                    pointerEvents: item.is_completed === false && item.video_url !== queryWatch ? 'none' : 'auto'
+                    
                   }}
                   className="transition duration-200 w-full flex items-center justify-between py-[9px] cursor-pointer px-1 rounded hover:bg-blackHover"
                 >
-                  <p className={`${item.is_completed || item.video_url === queryWatch ? 'text-headDesc' : 'text-greytxt' }  text-[13px] font-normal`}>
+                  <p className={`text-headDesc text-[13px] font-normal`}>
                     {item.title}
                   </p>
 

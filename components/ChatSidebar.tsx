@@ -93,7 +93,7 @@ const ChatSidebar = () => {
                     {/* MAIN LINKS */}
 
                     <div className="w-full flex flex-col items-start py-2">
-                        {chatRooms ? chatRooms?.results.map((item) => (
+                        {chatRooms && chatRooms.results ? chatRooms?.results.map((item) => (
                             <div onClick={() => {
                                 // router.push(item.route)
                                 handleSwitchForums(item?.course, item?.id)
